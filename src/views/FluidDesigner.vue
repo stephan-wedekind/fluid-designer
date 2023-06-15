@@ -3,9 +3,11 @@
 
     <!-- navigation -->
     <nav>
-      <div class="close">
+      <router-link to="/" class="close">
+      
         <img src="Icons/primary/Menue-schliessen.png" class="iconSidebar" alt="">
-      </div>
+      
+    </router-link>
       <ul>
         <li v-for="item in items" :key="item.id" :class="{ 'active': isActive(item.id) }" @click="setActive(item.id)">
           <img :src="getIconSrc(item.id)" :alt="item.label" class="iconSidebar" :id="item.id">
@@ -16,10 +18,8 @@
 
     <!-- User Input Feld -->
     <div class="user-input-field">
-      <h1 class="fontLila">User Input</h1>
-      <ButtonComp buttonType="Secondary" buttonName="Change" buttonIcons="Wiederholen.png" buttonWidth="1"
-        @click="switchPatternImage" />
-        <component :is="getActiveComponent()"/>
+        <component :is="getActiveComponent()" class="input-component"/>
+        <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" buttonWidth="2"/>
     </div>
 
     <!-- Canvas Feld -->
@@ -32,83 +32,62 @@
 
 
 <script>
-import ButtonComp from '@/components/Button.vue';
+import { mapState, mapMutations, mapActions } from 'vuex';
+import Btn from '@/components/Button.vue';
 import StyleChange from '@/components/StyleChange.vue';
 import TextInput from '@/components/TextInput.vue';
 import BildChoice from '@/components/BildChoice.vue';
 import PatternChange from '@/components/PatternChange.vue';
-
+import WelcomeToFluid from '@/components/WelcomeToFluid.vue';
 
 export default {
   name: 'FluidDesigner',
   components: {
-    ButtonComp,
+    Btn,
     StyleChange,
     TextInput,
     BildChoice,
-    PatternChange
+    PatternChange,
+    WelcomeToFluid,
   },
-  data() {
-    return {
-      isImage: false,
-      isPattern: false,
-      activeItem: '',
-      items: [
-        { id: 'style', label: 'Style', isImage: true },
-        { id: 'text', label: 'Text', isImage: true }
-      ]
-    };
+  computed: {
+    ...mapState(['activeItem', 'items']),
+  },
+  beforeRouteLeave(to, from, next) {
+    this.resetStore();
+    next();
   },
   methods: {
+    ...mapMutations(['setActiveItem']),
+
+    ...mapActions(['resetStore']),
+
     isActive(itemId) {
       return this.activeItem === itemId;
     },
     setActive(itemId) {
-      this.activeItem = itemId;
+      this.setActiveItem(itemId);
     },
     getIconSrc(itemId) {
-      const item = this.items.find(item => item.id === itemId);
+      const item = this.items.find((item) => item.id === itemId);
       if (item && this.isActive(itemId)) {
         return `Icons/secondary/${item.label}.png`;
       }
       return `Icons/primary/${item.label}.png`;
     },
-    switchPatternImage() {
-      const activeItemId = this.activeItem; // Save the ID of the active item
-
-      this.isImage = !this.isImage;
-      this.isPattern = !this.isPattern;
-
-      // Update items array based on isImage and isPattern values
-      if (this.isImage) {
-        this.items.push({ id: 'bild', label: 'Bild', isImage: true });
-        const patternIndex = this.items.findIndex(item => item.id === 'pattern');
-        if (patternIndex !== -1) {
-          this.items.splice(patternIndex, 1);
-        }
-      } else {
-        this.items.push({ id: 'pattern', label: 'Pattern', isImage: true });
-        const bildIndex = this.items.findIndex(item => item.id === 'bild');
-        if (bildIndex !== -1) {
-          this.items.splice(bildIndex, 1);
-        }
-      }
-      // Set the active item back to the preserved active item
-      this.activeItem = activeItemId;
-    },
     getActiveComponent() {
       const activeItemId = this.activeItem;
       switch (activeItemId) {
         case 'style':
-          return 'StyleChange'; 
+          return 'StyleChange';
         case 'text':
-          return 'TextInput'; 
+          return 'TextInput';
         case 'bild':
-          return 'BildChoice'; 
+          return 'BildChoice';
         case 'pattern':
-          return 'PatternChange'; 
+          return 'PatternChange';
         default:
-          return null;
+          return 'WelcomeToFluid';
       }
     },
   },
@@ -119,8 +98,9 @@ export default {
 .gird-container {
   display: grid;
   grid-template-columns: 70px 45vw auto;
-  grid-template-rows: 100vh;
+  /* grid-template-rows: 100vh; */
   grid-template-areas: "navigation userinput canvas";
+  translate: ease-in 0.5s;
 }
 
 /* -----------------------------SideBar */
@@ -176,7 +156,10 @@ li.active img path {
   background-color: white;
 }
 
+
+
 /* UserEingabe -----------------------------*/
+
 /* -----------------------------Canvas */
 
 .generated-content {

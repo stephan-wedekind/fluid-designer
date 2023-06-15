@@ -20,7 +20,7 @@ h1 {
   font-weight: 700;
   font-size: 34px;
   line-height: 34px;
-  margin: 0;
+  margin: 0 0 15px 0;
 }
 
 
@@ -66,5 +66,7 @@ label {
 .fontWhite {
   color: white;
 }
+/* -----------------------------------------------------------Link */
+
 
 </style>

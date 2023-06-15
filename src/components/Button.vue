@@ -21,7 +21,7 @@ export default {
     getButtonIcon(btnSrc) {
       if (this.buttonType === 'Primary') {
         return 'Icons/primary/' + btnSrc;
-      } else if (this.buttonType === 'Secondary') {
+      } else if (this.buttonType === 'Secondary' || this.buttonType ==='Tertiary') {
         return 'Icons/secondary/' + btnSrc;
       }
     }
@@ -42,6 +42,12 @@ button {
   justify-content: center;
 }
 
+img.buttonIcon {
+  height: 50px;
+  width: 50px;
+}
+
+/*Primary Button*/
 button.btnPrimary {
   border: none;
   color: white;
@@ -60,6 +66,7 @@ button.btnPrimary:disabled {
   background-color: #B3B3B3;
 }
 
+/*Secondary Button*/
 button.btnSecondary {
   border: 3px solid #6638B6;
   color: #6638B6;
@@ -67,12 +74,29 @@ button.btnSecondary {
 }
 
 button.btnSecondary:hover {
-  border: 3px solid #05c3de;
+  border:5px solid #6638B6;
 }
 
 button.btnSecondary:active {
-  background-color: rgba(5, 195, 222, 0.1);
+  background-color: rgba(102, 56, 182, 0.2);
 }
+
+/*Tertiary Button*/
+
+button.btnTertiary{
+  border: none;
+  color: #6638B6;
+  background-color: white;
+}
+button.btnTertiary:hover {
+  background-color: #f2f2f2;
+}
+
+button.btnTertiary:active {
+  background-color: #b3b3b3;
+} 
+
+
 #btnWidth0 {
   width: 100px;
 }
@@ -82,8 +106,7 @@ button.btnSecondary:active {
 #btnWidth2 {
   width: 300px;
 }
-img.buttonIcon {
-  height: 50px;
-  width: 50px;
-}
+
+
+
 </style>
