@@ -1,5 +1,5 @@
 <template>
- <button :class="['btn'+ buttonType]" :id="['btnWidth' + buttonWidth]" :disabled="isDisabled">
+ <button :class="['btn'+ buttonType]" :disabled="isDisabled">
         <h4>{{buttonName}}</h4>
         <img :src="getButtonIcon(buttonIcons)" class="buttonIcon" alt="">
       </button>
@@ -12,7 +12,6 @@ export default {
     buttonType: String,
     buttonName: String,
     buttonIcons: String,
-    buttonWidth: String,
     isDisabled: Boolean,
   },
 
@@ -93,20 +92,6 @@ button.btnTertiary:hover {
 }
 
 button.btnTertiary:active {
-  background-color: #b3b3b3;
+  background-color: #f2f2f2;
 } 
-
-
-#btnWidth0 {
-  width: 100px;
-}
-#btnWidth1 {
-  width: 200px;
-}
-#btnWidth2 {
-  width: 300px;
-}
-
-
-
 </style>

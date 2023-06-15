@@ -7,7 +7,13 @@ const initialState = {
     items : [
       { id: 'style', label: 'Style', position: 0},
       { id: 'text', label: 'Text', position: 3},
-    ]
+    ],
+
+    //Style Auswahl
+    selectedStyle: '',
+    styleClassic: false,
+    styleOverlay: false,
+    stylePattern: false,
 }
 
 export default createStore({
@@ -22,6 +28,9 @@ export default createStore({
     addItem(state, item){
       state.items.push(item);
     },
+    setSelectedStye(state, text) {
+      state.selectedStyle = text;
+    },
     removeItem(state, itemId) {
       const index = state.items.findIndex(item => item.id === itemId);
       if (index !== -1) {
@@ -35,10 +44,29 @@ export default createStore({
       state.isImage = initialState.isImage;
       state.isPattern = initialState.isPattern;
       state.activeItem = initialState.activeItem;
+      state.selectedStyle = initialState.selectedStyle;
+      state.styleClassic = initialState.stateClassic;
+      state.styleOverlay = initialState.stateOverlay;
+      state.stylePattern = initialState.statePattern;
       state.items = [
         { id: 'style', label: 'Style', position: 0},
         { id: 'text', label: 'Text', position: 3},
       ];
+    },
+
+    //Style Auswahl
+
+    setSelectedStyle(state, text) {
+      state.selectedStyle = text;
+    },
+    setStyleClassic(state, value) {
+      state.styleClassic = value;
+    },
+    setStyleOverlay(state,value) {
+      state.styleOverlay = value;
+    },
+    setStylePattern(state,value) {
+      state.stylePattern = value;
     }
   },
   actions: {
@@ -75,5 +103,23 @@ export default createStore({
     resetStore({ commit }) {
       commit('resetState');
     },
+
+
+    //Style Auswahl
+    changeStyle({ commit }, style) {
+      if (style === 'style01') {
+        commit('setStyleClassic', true);
+        commit('setStyleOverlay', false);
+        commit('setStylePattern', false);
+      } else if (style === 'style02') {
+        commit('setStyleClassic', false);
+        commit('setStyleOverlay', true);
+        commit('setStylePattern', false);
+      } else if (style === 'style03') {
+        commit('setStyleClassic', false);
+        commit('setStyleOverlay', false);
+        commit('setStylePattern', true);
+      }
+    }
   }
 });

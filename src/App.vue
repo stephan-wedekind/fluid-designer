@@ -20,6 +20,7 @@ h1 {
   font-weight: 700;
   font-size: 34px;
   line-height: 34px;
+  letter-spacing: 0.002em;
   margin: 0 0 15px 0;
 }
 

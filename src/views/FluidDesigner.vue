@@ -3,7 +3,7 @@
 
     <!-- navigation -->
     <nav>
-      <router-link to="/" class="close">
+      <router-link to="/" class="close" @click="resetStore()">
       
         <img src="Icons/primary/Menue-schliessen.png" class="iconSidebar" alt="">
       
@@ -18,8 +18,8 @@
 
     <!-- User Input Feld -->
     <div class="user-input-field">
-        <component :is="getActiveComponent()" class="input-component"/>
-        <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" buttonWidth="2"/>
+        <component :is="getActiveComponent()"/>
+        <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" buttonWidth="2" class="btn-download"/>
     </div>
 
     <!-- Canvas Feld -->
@@ -52,10 +52,6 @@ export default {
   },
   computed: {
     ...mapState(['activeItem', 'items']),
-  },
-  beforeRouteLeave(to, from, next) {
-    this.resetStore();
-    next();
   },
   methods: {
     ...mapMutations(['setActiveItem']),
@@ -98,7 +94,6 @@ export default {
 .gird-container {
   display: grid;
   grid-template-columns: 70px 45vw auto;
-  /* grid-template-rows: 100vh; */
   grid-template-areas: "navigation userinput canvas";
   translate: ease-in 0.5s;
 }
@@ -126,7 +121,6 @@ li {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* background: rgba(255, 255, 255, 0.5); */
   cursor: pointer;
   height: 15vh;
   list-style: none;
@@ -154,9 +148,12 @@ li.active img path {
   height: 100vh;
   padding: 60px;
   background-color: white;
+  box-shadow: 20px 0px 30px rgba(102, 56, 182, 0.1);
 }
 
-
+.btn-download {
+  width: 45%;
+}
 
 /* UserEingabe -----------------------------*/
 
