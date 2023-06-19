@@ -21,7 +21,7 @@
       <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Pfeil-rechts.png" />
     </div>
     <div class="edit-line" id="change-stripe" v-if="patternStripe">
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png" />
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png"/>
       <div class="edit-label"><h2 class="fontLila">Streifen Breite</h2></div>
       <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" />
     </div>
@@ -60,6 +60,12 @@ import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'PatternChange',
+
+  data() {
+    return {
+      limitReached: false,
+    }
+  },
 
   components: {
     Btn,

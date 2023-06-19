@@ -1,6 +1,7 @@
 <template>
+  
   <section class="stylePreview" id="style01"  @click="addBild(), changeStyle('style01')">
-    <img src="Platzhalter/Stil/Stil-1.png" :class="{ 'selected': this.styleClassic }" alt="">
+    <img src="Platzhalter/Stil/Stil-1-BW.png" :class="{ 'selected': this.styleClassic }" alt="">
     <div class="styleDescription">
       <h1 class="fontLila">Klassisch</h1>
       <p>Bild + Farbfläche in RWU-Lila.</p>
@@ -62,7 +63,7 @@ export default {
 }
 
 .stylePreview img.selected {
-
+  box-sizing: border-box;
   border: 10px solid #05C3DE; 
   translate: ease-in 0.5s;
 }
