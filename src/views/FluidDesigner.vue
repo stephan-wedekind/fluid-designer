@@ -29,6 +29,7 @@
       <div class="canvas"></div>
     </div>
   </div>
+  
 </template>
 
 
@@ -42,6 +43,7 @@ import BildChoice from '@/components/BildChoice.vue';
 import PatternChange from '@/components/PatternChange.vue';
 import WelcomeToFluid from '@/components/WelcomeToFluid.vue';
 
+
 export default {
   name: 'FluidDesigner',
   components: {
@@ -50,7 +52,7 @@ export default {
     TextInput,
     BildChoice,
     PatternChange,
-    WelcomeToFluid,
+    WelcomeToFluid
   },
   computed: {
     ...mapState(['activeItem', 'items']),
@@ -141,8 +143,6 @@ li.active {
   background-color: white;
   border-radius: 30px 0 0 0;
   color: #6638B6;
-
-  transition: ease-in;
 }
 
 li.active img path {
@@ -163,7 +163,7 @@ li.active img path {
 }
 
 .btn-download {
-  width: 45%;
+  width: 65%;
 }
 
 /* UserEingabe -----------------------------*/

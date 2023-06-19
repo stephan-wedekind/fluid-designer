@@ -1,7 +1,7 @@
 <template>
-  
-  <section class="stylePreview" id="style01"  @click="addBild(), changeStyle('style01')">
-    <img src="Platzhalter/Stil/Stil-1-BW.png" :class="{ 'selected': this.styleClassic }" alt="">
+    <FormatChoice class="overlay" v-if="formatChanging" @click="handleFormatChanging"/>
+  <section class="stylePreview" id="style01"  @click="addBild(), changeStyle('style01')" v-if="this.classicPossible">
+    <img src="Platzhalter/Stil/Stil-1.png" :class="{ 'selected': this.styleClassic }" alt="">
     <div class="styleDescription">
       <h1 class="fontLila">Klassisch</h1>
       <p>Bild + Farbfläche in RWU-Lila.</p>
@@ -23,23 +23,37 @@
       <p>Hintergrund Pattern bestehend aus Viertelkreisen, Dreiecken und Quadraten.</p>
     </div>
   </section>
+  <Btn buttonType="Secondary" buttonName="Format Ändern" buttonIcons="Vergroeßern.png" class="format-btn" @click="handleFormatChanging"/>
 
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
 import Btn from "@/components/Button.vue";
+import FormatChoice from '@/components/FormatChoice.vue';
+
 export default {
   name: 'StyleChange',
   components: {
     Btn,
+    FormatChoice
+  },
+
+  data() {
+    return {
+      formatChanging: false,
+    }
   },
 
   computed: {
-    ...mapState(['isImage', 'isPattern', 'selectedStyle', 'styleClassic', 'styleOverlay', 'stylePattern']),
+    ...mapState(['isImage', 'isPattern', 'styleClassic', 'styleOverlay', 'stylePattern', 'classicPossible']),
   },
   methods: {
     ...mapActions(['addBild', 'addPattern', 'changeStyle']),
+
+    handleFormatChanging() {
+      this.formatChanging = !this.formatChanging;
+    }
   }
 
 }
@@ -66,5 +80,17 @@ export default {
   box-sizing: border-box;
   border: 10px solid #05C3DE; 
   translate: ease-in 0.5s;
+}
+
+.format-btn {
+  width: 65%;
+  margin-bottom: 15px;
+}
+
+.overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
 }
 </style>

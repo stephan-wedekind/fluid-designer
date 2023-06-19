@@ -10,13 +10,13 @@ const initialState = {
   ],
 
   //Style Auswahl
-  selectedStyle: "",
+  classicPossible: false,
+
   styleClassic: false,
   styleOverlay: false,
   stylePattern: false,
 
   //Pattern Auswahl
-  selectedPattern: "",
   patternMirror: true,
   patternStripe: false,
   patternRandom: false,
@@ -29,6 +29,10 @@ const initialState = {
   isCircle: true,
   isRectangle: true,
   isTriangle: true,
+
+  //Canvas Size
+  canvasWidth: 0,
+  canvasHeight: 0,
 };
 
 export default createStore({
@@ -43,9 +47,6 @@ export default createStore({
     addItem(state, item) {
       state.items.push(item);
     },
-    setSelectedStye(state, text) {
-      state.selectedStyle = text;
-    },
     removeItem(state, itemId) {
       const index = state.items.findIndex((item) => item.id === itemId);
       if (index !== -1) {
@@ -59,7 +60,6 @@ export default createStore({
       state.isImage = initialState.isImage;
       state.isPattern = initialState.isPattern;
       state.activeItem = initialState.activeItem;
-      state.selectedStyle = initialState.selectedStyle;
       state.styleClassic = initialState.stateClassic;
       state.styleOverlay = initialState.stateOverlay;
       state.stylePattern = initialState.statePattern;
@@ -70,9 +70,8 @@ export default createStore({
     },
 
     //Style Auswahl
-
-    setSelectedStyle(state, text) {
-      state.selectedStyle = text;
+    setClassicPossible(state, value) {
+      state.classicPossible = value;
     },
     setStyleClassic(state, value) {
       state.styleClassic = value;
@@ -116,6 +115,15 @@ export default createStore({
     },
     setIsTriangle(state, value) {
       state.isTriangle = value;
+    },
+
+    //Canvas Size
+
+    setCanvasWidth(state, number) {
+      state.canvasWidth = number;
+    },
+    setCanvasHeight(state, number) {
+      state.canvasHeight = number;
     },
   },
   actions: {
@@ -200,24 +208,42 @@ export default createStore({
 
     handleCircle({ commit, state }) {
       if (state.isCircle) {
-        commit('setIsCircle', false);
+        commit("setIsCircle", false);
       } else {
-        commit('setIsCircle', true);
+        commit("setIsCircle", true);
       }
     },
     handleRectangle({ commit, state }) {
       if (state.isRectangle) {
-        commit('setIsRectangle', false);
+        commit("setIsRectangle", false);
       } else {
-        commit('setIsRectangle', true);
+        commit("setIsRectangle", true);
       }
     },
-    
+
     handleTriangle({ commit, state }) {
       if (state.isTriangle) {
-        commit('setIsTriangle', false);
+        commit("setIsTriangle", false);
       } else {
-        commit('setIsTriangle', true);
+        commit("setIsTriangle", true);
+      }
+    },
+
+    updateCanvasSize({ commit }, { w, h }) {
+      commit("setCanvasWidth", w);
+      commit("setCanvasHeight", h);
+
+      let ratio = w / h;
+      console.log(ratio);
+      if (ratio >= 0.71) {
+        commit("setClassicPossible", false);
+        if (this.state.styleClassic) {
+          commit("setStyleClassic", false);
+          commit("setStyleOverlay", true);
+        }
+      } else {
+        console.log("else");
+        commit("setClassicPossible", true);
       }
     },
   },

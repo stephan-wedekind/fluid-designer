@@ -5,32 +5,32 @@
 
       <div class="formatContainer">
 
-        <router-link to="/fluidDesigner" class="format">
+        <router-link to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: 1080, h: 1080 })">
           <img src="/Platzhalter/Formate/1x1.png" alt="">
           <h4 class="fontLila">1x1 Social Media</h4>
         </router-link>
 
-        <router-link to="/fluidDesigner" class="format">
+        <router-link to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: 1080, h: 1350 })">
           <img src="/Platzhalter/Formate/4x5.png" alt="">
           <h4 class="fontLila">4x5 Social Media</h4>
         </router-link>
 
-        <router-link to="/fluidDesigner" class="format">
+        <router-link to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: 1080, h: 1920 })">
           <img src="/Platzhalter/Formate/9x16.png" alt="">
           <h4 class="fontLila">9x16 Social Media</h4>
         </router-link>
 
-        <router-link to="/fluidDesigner" class="format">
+        <router-link to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: 210, h: 297 })">
           <img src="/Platzhalter/Formate/A4.png" alt="">
           <h4 class="fontLila">DIN A4 Flyer</h4>
         </router-link>
 
-        <router-link to="/fluidDesigner" class="format">
+        <router-link to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: 148, h: 210 })">
           <img src="/Platzhalter/Formate/A4.png" alt="">
           <h4 class="fontLila">DIN A5 Flyer</h4>
         </router-link>
 
-        <router-link to="/fluidDesigner" class="format">
+        <router-link to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: 222, h: 333 })">
           <img src="/Platzhalter/Formate/Freies Format.png" alt="">
           <h4 class="fontLila">Eigenes Format</h4>
         </router-link>
@@ -43,9 +43,20 @@
 </template>
 
 <script>
+import { mapState, mapMutations, mapActions } from 'vuex';
+
 export default {
+  
   name: 'FormatChoice',
 
+  computed: {
+    ...mapState(['canvasWidth', 'canvasHeight']),
+  },
+
+  methods: {
+    ...mapActions(['updateCanvasSize']),
+  },
+  //, 'updateCanvasSize'
 }
 </script>
 

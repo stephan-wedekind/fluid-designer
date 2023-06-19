@@ -1,13 +1,23 @@
 <template>
   <h2 class="fontLila">Pattern Stil</h2>
   <section class="pattern-styles">
+    <div class="pattern-variation">
     <img src="Platzhalter/Pattern/mirror.png" @click="changePattern('mirror')" :class="{ 'selected': this.patternMirror }"
       alt="Gespiegelt">
+      <label>Gespiegelt</label>
+    </div>
+    <div class="pattern-variation">
     <img src="Platzhalter/Pattern/stripe.png" @click="changePattern('stripe')" :class="{ 'selected': this.patternStripe }"
       alt="Streifen">
+      <label>Streifen</label>
+    </div>
+    <div class="pattern-variation">
     <img src="Platzhalter/Pattern/random.png" @click="changePattern('random')" :class="{ 'selected': this.patternRandom }"
       alt="Zufällig">
+      <label>Zufällig</label>
+    </div>
   </section>
+
   <h2 class="fontLila">Pattern bearbeiten</h2>
   <section class="pattern-edit">
     <div class="edit-line" id="number-shapes">
@@ -26,6 +36,7 @@
       <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" />
     </div>
   </section>
+
   <section class="pattern-fill">
     <h2 class="fontLila">Flächen:</h2>
     <div class="shape-style" @click="patternFill('fill')">
@@ -90,15 +101,21 @@ export default {
   margin: 0 0 30px 0;
 }
 
-.pattern-styles img {
+.pattern-variation {
   width: 28%;
+  text-align: center;
+}
+
+.pattern-variation img {
+  width: 100%;
   height: auto;
   border-radius: 30px;
   cursor: pointer;
+  margin-bottom: 5px;
   box-sizing: border-box;
 }
 
-.pattern-styles img.selected {
+.pattern-variation img.selected {
   border: 10px solid #05C3DE;
   translate: ease-in 0.5s;
 }

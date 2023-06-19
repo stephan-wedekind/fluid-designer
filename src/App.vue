@@ -68,28 +68,4 @@ label {
   color: white;
 }
 /* -----------------------------------------------------------Link */
-
-
-/* Scrollbar changes */
-
-/* Customize the scrollbar track */
-::-webkit-scrollbar {
-  width: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: white;
-}
-
-/* Customize the scrollbar thumb */
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #05C3DE 13%, #6638B6 55%, #2D0764 89%);
-  border-radius: 2px;
-}
-
-/* Change the scrollbar thumb on hover */
-::-webkit-scrollbar-thumb:hover {
-  background-color: #2D0764;
-}
-
 </style>
