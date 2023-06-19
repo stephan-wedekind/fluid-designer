@@ -1,5 +1,6 @@
 <template>
   <header class="background-top">
+    <img src="Logo/Logo-Wort-Bild.png"  class="logo-header-home" alt="">
     <h1 class="fontWhite introText">
       Der 
       »<span style="font-style: italic">RWU </span> 
@@ -59,6 +60,15 @@ export default {
   height: 65vh;
   background: linear-gradient(135deg, #05C3DE 5%, #6638B6 35%, #2D0764 85%);
   z-index: -1;
+}
+
+.logo-header-home {
+  height: 100px;
+  width: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+
 }
 
 .introText {

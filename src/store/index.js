@@ -1,38 +1,53 @@
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 
 const initialState = {
   isImage: false,
-    isPattern: false,
-    activeItem: '',
-    items : [
-      { id: 'style', label: 'Style', position: 0},
-      { id: 'text', label: 'Text', position: 3},
-    ],
+  isPattern: false,
+  activeItem: "",
+  items: [
+    { id: "style", label: "Style", position: 0 },
+    { id: "text", label: "Text", position: 3 },
+  ],
 
-    //Style Auswahl
-    selectedStyle: '',
-    styleClassic: false,
-    styleOverlay: false,
-    stylePattern: false,
-}
+  //Style Auswahl
+  selectedStyle: "",
+  styleClassic: false,
+  styleOverlay: false,
+  stylePattern: false,
+
+  //Pattern Auswahl
+  selectedPattern: "",
+  patternMirror: true,
+  patternStripe: false,
+  patternRandom: false,
+
+  //Pattern Filled?
+  patternFilled: false,
+
+  //Pattern Shapes
+
+  isCircle: true,
+  isRectangle: true,
+  isTriangle: true,
+};
 
 export default createStore({
-  state: { ...initialState},
+  state: { ...initialState },
   mutations: {
-    setIsImage(state, value){
+    setIsImage(state, value) {
       state.isImage = value;
     },
-    setIsPattern(state, value){
+    setIsPattern(state, value) {
       state.isPattern = value;
     },
-    addItem(state, item){
+    addItem(state, item) {
       state.items.push(item);
     },
     setSelectedStye(state, text) {
       state.selectedStyle = text;
     },
     removeItem(state, itemId) {
-      const index = state.items.findIndex(item => item.id === itemId);
+      const index = state.items.findIndex((item) => item.id === itemId);
       if (index !== -1) {
         state.items.splice(index, 1);
       }
@@ -49,8 +64,8 @@ export default createStore({
       state.styleOverlay = initialState.stateOverlay;
       state.stylePattern = initialState.statePattern;
       state.items = [
-        { id: 'style', label: 'Style', position: 0},
-        { id: 'text', label: 'Text', position: 3},
+        { id: "style", label: "Style", position: 0 },
+        { id: "text", label: "Text", position: 3 },
       ];
     },
 
@@ -62,64 +77,148 @@ export default createStore({
     setStyleClassic(state, value) {
       state.styleClassic = value;
     },
-    setStyleOverlay(state,value) {
+    setStyleOverlay(state, value) {
       state.styleOverlay = value;
     },
-    setStylePattern(state,value) {
+    setStylePattern(state, value) {
       state.stylePattern = value;
-    }
+    },
+
+    //Pattern Auswahl
+
+    setSelectedPattern(state, text) {
+      state.selectedPattern = text;
+    },
+
+    setPatternMirror(state, value) {
+      state.patternMirror = value;
+    },
+    setPatternStripe(state, value) {
+      state.patternStripe = value;
+    },
+    setPatternRandom(state, value) {
+      state.patternRandom = value;
+    },
+
+    //Pattern Fillded?
+
+    setPatternFilled(state, value) {
+      state.patternFilled = value;
+    },
+
+    //Pattern Shapes
+
+    setIsCircle(state, value) {
+      state.isCircle = value;
+    },
+    setIsRectangle(state, value) {
+      state.isRectangle = value;
+    },
+    setIsTriangle(state, value) {
+      state.isTriangle = value;
+    },
   },
   actions: {
     addBild({ commit, state }) {
-      
       if (!state.isImage) {
-        if (state.items.find(item => item.id === 'pattern')){
-          commit('removeItem', 'pattern');
+        if (state.items.find((item) => item.id === "pattern")) {
+          commit("removeItem", "pattern");
         }
-        if (!state.items.find(item => item.id === 'bild')) {
-          commit('addItem', { id: 'bild', label: 'Bild', position: 1});
-          state.items.sort((a,b) => a.position - b.position);
+        if (!state.items.find((item) => item.id === "bild")) {
+          commit("addItem", { id: "bild", label: "Bild", position: 1 });
+          state.items.sort((a, b) => a.position - b.position);
         }
 
-        commit('setIsImage', true);
-        commit('setIsPattern', false);
+        commit("setIsImage", true);
+        commit("setIsPattern", false);
       }
     },
     addPattern({ commit, state }) {
-
       if (!state.isPattern) {
-        if (state.items.find(item => item.id === 'bild')){
-          commit('removeItem', 'bild');
+        if (state.items.find((item) => item.id === "bild")) {
+          commit("removeItem", "bild");
         }
-        if (!state.items.find(item => item.id === 'pattern')) {
-          commit('addItem', { id: 'pattern', label: 'Pattern', position: 2});
-          state.items.sort((a,b) => a.position - b.position);
+        if (!state.items.find((item) => item.id === "pattern")) {
+          commit("addItem", { id: "pattern", label: "Pattern", position: 2 });
+          state.items.sort((a, b) => a.position - b.position);
         }
 
-        commit('setIsPattern', true);
-        commit('setIsImage', false);
+        commit("setIsPattern", true);
+        commit("setIsImage", false);
       }
     },
     resetStore({ commit }) {
-      commit('resetState');
+      commit("resetState");
     },
-
 
     //Style Auswahl
     changeStyle({ commit }, style) {
-      if (style === 'style01') {
-        commit('setStyleClassic', true);
-        commit('setStyleOverlay', false);
-        commit('setStylePattern', false);
-      } else if (style === 'style02') {
-        commit('setStyleClassic', false);
-        commit('setStyleOverlay', true);
-        commit('setStylePattern', false);
-      } else if (style === 'style03') {
-        commit('setStyleClassic', false);
-        commit('setStyleOverlay', false);
-        commit('setStylePattern', true);
+      if (style === "style01") {
+        commit("setStyleClassic", true);
+        commit("setStyleOverlay", false);
+        commit("setStylePattern", false);
+      } else if (style === "style02") {
+        commit("setStyleClassic", false);
+        commit("setStyleOverlay", true);
+        commit("setStylePattern", false);
+      } else if (style === "style03") {
+        commit("setStyleClassic", false);
+        commit("setStyleOverlay", false);
+        commit("setStylePattern", true);
       }
-    }
-  }
+    },
+
+    // Pattern Auswahl
+
+    changePattern({ commit }, pattern) {
+      if (pattern === "mirror") {
+        commit("setPatternMirror", true);
+        commit("setPatternStripe", false);
+        commit("setPatternRandom", false);
+      } else if (pattern === "stripe") {
+        commit("setPatternMirror", false);
+        commit("setPatternStripe", true);
+        commit("setPatternRandom", false);
+      } else if (pattern === "random") {
+        commit("setPatternMirror", false);
+        commit("setPatternStripe", false);
+        commit("setPatternRandom", true);
+      }
+    },
+
+    // Pattern Filled?
+
+    patternFill({ commit }, choice) {
+      if (choice === "fill") {
+        commit("setPatternFilled", true);
+      } else if (choice === "outline") {
+        commit("setPatternFilled", false);
+      }
+    },
+
+    // Pattern Shapes
+
+    handleCircle({ commit, state }) {
+      if (state.isCircle) {
+        commit('setIsCircle', false);
+      } else {
+        commit('setIsCircle', true);
+      }
+    },
+    handleRectangle({ commit, state }) {
+      if (state.isRectangle) {
+        commit('setIsRectangle', false);
+      } else {
+        commit('setIsRectangle', true);
+      }
+    },
+    
+    handleTriangle({ commit, state }) {
+      if (state.isTriangle) {
+        commit('setIsTriangle', false);
+      } else {
+        commit('setIsTriangle', true);
+      }
+    },
+  },
 });

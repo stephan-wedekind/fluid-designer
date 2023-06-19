@@ -14,6 +14,8 @@
           <label>{{ item.label }}</label>
         </li>
       </ul>
+
+      <img src="Logo/Logo-white.png" class="logo-nav" alt="">
     </nav>
 
     <!-- User Input Feld -->
@@ -105,6 +107,13 @@ nav {
   background: linear-gradient(144deg, #05C3DE 13%, #6638B6 55%, #2D0764 89%);
 }
 
+img.logo-nav {
+  width: 70px;
+  height: auto;
+  position: absolute;
+  bottom: 30px;
+}
+
 img.iconSidebar {
   width: 100%;
   height: auto;
@@ -149,6 +158,8 @@ li.active img path {
   padding: 60px;
   background-color: white;
   box-shadow: 20px 0px 30px rgba(102, 56, 182, 0.1);
+  overflow-y: auto;
+  scroll-behavior: revert;
 }
 
 .btn-download {
