@@ -117,7 +117,7 @@ export default {
 
 .pattern-variation img.selected {
   border: 10px solid #05C3DE;
-  translate: ease-in 0.5s;
+  transition: ease-in 0.5s;
 }
 
 .pattern-edit {
