@@ -21,7 +21,9 @@
     <!-- User Input Feld -->
     <div class="user-input-field">
         <component :is="getActiveComponent()" />
-        <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" buttonWidth="2" class="btn-download"/>
+        <div class="btn-container">
+        <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" class="btn-download"/>
+        </div>
     </div>
 
     <!-- Canvas Feld -->
@@ -133,7 +135,7 @@ li {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  height: 15vh;
+  height: 120px;
   list-style: none;
   color: white;
   margin-bottom: 30px;
@@ -155,7 +157,7 @@ li.active img path {
   grid-area: userinput;
   box-sizing: border-box;
   height: 100vh;
-  padding: 0 60px 60px 60px;
+  /* padding: 0 60px 60px 60px; */
   background-color: white;
   box-shadow: 20px 0px 30px rgba(102, 56, 182, 0.1);
   overflow-y: auto;
@@ -164,6 +166,12 @@ li.active img path {
 
 .btn-download {
   width: 65%;
+}
+
+.btn-container {
+  width: calc(100%-60px);
+  padding-left: 60px;
+  padding-bottom: 60px;
 }
 
 /* UserEingabe -----------------------------*/
