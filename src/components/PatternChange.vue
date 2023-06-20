@@ -1,4 +1,5 @@
 <template>
+  <div class="container">
   <h2 class="fontLila">Pattern Stil</h2>
   <section class="pattern-styles">
     <div class="pattern-variation">
@@ -63,6 +64,7 @@
       <label>Kreis</label>
     </div>
   </section>
+</div>
 </template>
 
 <script>
@@ -111,15 +113,14 @@ export default {
   height: auto;
   border-radius: 30px;
   cursor: pointer;
-  margin-bottom: 5px;
+  margin: 15px 0;
   box-sizing: border-box;
 }
 
 .pattern-variation img.selected {
-  border: 10px solid #05C3DE;
-  transition: ease-in 0.5s;
+  box-shadow: 0 0px 4px 10px #05C3DE;
+  transition: ease-in 0.1s;
 }
-
 .pattern-edit {
   margin-bottom: 30px;
 }
@@ -163,20 +164,22 @@ export default {
 
 .shape-style {
   width: 20%;
-  margin-right: 15px;
   text-align: center;
+  margin-right: 30px;
   cursor: pointer;
 }
 
 .shape-style img {
   width: 100%;
   height: auto;
+  margin: 10px 0;
   border-radius: 30px;
   box-sizing: border-box; 
 }
 
 .fill-selected {
-  border: 10px solid #05C3DE;
+  box-shadow: 0 0px 4px 10px #05C3DE;
+  transition: ease-in 0.1s;
 }
 
 

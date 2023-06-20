@@ -67,5 +67,9 @@ label {
 .fontWhite {
   color: white;
 }
+
+.container {
+  padding-top: 60px;
+}
 /* -----------------------------------------------------------Link */
 </style>

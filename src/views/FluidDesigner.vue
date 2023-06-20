@@ -20,7 +20,7 @@
 
     <!-- User Input Feld -->
     <div class="user-input-field">
-        <component :is="getActiveComponent()"/>
+        <component :is="getActiveComponent()" />
         <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" buttonWidth="2" class="btn-download"/>
     </div>
 
@@ -99,7 +99,7 @@ export default {
   display: grid;
   grid-template-columns: 70px 45vw auto;
   grid-template-areas: "navigation userinput canvas";
-  translate: ease-in 0.5s;
+  transition: ease-in 0.1s;
 }
 
 /* -----------------------------SideBar */
@@ -155,7 +155,7 @@ li.active img path {
   grid-area: userinput;
   box-sizing: border-box;
   height: 100vh;
-  padding: 60px;
+  padding: 0 60px 60px 60px;
   background-color: white;
   box-shadow: 20px 0px 30px rgba(102, 56, 182, 0.1);
   overflow-y: auto;

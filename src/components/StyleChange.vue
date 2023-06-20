@@ -1,4 +1,6 @@
 <template>
+  <div class="container">
+
     <FormatChoice class="overlay" v-if="formatChanging" @click="handleFormatChanging"/>
   <section class="stylePreview" id="style01"  @click="addBild(), changeStyle('style01')" v-if="this.classicPossible">
     <img src="Platzhalter/Stil/Stil-1.png" :class="{ 'selected': this.styleClassic }" alt="">
@@ -7,6 +9,7 @@
       <p>Bild + Farbfläche in RWU-Lila.</p>
     </div>
   </section>
+  
 
   <section class="stylePreview" id="style02" @click="addBild(), changeStyle('style02')">
     <img src="Platzhalter/Stil/Stil-2.png" :class="{ 'selected': this.styleOverlay }" alt="">
@@ -23,8 +26,10 @@
       <p>Hintergrund Pattern bestehend aus Viertelkreisen, Dreiecken und Quadraten.</p>
     </div>
   </section>
+  <h3 class="fontLila" style="margin-bottom: 30px;" v-if="!this.classicPossible">Stil »Klassisch« mit diesem Format nicht verfügbar!</h3>
   <Btn buttonType="Secondary" buttonName="Format Ändern" buttonIcons="Vergroeßern.png" class="format-btn" @click="handleFormatChanging"/>
 
+</div>
 </template>
 
 <script>
@@ -60,6 +65,7 @@ export default {
 </script>
 
 <style scoped>
+
 .stylePreview {
   margin-bottom: 30px;
   display: flex;
@@ -77,9 +83,8 @@ export default {
 }
 
 .stylePreview img.selected {
-  box-sizing: border-box;
-  border: 10px solid #05C3DE; 
-  translate: ease-in 0.5s;
+  box-shadow: 0 0px 4px 10px #05C3DE;
+  transition: ease-in 0.1s;
 }
 
 .format-btn {
