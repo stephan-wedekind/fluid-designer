@@ -1,7 +1,9 @@
 <template>
- <h1>WelcomeToFluid</h1>
+  <div class="container">
+    <h1>WelcomeToFluid</h1>
 
- <h2>{{ this.canvasWidth }} x {{ this.canvasHeight }}</h2>
+    <h2>{{ this.canvasWidth }} x {{ this.canvasHeight }}</h2>
+  </div>
 </template>
 
 <script>
@@ -13,10 +15,8 @@ export default {
   computed: {
     ...mapState(['canvasWidth', 'canvasHeight']),
   },
- 
+
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

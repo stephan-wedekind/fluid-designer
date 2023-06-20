@@ -72,4 +72,12 @@ label {
   padding-top: 60px;
 }
 /* -----------------------------------------------------------Link */
+
+/* HIGHLIGHT SELECTION */
+
+
+.selected {
+  box-shadow: 0 0px 4px 10px #05C3DE;
+  transition: ease-in 0.1s;
+}
 </style>

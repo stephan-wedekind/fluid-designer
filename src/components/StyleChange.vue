@@ -82,10 +82,6 @@ export default {
   box-sizing: border-box;
 }
 
-.stylePreview img.selected {
-  box-shadow: 0 0px 4px 10px #05C3DE;
-  transition: ease-in 0.1s;
-}
 
 .format-btn {
   width: 65%;
