@@ -35,7 +35,7 @@ const initialState = {
   canvasHeight: 0,
 
   //Ausgewähltes Bild 
-
+  activeImage: null,
   imagePath: ""
 };
 
@@ -127,6 +127,10 @@ export default createStore({
     },
 
     // Ausgewähltes Bild
+
+    setActiveImage(state, number) {
+      state.activeImage = number;
+    },
 
     setImagePath(state, text) {
       console.log('setImagePath called');
