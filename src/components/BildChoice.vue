@@ -84,7 +84,6 @@ export default {
   width: 100%;
   position: sticky;
   top: 0;
-  height: fit-content;
   z-index: 1;
   background-color: white;
   box-shadow: 10px 0px 20px 20px white;
@@ -94,6 +93,7 @@ export default {
 .scroll {
   width: 100%;
   z-index: -1;
+  height: 1000px;
   padding-top: 30px;
 }
 

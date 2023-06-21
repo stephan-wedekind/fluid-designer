@@ -78,10 +78,11 @@ export default {
   margin-bottom: 30px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .stylePreview img {
-  cursor: pointer;
+  
   width: 25%;
   min-width: 130px;
   height: auto;
@@ -90,7 +91,7 @@ export default {
   box-sizing: border-box;
 }
 
-.forbidden img {
+.forbidden {
   cursor: default;
 }
 
