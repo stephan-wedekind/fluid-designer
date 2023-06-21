@@ -38,7 +38,7 @@ export default {
         { id: 5, name: "image5", path: "https://images.pexels.com/photos/1653090/pexels-photo-1653090.jpeg", tag: "music", humans: false },
         { id: 6, name: "image6", path: "_MG_1398.jpg", tag: "music", humans: false },
       ],
-      activeImage: null,
+      
       isSelected: true,
       selectedCategory: '',
       searchInput: '',
@@ -47,10 +47,10 @@ export default {
 
   methods: {
 
-    ...mapMutations(['setImagePath']),
+    ...mapMutations(['setImagePath', 'setActiveImage']),
 
-    setActiveImage(Id) {
-      this.activeImage = Id;
+    setActive(Id) {
+      this.setActiveImage(Id);
     },
 
     isActiveImage(Id) {
@@ -68,7 +68,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['imagePath']),
+    ...mapState(['imagePath', 'activeImage']),
 
     filteredImages() {
       if (this.selectedCategory === '') {

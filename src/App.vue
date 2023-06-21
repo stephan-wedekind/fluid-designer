@@ -26,7 +26,7 @@ h1 {
 
 
 h2 {
-  font-weight: 700;
+  font-weight: 500;
   font-size: 21px;
   line-height: 21px;
   margin: 0 0 15px 0;
@@ -40,7 +40,7 @@ h3 {
 }
 
 h4 {
-  font-weight: 700;
+  font-weight: 500;
   font-size: 18px;
   line-height: 25px;
   margin: 0;

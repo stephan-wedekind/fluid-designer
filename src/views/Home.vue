@@ -36,20 +36,16 @@
       <h1 class="fontLila">2</h1>
       <h1 class="fontLila">3</h1>
       <h1 class="fontLila">4</h1>
-      <h1 class="fontLila"></h1>
 
       <img src="Platzhalter/Tutorial/format-tutorial.png" alt="">
       <img src="Platzhalter/Tutorial/maple.png" alt="">
       <img src="Platzhalter/Tutorial/style-tutorial.png" alt="">
       <img src="Platzhalter/Tutorial/download-tutorial.png" alt="">
-      <img src="Platzhalter/Tutorial/loslegen-tutorial.png" alt="" @click="handleFormatChoice" id="link">
 
       <h2 class="fontLila">Wähle zunächst ein geeignetes Format (z.B.&nbsp;DIN&nbsp;A4)</h2>
       <h2 class="fontLila">Als nächstes kannst du dich für einen der drei Layout&nbsp;Stile entscheiden</h2>
       <h2 class="fontLila">Dann füllst du das Layout mit deinen Inhalten.</h2>
       <h2 class="fontLila">Wenn du fertig bist, kannst du dir das Layout herunterladen und es direkt verwenden.</h2>
-
-      <h2 class="fontLila">Probiere es gleich aus.</h2>
 
     </section>
 
@@ -141,8 +137,8 @@ export default {
   padding-top: 30px;
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 15px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
   text-align: center;
 }
 

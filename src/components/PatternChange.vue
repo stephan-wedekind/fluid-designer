@@ -172,8 +172,4 @@ export default {
   border-radius: 30px;
   box-sizing: border-box; 
 }
-
-
-
-
 </style>
