@@ -18,7 +18,7 @@ export default {
 
   methods: {
     getButtonIcon(btnSrc) {
-      if (this.buttonType === 'Primary') {
+      if (this.buttonType === 'Primary' || this.buttonType === 'DEV') {
         return 'Icons/primary/' + btnSrc;
       } else if (this.buttonType === 'Secondary' || this.buttonType ==='Tertiary') {
         return 'Icons/secondary/' + btnSrc;
@@ -98,4 +98,12 @@ button.btnTertiary:hover {
 button.btnTertiary:active {
   background-color: #f2f2f2;
 } 
+
+/* DEV ONLY BUTTON - REMOVE BEVORE BUILT*/
+
+button.btnDEV{
+  border: none;
+  color: white;
+  background-color: #ff00ff;
+}
 </style>
