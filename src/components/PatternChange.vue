@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="padding-60">
   <h2 class="fontLila">Pattern Stil</h2>
   <section class="pattern-styles">
     <div class="pattern-variation">

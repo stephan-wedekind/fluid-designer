@@ -41,6 +41,10 @@ button {
   justify-content: center;
 }
 
+button h4 {
+  font-weight: 500;
+}
+
 img.buttonIcon {
   height: 50px;
   width: 50px;
@@ -73,7 +77,7 @@ button.btnSecondary {
 }
 
 button.btnSecondary:hover {
-  border:5px solid #6638B6;
+  background-color: #f2f2f2;
 }
 
 button.btnSecondary:active {

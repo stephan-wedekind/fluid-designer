@@ -1,8 +1,6 @@
 <template>
-  <div class="container">
-    <h1>WelcomeToFluid</h1>
-
-    <h2>{{ this.canvasWidth }} x {{ this.canvasHeight }}</h2>
+  <div class="padding-60">
+    <h1 class="fontPlaceholder">WelcomeToFluid</h1>
   </div>
 </template>
 

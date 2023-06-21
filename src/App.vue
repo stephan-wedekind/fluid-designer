@@ -68,9 +68,34 @@ label {
   color: white;
 }
 
-.container {
-  padding: 60px;
+.fontGrey {
+  color: #8D8D8D;
 }
+
+/* Allgemeines Padding ------------------------------------------ */
+
+.padding-60 {
+  padding: 60px;
+  box-sizing: border-box;
+}
+
+/* Input Styling ------------------------------------------ */
+
+input {
+  height: 50px;
+  border-radius: 10px;
+  border: 1px solid #8D8D8D;
+  padding: 5px 30px;
+  font-family: 'Barlow Semi Condensed', sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+input:focus {
+  outline: none;
+  border: 2px solid #05C3DE;
+}
+
 /* -----------------------------------------------------------Link */
 
 /* HIGHLIGHT SELECTION */
@@ -80,4 +105,12 @@ label {
   box-shadow: 0 0px 4px 10px #05C3DE;
   transition: ease-in 0.1s;
 }
+
+
+/* ---------------------------------- PLACEHOLDER TEXT dev*/
+
+.fontPlaceholder {
+  color: #ff00ff;
+}
+
 </style>

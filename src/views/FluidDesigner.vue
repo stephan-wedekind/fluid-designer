@@ -22,7 +22,7 @@
     <div class="user-input-field">
         <component :is="getActiveComponent()" />
         <div class="btn-container">
-        <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" class="btn-download"/>
+        <!-- <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" class="btn-download"/> -->
         </div>
     </div>
 

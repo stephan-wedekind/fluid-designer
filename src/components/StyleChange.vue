@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="padding-60">
 
     <FormatChoice class="overlay" v-if="formatChanging" @click="handleFormatChanging"/>
   <section class="stylePreview" id="style01"  @click="addBild(), changeStyle('style01')" v-if="this.classicPossible">
@@ -7,6 +7,14 @@
     <div class="styleDescription">
       <h1 class="fontLila">Klassisch</h1>
       <p>Bild + Farbfläche in RWU-Lila.</p>
+    </div>
+  </section>
+
+  <section class="stylePreview forbidden" v-if="!this.classicPossible">
+    <img src="Platzhalter/Stil/Stil-1-none.png" alt="">
+    <div class="styleDescription">
+      <h1 class="fontGrey">Klassisch</h1>
+      <p class="fontGrey">Stil »Klassisch« bei diesem annähernd Quadratischen Formaten nicht verfügbar. Wähle ein Hochformat aus um diesen Stil verwenden zu können.</p>
     </div>
   </section>
   
@@ -26,7 +34,7 @@
       <p>Hintergrund Pattern bestehend aus Viertelkreisen, Dreiecken und Quadraten.</p>
     </div>
   </section>
-  <h3 class="fontLila" style="margin-bottom: 30px;" v-if="!this.classicPossible">Stil »Klassisch« mit diesem Format nicht verfügbar!</h3>
+  <!-- <h3 class="fontLila" style="margin-bottom: 30px;" v-if="!this.classicPossible">Stil »Klassisch« mit diesem Format nicht verfügbar!</h3> -->
   <Btn buttonType="Secondary" buttonName="Format Ändern" buttonIcons="Vergroeßern.png" class="format-btn" @click="handleFormatChanging"/>
 
 </div>
@@ -80,6 +88,10 @@ export default {
   border-radius: 30px;
   margin-right: 10%;
   box-sizing: border-box;
+}
+
+.forbidden img {
+  cursor: default;
 }
 
 

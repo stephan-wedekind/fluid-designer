@@ -1,5 +1,5 @@
 <template>
- <div class="container">
+ <div class="padding-60">
   
  </div>
 </template>
