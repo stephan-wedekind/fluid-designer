@@ -3,8 +3,8 @@ import { createStore } from "vuex";
 const initialState = {
   isImage: false,
   isPattern: false,
-  activeItem: "",
-  items: [
+  activeNavigation: "",
+  navigations: [
     { id: "style", label: "Style", position: 0 },
     { id: "text", label: "Text", position: 3 },
   ],
@@ -48,22 +48,22 @@ export default createStore({
     setIsPattern(state, value) {
       state.isPattern = value;
     },
-    addItem(state, item) {
-      state.items.push(item);
+    addNavigation(state, navigation) {
+      state.navigations.push(navigation);
     },
-    removeItem(state, itemId) {
-      const index = state.items.findIndex((item) => item.id === itemId);
+    removeNavigation(state, navigationId) {
+      const index = state.navigations.findIndex((navigation) => navigation.id === navigationId);
       if (index !== -1) {
-        state.items.splice(index, 1);
+        state.navigations.splice(index, 1);
       }
     },
-    setActiveItem(state, itemId) {
-      state.activeItem = itemId;
+    setActiveNavigation(state, navigationId) {
+      state.activeNavigation = navigationId;
     },
     resetState(state) {
       Object.assign(state, initialState),
       
-      state.items = [
+      state.navigations = [
         { id: "style", label: "Style", position: 0 },
         { id: "text", label: "Text", position: 3 },
       ];
@@ -136,12 +136,12 @@ export default createStore({
   actions: {
     addBild({ commit, state }) {
       if (!state.isImage) {
-        if (state.items.find((item) => item.id === "pattern")) {
-          commit("removeItem", "pattern");
+        if (state.navigations.find((navigation) => navigation.id === "pattern")) {
+          commit("removeNavigation", "pattern");
         }
-        if (!state.items.find((item) => item.id === "bild")) {
-          commit("addItem", { id: "bild", label: "Bild", position: 1 });
-          state.items.sort((a, b) => a.position - b.position);
+        if (!state.navigations.find((navigation) => navigation.id === "bild")) {
+          commit("addNavigation", { id: "bild", label: "Bild", position: 1 });
+          state.navigations.sort((a, b) => a.position - b.position);
         }
 
         commit("setIsImage", true);
@@ -150,12 +150,12 @@ export default createStore({
     },
     addPattern({ commit, state }) {
       if (!state.isPattern) {
-        if (state.items.find((item) => item.id === "bild")) {
-          commit("removeItem", "bild");
+        if (state.navigations.find((navigation) => navigation.id === "bild")) {
+          commit("removeNavigation", "bild");
         }
-        if (!state.items.find((item) => item.id === "pattern")) {
-          commit("addItem", { id: "pattern", label: "Pattern", position: 2 });
-          state.items.sort((a, b) => a.position - b.position);
+        if (!state.navigations.find((navigation) => navigation.id === "pattern")) {
+          commit("addNavigation", { id: "pattern", label: "Pattern", position: 2 });
+          state.navigations.sort((a, b) => a.position - b.position);
         }
 
         commit("setIsPattern", true);

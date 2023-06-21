@@ -9,9 +9,9 @@
       
     </router-link>
       <ul>
-        <li v-for="item in items" :key="item.id" :class="{ 'active': isActive(item.id) }" @click="setActive(item.id)">
-          <img :src="getIconSrc(item.id)" :alt="item.label" class="iconSidebar" :id="item.id">
-          <label>{{ item.label }}</label>
+        <li v-for="navigation in navigations" :key="navigation.id" :class="{ 'active': isActive(navigation.id) }" @click="setActive(navigation.id)">
+          <img :src="getIconSrc(navigation.id)" :alt="navigation.label" class="iconSidebar" :id="navigation.id">
+          <label>{{ navigation.label }}</label>
         </li>
       </ul>
 
@@ -57,29 +57,29 @@ export default {
     WelcomeToFluid
   },
   computed: {
-    ...mapState(['activeItem', 'items']),
+    ...mapState(['activeNavigation', 'navigations']),
   },
   methods: {
-    ...mapMutations(['setActiveItem']),
+    ...mapMutations(['setActiveNavigation']),
 
     ...mapActions(['resetStore']),
 
-    isActive(itemId) {
-      return this.activeItem === itemId;
+    isActive(navigationId) {
+      return this.activeNavigation === navigationId;
     },
-    setActive(itemId) {
-      this.setActiveItem(itemId);
+    setActive(navigationId) {
+      this.setActiveNavigation(navigationId);
     },
-    getIconSrc(itemId) {
-      const item = this.items.find((item) => item.id === itemId);
-      if (item && this.isActive(itemId)) {
-        return `Icons/secondary/${item.label}.png`;
+    getIconSrc(navigationId) {
+      const navigation = this.navigations.find((navigation) => navigation.id === navigationId);
+      if (navigation && this.isActive(navigationId)) {
+        return `Icons/secondary/${navigation.label}.png`;
       }
-      return `Icons/primary/${item.label}.png`;
+      return `Icons/primary/${navigation.label}.png`;
     },
     getActiveComponent() {
-      const activeItemId = this.activeItem;
-      switch (activeItemId) {
+      const activeNavigationId = this.activeNavigation;
+      switch (activeNavigationId) {
         case 'style':
           return 'StyleChange';
         case 'text':
