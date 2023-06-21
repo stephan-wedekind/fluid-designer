@@ -48,6 +48,8 @@
       <h2 class="fontLila">Wenn du fertig bist, kannst du dir das Layout herunterladen und es direkt verwenden.</h2>
 
     </section>
+    <Btn buttonType="Primary" buttonName="Erstelle ein neues Layout" buttonIcons="Hinzufuegen.png" class="btn-tutorial"
+        @click="handleFormatChoice" />
 
   </div>
 
@@ -156,6 +158,12 @@ export default {
 
 #link {
   cursor: pointer;
+}
+
+.btn-tutorial {
+  width: 30%;
+  margin: auto;
+  margin-top: 30px;
 }
 
 /* -----------------------------------------------------------Recently Made Styling*/
