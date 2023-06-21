@@ -10,7 +10,7 @@
   </div>
   <div class="scroll padding-60">
     <div class="image-grid-container">
-      <div v-for="image in filteredImages" :key="image.id" @click="setActiveImage(image.id)">
+      <div v-for="image in filteredImages" :key="image.id" @click="setActiveImage(image.id), setImagePath(image.path)">
         <img :src="image.path" :alt="image.name" :class="{ 'selected': isActiveImage(image.id) }">
       </div>
     </div>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
 import Btn from "@/components/Button.vue";
 
 export default {
@@ -45,6 +46,9 @@ export default {
   },
 
   methods: {
+
+    ...mapMutations(['setImagePath']),
+
     setActiveImage(Id) {
       this.activeImage = Id;
     },
@@ -64,6 +68,8 @@ export default {
   },
 
   computed: {
+    ...mapState(['imagePath']),
+
     filteredImages() {
       if (this.selectedCategory === '') {
         return this.images;

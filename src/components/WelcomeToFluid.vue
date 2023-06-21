@@ -11,7 +11,7 @@ export default {
   name: 'WelcomeToFluid',
 
   computed: {
-    ...mapState(['canvasWidth', 'canvasHeight']),
+    ...mapState(['imagePath']),
   },
 
 }

@@ -33,6 +33,10 @@ const initialState = {
   //Canvas Size
   canvasWidth: 0,
   canvasHeight: 0,
+
+  //Ausgewähltes Bild 
+
+  imagePath: ""
 };
 
 export default createStore({
@@ -57,12 +61,8 @@ export default createStore({
       state.activeItem = itemId;
     },
     resetState(state) {
-      state.isImage = initialState.isImage;
-      state.isPattern = initialState.isPattern;
-      state.activeItem = initialState.activeItem;
-      state.styleClassic = initialState.stateClassic;
-      state.styleOverlay = initialState.stateOverlay;
-      state.stylePattern = initialState.statePattern;
+      Object.assign(state, initialState),
+      
       state.items = [
         { id: "style", label: "Style", position: 0 },
         { id: "text", label: "Text", position: 3 },
@@ -125,6 +125,13 @@ export default createStore({
     setCanvasHeight(state, number) {
       state.canvasHeight = number;
     },
+
+    // Ausgewähltes Bild
+
+    setImagePath(state, text) {
+      console.log('setImagePath called');
+      state.imagePath = text;
+    }
   },
   actions: {
     addBild({ commit, state }) {

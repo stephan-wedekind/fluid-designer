@@ -97,7 +97,7 @@ export default {
 
 
 .format-btn {
-  width: 65%;
+  width: calc(50% - 15px);
   margin-bottom: 15px;
 }
 
