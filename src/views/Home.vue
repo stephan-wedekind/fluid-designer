@@ -18,7 +18,7 @@
 
 
   <!-- Overlay&Format Auswahl -->
-  <FormatChoice v-if="toFormatChoice" @click="handleFormatChoice" class="overlay" />
+  <FormatChoice v-if="toFormatChoice"  class="overlay" />
 
 
   <!-- Tutorial -->

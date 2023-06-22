@@ -271,6 +271,8 @@ export default createStore({
       commit("setCanvasWidth", w);
       commit("setCanvasHeight", h);
 
+      console.log(w + "  " + h);
+
       let ratio = w / h;
       if (ratio >= 0.71) {
         commit("setClassicPossible", false);
