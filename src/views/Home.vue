@@ -172,6 +172,7 @@ export default {
   width: 100vw;
   padding: 60px;
   background-color: white;
+  box-sizing: border-box;
 }
 /* -----------------------------------------------------------Overlay Styling*/
 

@@ -2,7 +2,7 @@
   <div class="fix padding-60">
 
     <input type="search" name="searchfield" id="searching-images" placeholder="Suche" v-model="searchInput"
-      @keyup.enter="setSelectedCategory()" :class="{'input-filled': this.searchInput.length > 0}">
+      @keyup.enter="setSelectedCategory()" :class="{'filled': this.searchInput.length > 0}">
     <div class="buttons">
       <Btn buttonType="Secondary" buttonName="Fokus wählen" buttonIcons="Vorschau.png" class="btn-fokus" />
       <Btn buttonType="Primary" buttonName="Alle Bilder" buttonIcons="Bild.png" class="btn-fokus" @click="showAllImages"/>
@@ -129,9 +129,5 @@ export default {
 .buttons {
   display: flex;
   justify-content: space-between;
-}
-
-.input-filled {
-  border: 2px solid #05C3DE;
 }
 </style>

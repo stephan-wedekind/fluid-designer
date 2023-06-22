@@ -84,7 +84,6 @@ export default {
 .stylePreview img {
   
   width: 25%;
-  min-width: 130px;
   height: auto;
   border-radius: 30px;
   margin-right: 10%;

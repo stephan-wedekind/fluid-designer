@@ -36,11 +36,20 @@ const initialState = {
 
   //Ausgewähltes Bild 
   activeImage: null,
-  imagePath: ""
+  imagePath: "",
+
+  //Text Inputs
+
+  headline: "",
+  subheadline: "",
+  copyText: "",
+  urlQR: "",
 };
 
 export default createStore({
   state: { ...initialState },
+
+
   mutations: {
     setIsImage(state, value) {
       state.isImage = value;
@@ -133,10 +142,28 @@ export default createStore({
     },
 
     setImagePath(state, text) {
-      console.log('setImagePath called');
       state.imagePath = text;
+    },
+
+    //Text Inputs
+
+    setHeadline(state, text){
+      state.headline = text;
+    },
+    setSubheadline(state, text){
+      state.subheadline = text;
+    },
+    setCopyText(state, text){
+      state.copyText = text;
+    },
+    setUrlQR(state, text){
+      state.urlQR = text;
     }
+
   },
+
+
+
   actions: {
     addBild({ commit, state }) {
       if (!state.isImage) {
@@ -245,7 +272,6 @@ export default createStore({
       commit("setCanvasHeight", h);
 
       let ratio = w / h;
-      console.log(ratio);
       if (ratio >= 0.71) {
         commit("setClassicPossible", false);
         if (this.state.styleClassic) {
@@ -253,7 +279,7 @@ export default createStore({
           commit("setStyleOverlay", true);
         }
       } else {
-        console.log("else");
+        
         commit("setClassicPossible", true);
       }
     },

@@ -81,7 +81,7 @@ label {
 
 /* Input Styling ------------------------------------------ */
 
-input {
+input, textarea {
   height: 50px;
   border-radius: 10px;
   border: 1px solid #8D8D8D;
@@ -89,11 +89,18 @@ input {
   font-family: 'Barlow Semi Condensed', sans-serif;
   font-weight: 400;
   font-size: 18px;
+  resize: none;
+  box-sizing: border-box;
 }
 
-input:focus {
+input:focus, textarea:focus {
+  cursor: text;
   outline: none;
   border: 2px solid #05C3DE;
+}
+
+.filled {
+  border-color: #05C3DE;
 }
 
 /* -----------------------------------------------------------Link */
