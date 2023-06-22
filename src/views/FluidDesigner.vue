@@ -28,7 +28,7 @@
 
     <!-- Canvas Feld -->
     <div class="generated-content">
-      <div class="canvas"></div>
+      <ClassicCanvas />
     </div>
   </div>
   
@@ -44,6 +44,7 @@ import TextInput from '@/components/TextInput.vue';
 import BildChoice from '@/components/BildChoice.vue';
 import PatternChange from '@/components/PatternChange.vue';
 import WelcomeToFluid from '@/components/WelcomeToFluid.vue';
+import ClassicCanvas from '@/algorythms/Classic.vue'
 
 
 export default {
@@ -54,7 +55,8 @@ export default {
     TextInput,
     BildChoice,
     PatternChange,
-    WelcomeToFluid
+    WelcomeToFluid,
+    ClassicCanvas
   },
   computed: {
     ...mapState(['activeNavigation', 'navigations']),
@@ -157,7 +159,6 @@ li.active img path {
   grid-area: userinput;
   box-sizing: border-box;
   height: 100vh;
-  /* padding: 0 60px 60px 60px; */
   background-color: white;
   box-shadow: 20px 0px 30px rgba(102, 56, 182, 0.1);
   overflow-y: auto;
@@ -181,6 +182,9 @@ li.active img path {
 .generated-content {
   grid-area: canvas;
   box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 60px;
 }
 
