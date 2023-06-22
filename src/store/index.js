@@ -9,6 +9,10 @@ const initialState = {
     { id: "text", label: "Text", position: 3 },
   ],
 
+  //Format Auswahl
+
+  toFormatChoice: false,
+
   //Style Auswahl
   classicPossible: false,
 
@@ -76,6 +80,12 @@ export default createStore({
         { id: "style", label: "Style", position: 0 },
         { id: "text", label: "Text", position: 3 },
       ];
+    },
+
+    //Format Auswahl
+
+    setFormatChoice(state, value){
+      state.toFormatChoice = value;
     },
 
     //Style Auswahl
@@ -195,6 +205,11 @@ export default createStore({
     },
     resetStore({ commit }) {
       commit("resetState");
+    },
+
+    handleFormatChoice({ commit }, value){
+      console.log("handleFormatChoice");
+      commit("setFormatChoice", value)
     },
 
     //Style Auswahl

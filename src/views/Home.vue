@@ -11,7 +11,7 @@
     </h1>
     <div class="introButton">
       <Btn buttonType="Tertiary" buttonName="Erstelle ein neues Layout" buttonIcons="Hinzufuegen.png" class="btn-toFluid"
-        @click="handleFormatChoice" />
+        @click="handleFormatChoice(!toFormatChoice)" />
     </div>
     </section>
   </header>
@@ -49,7 +49,7 @@
 
     </section>
     <Btn buttonType="Primary" buttonName="Erstelle ein neues Layout" buttonIcons="Hinzufuegen.png" class="btn-tutorial"
-        @click="handleFormatChoice" />
+        @click="handleFormatChoice(!toFormatChoice)" />
 
   </div>
 
@@ -61,7 +61,8 @@
 
 <script>
 import Btn from '@/components/Button.vue';
-import FormatChoice from '@/components/FormatChoice.vue'
+import FormatChoice from '@/components/FormatChoice.vue';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'Home',
@@ -70,16 +71,14 @@ export default {
     FormatChoice
   },
 
-  data() {
-    return {
-      toFormatChoice: false,
-    }
+  computed: {
+    ...mapState(['toFormatChoice'])
   },
 
+  
   methods: {
-    handleFormatChoice() {
-      this.toFormatChoice = !this.toFormatChoice;
-    }
+    ...mapActions(['handleFormatChoice']),
+
   },
 }
 </script>

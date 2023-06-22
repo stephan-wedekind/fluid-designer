@@ -1,47 +1,49 @@
 <template>
-  <div class="overlay">
-    <section class="formatWindow">
+  <div class="overlay-container">
+    <div class="foreground">
+      <div class="format-head">
+        <h1 class="fontLila">{{ formatHeader }}</h1>
+        <Btn buttonType="Tertiary" buttonName="" buttonIcons="Menue-schliessen.png" class="btn-close"
+          @click="handleFormatChoice(!toFormatChoice)" />
+      </div>
 
-      <h1 class="fontLila">Wähle ein Gewünschtes Format</h1>
+      <div v-if="!customFormatChoice" class="format-grid-container">
 
-      <div class="formatContainer">
+        <div to="/fluidDesigner" class="format-grid" v-for="format in formats" :key="format.name">
+          <router-link to="/fluidDesigner" class="format-grid"
+            @click="handleFormatChoice(!toFormatChoice), updateCanvasSize({ w: format.size.w, h: format.size.h })">
+            <img :src="format.image" alt="">
+            <h3 class="fontLila">{{ format.name }}</h3>
+          </router-link>
+        </div>
 
-        <router-link to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: 1080, h: 1080 })">
-          <img src="/Platzhalter/Formate/1x1.png" alt="">
-          <h4 class="fontLila">1x1 Social Media</h4>
-        </router-link>
-
-        <router-link to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: 1080, h: 1350 })">
-          <img src="/Platzhalter/Formate/4x5.png" alt="">
-          <h4 class="fontLila">4x5 Social Media</h4>
-        </router-link>
-
-        <router-link to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: 1080, h: 1920 })">
-          <img src="/Platzhalter/Formate/9x16.png" alt="">
-          <h4 class="fontLila">9x16 Social Media</h4>
-        </router-link>
-
-        <router-link to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: 210, h: 297 })">
-          <img src="/Platzhalter/Formate/A4.png" alt="">
-          <h4 class="fontLila">DIN A4 Flyer</h4>
-        </router-link>
-
-        <router-link to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: 148, h: 210 })">
-          <img src="/Platzhalter/Formate/A4.png" alt="">
-          <h4 class="fontLila">DIN A5 Flyer</h4>
-        </router-link>
-
-        <router-link to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: 148, h: 210 })">
+        <div class="format-grid" @click="handleCustomFormat" id="eigenes-format">
           <img src="/Platzhalter/Formate/Freies Format.png" alt="">
-          <h4 class="fontLila">Eigenes Format</h4>
-        </router-link>
+          <h3 class="fontLila">Eigenes Format</h3>
+        </div>
 
       </div>
-    </section>
+
+      <div class="customFormat" v-if="customFormatChoice">
+         
+          <Btn buttonType="Secondary" buttonName="" buttonIcons="Zurueck.png" @click="this.customFormatChoice = false" />
+
+          <input type="number" v-model="customWidth" placeholder="Breite">
+
+          <img src="Icons/secondary/Menue-schliessen.png" alt="">
+
+          <input type="number" v-model="customHeight" placeholder="Höhe">
+
+          <router-link to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: customWidth, h: customHeight }), handleFormatChoice(!toFormatChoice)" :disabled="!inputIsMade">
+            <Btn buttonType="Primary" buttonName="FluidDesigner" buttonIcons="Weiter.png" class="btn-submit" :disabled="!inputIsMade" />
+          </router-link>
+
+        </div>
+
+    </div>
 
 
 
-    <div class="overlayBlur"></div>
   </div>
 </template>
 
@@ -53,126 +55,115 @@ export default {
   //updateCanvasSize({ w: 222, h: 333 })
   name: 'FormatChoice',
 
- 
+  data() {
+    return {
+      formats: [
+        { name: '1x1 Social Media', size: { w: 1080, h: 1080 }, image: '/Platzhalter/Formate/1x1.png' },
+        { name: '4x5 Social Media', size: { w: 1080, h: 1350 }, image: '/Platzhalter/Formate/4x5.png' },
+        { name: '9x16 Social Media', size: { w: 1080, h: 1920 }, image: '/Platzhalter/Formate/9x16.png' },
+        { name: 'DIN A4 Flyer', size: { w: 210, h: 297 }, image: '/Platzhalter/Formate/A4.png' },
+        { name: 'DIN A5 Flyer', size: { w: 148, h: 210 }, image: '/Platzhalter/Formate/4x5.png' },
+        /* { name: 'Eigenes Format', size: { w: 0, h: 0 }, image: '/Platzhalter/Formate/Freies Format.png' }, */
+
+      ],
+      formatHeader: 'Wähle ein Passendes format',
+      customFormatChoice: false,
+      customWidth: null,
+      customHeight: null,
+    }
+  },
 
   components: {
     Btn,
   },
 
   computed: {
-    ...mapState(['canvasWidth', 'canvasHeight']),
+    ...mapState(['canvasWidth', 'canvasHeight', 'toFormatChoice']),
 
+    inputIsMade() {
+      return this.customWidth && this.customHeight;
+    }
   },
 
   methods: {
-    ...mapActions(['updateCanvasSize']),
+    ...mapActions(['updateCanvasSize', 'handleFormatChoice']),
+
+    handleCustomFormat() {
+      this.customFormatChoice = !this.customFormatChoice;
+    }
   },
 }
 </script>
 
 <style scoped>
-.overlay {
+.overlay-container {
   position: fixed;
   display: flex;
-  width: 100vw;
-  height: 100vh;
   justify-content: center;
   align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(102, 56, 182, 0.95);
+  /* backdrop-filter: blur(20px); */
 }
 
-.formatWindow {
-  box-sizing: border-box;
-  padding: 45px;
+.foreground {
   width: 80vw;
-  height: 80vh;
-  max-width: 1080px;
-  max-height: 800px;
-
   background-color: white;
   border-radius: 30px;
-  z-index: 2;
+  padding: 60px;
+  box-sizing: border-box;
 }
 
-.overlayBlur {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: rgba(102, 56, 182, 0.6);
-  backdrop-filter: blur(20px);
-  z-index: 1;
-}
-
-
-/* Formate */
-
-.formatContainer {
-  width: 70%;
-  height: 80%;
+.format-head {
   display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  margin: 60px auto;
-
+  justify-content: space-between;
 }
 
-.format {
-  text-decoration: none;
-  width: 30%;
-  height: 40%;
-  min-width: 50px;
+.format-grid-container {
+  padding: 30px;
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px;
   text-align: center;
 }
 
-.format img {
-  width: auto;
-  height: 85%;
+.format-grid {
+  text-decoration: none;
+}
+
+.format-grid img {
+  height: 20vh;
   border-radius: 30px;
   margin-bottom: 15px;
 }
 
-
-/* Choose Custom Format*/
-
-.btn-close {
-  width: 50px;
-  height: 50px;
-}
 .customFormat {
-  box-sizing: border-box;
-  position: absolute;
-  left: calc((100vw / 2) - 37.5vw);
-  top: calc((100vh / 2) - 40vh);
-  z-index: 3;
-  width: 75vw;
-  height: 80vh;
-  border-radius: 30px;
-  background-color: white;
-}
-.customWindow {
-  padding: 45px;
+  padding: 60px 0 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.inputFormat{
-display: flex;
-margin-top: 25vh;
-justify-content: space-between;
-align-items: center;
+.customFormat input {
+  width: 30%;
 }
 
-.inputFormat input {
-  width: 45%;
-}
-
-.inputFormat img {
+.customFormat img {
   height: 50px;
-  width: auto;
+}
+
+#eigenes-format {
+  cursor: pointer;
+}
+
+.format {
+  width: 20%;
+  text-decoration: none;
 }
 
 .btn-submit {
-
-  width: 30%;
-  margin-top: 30px;
+  width: 100%;
 }
 </style>

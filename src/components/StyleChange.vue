@@ -1,7 +1,7 @@
 <template>
   <div class="padding-60">
 
-    <FormatChoice class="overlay" v-if="formatChanging" @click="handleFormatChanging"/>
+    <FormatChoice class="overlay" v-if="toFormatChoice"/>
   <section class="stylePreview" id="style01"  @click="addBild(), changeStyle('style01')" v-if="this.classicPossible">
     <img src="Platzhalter/Stil/Stil-1.png" :class="{ 'selected': this.styleClassic }" alt="">
     <div class="styleDescription">
@@ -35,7 +35,7 @@
     </div>
   </section>
   <!-- <h3 class="fontLila" style="margin-bottom: 30px;" v-if="!this.classicPossible">Stil »Klassisch« mit diesem Format nicht verfügbar!</h3> -->
-  <Btn buttonType="Secondary" buttonName="Format Ändern" buttonIcons="Vergroeßern.png" class="format-btn" @click="handleFormatChanging"/>
+  <Btn buttonType="Secondary" buttonName="Format Ändern" buttonIcons="Vergroeßern.png" class="format-btn" @click="handleFormatChoice(true)"/>
 
 </div>
 </template>
@@ -52,21 +52,11 @@ export default {
     FormatChoice
   },
 
-  data() {
-    return {
-      formatChanging: false,
-    }
-  },
-
   computed: {
-    ...mapState(['isImage', 'isPattern', 'styleClassic', 'styleOverlay', 'stylePattern', 'classicPossible']),
+    ...mapState(['isImage', 'isPattern', 'styleClassic', 'styleOverlay', 'stylePattern', 'classicPossible', 'toFormatChoice']),
   },
   methods: {
-    ...mapActions(['addBild', 'addPattern', 'changeStyle']),
-
-    handleFormatChanging() {
-      this.formatChanging = !this.formatChanging;
-    }
+    ...mapActions(['addBild', 'addPattern', 'changeStyle', 'handleFormatChoice']),
   }
 
 }
