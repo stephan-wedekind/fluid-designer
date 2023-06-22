@@ -71,7 +71,7 @@ button.btnPrimary:disabled {
 
 /*Secondary Button*/
 button.btnSecondary {
-  border: 3px solid #6638B6;
+  border: 2px solid #6638B6;
   color: #6638B6;
   background: none;
 }
