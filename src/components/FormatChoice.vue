@@ -31,32 +31,14 @@
           <h4 class="fontLila">DIN A5 Flyer</h4>
         </router-link>
 
-        <div class="format" @click="handleCustomFormat">
+        <router-link to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: 148, h: 210 })">
           <img src="/Platzhalter/Formate/Freies Format.png" alt="">
           <h4 class="fontLila">Eigenes Format</h4>
-        </div>
+        </router-link>
 
       </div>
     </section>
 
-    <div class="customFormat" v-if="customFormat" >
-      <div class="customWindow">
-        <section class="headline-section">
-        <h1 class="fontLila">Gebe dein gewünschtes Format ein</h1>
-        <Btn buttonType="Tertiary" buttonName="" buttonIcons="Menue-schliessen.png" class="btn-close"/>
-      </section>
-    
-        <div class="inputFormat">
-          <input type="number" v-model="customWidth" placeholder="Breite">
-           <img src="Icons/secondary/Menue-schliessen.png" alt="">
-          <input type="number" v-model="customHeight" placeholder="Höhe">
-        </div>
-        <router-link to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: customWidth, h: customHeight })" :disabled="!inputIsMade">
-        <Btn buttonType="Primary" buttonName="Zum FluidDesigner" buttonIcons="Weiter.png" class="btn-submit" :disabled="!inputIsMade"/>
-        </router-link>
-
-      </div>
-    </div>
 
 
     <div class="overlayBlur"></div>
@@ -71,13 +53,7 @@ export default {
   //updateCanvasSize({ w: 222, h: 333 })
   name: 'FormatChoice',
 
-  data() {
-    return {
-      customFormat: false,
-      customWidth: null,
-      customHeight: null,
-    }
-  },
+ 
 
   components: {
     Btn,
@@ -86,17 +62,10 @@ export default {
   computed: {
     ...mapState(['canvasWidth', 'canvasHeight']),
 
-    inputIsMade() {
-      return this.customWidth && this.customHeight;
-    }
   },
 
   methods: {
     ...mapActions(['updateCanvasSize']),
-
-    handleCustomFormat() {
-      this.customFormat = !this.customFormat;
-    },
   },
 }
 </script>
