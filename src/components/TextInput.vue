@@ -20,7 +20,7 @@
       <h2 class="fontLila">QR-Code</h2>
       <div class="qr-code-input">
         <input type="text" v-model="newUrlQR" class="qr-url" @input="updateUrlQR(newUrlQR)" :class="{'filled' : newUrlQR.length > 0}">
-        <Btn buttonType="Secondary" buttonName="Generieren" buttonIcons="Share.png" class="qr-btn" />
+        <Btn buttonType="Secondary" buttonName="Generieren" buttonIcons="Share.png" class="qr-btn" @click="incrementRefreshQR"/>
       </div>
     </section>
 
@@ -53,11 +53,11 @@ export default {
   },
 
   computed: {
-    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'refreshing'])
+    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'refreshing', 'refreshQR'])
   },
 
   methods: {
-    ...mapMutations(['setHeadline', 'setSubheadline', 'setCopyText', 'setUrlQR', 'incrementRefreshing']),
+    ...mapMutations(['setHeadline', 'setSubheadline', 'setCopyText', 'setUrlQR', 'incrementRefreshing', 'incrementRefreshQR']),
 
     updateHeadline(newHeadline){
       this.setHeadline(newHeadline);

@@ -1,5 +1,5 @@
 <template>
-  <div ref="patternCanvas"></div>
+  <div ref="defaultCanvas"></div>
 </template>
 
 <script>
@@ -9,7 +9,7 @@ import QrCode from "qrcode";
 import { mapState, mapActions, mapMutations } from 'vuex';
 
 export default {
-  name: 'Pattern',
+  name: 'Default',
 
   data() {
     return {
@@ -28,8 +28,7 @@ export default {
   },
   
   beforeRouteLeave(to, from, next) {
-
-    console.log('beforeRouteLeave in Pattern');
+    console.log('beforeRouteLeave in DefaultCanvas');
     this.removeCanvas();
     next();
   },
@@ -53,14 +52,60 @@ export default {
     ...mapMutations(['setHeadline', 'setSubheadline', 'setCopyText', 'setUrlQR']),
 
     createCanvas() {
+      //Canvas Größe
       let ratioW;
       let ratioH;
       let viewHeight;
       let viewWidth;
       let maxWidth;
       let maxHeight;
+
+      //Bild
+      let chosenImage;
+      let imageWidth;
+      let imageHeight;
+      let scaleFactor;
+      let offsetX;
+      let offsetY;
+
+      //CD Logo
+      let logo;
+
+      //Font
+      let fontBold;
+      let fontMedium;
+      let fontRegular;
+
+      //Font Sizing
+
+      let headlineSize;
+      let subheadlineSize;
+      let copyTextSize;
+      let moreInfoSize;
+
+      //Farben
+      let rwLila
+
+      //Layout Grid
+      let horizontalMargin;
+      let verticalMargin;
+      let gridHorizontal = 12;
+      let gridVertical;
+      let gridWidth;
+      let gridHeight;
+
+      //Base Unit
+      let unit
+
+      //QR Code
+      let imageQR;
       this.p = new p5((p) => {
-        
+
+        p.preload = () => {
+          chosenImage = p.loadImage("Platzhalter/Tutorial/maple.png")
+          fontBold = p.loadFont("fonts/Barlow-Semicondensed/BarlowSemiCondensed-Bold.ttf");
+        },
+
         p.setup = () => {
           //Canvas Size is Calculated
           ratioW = this.canvasWidth/this.canvasHeight;
@@ -77,9 +122,28 @@ export default {
           }
 
 
-          this.canvas = p.createCanvas(viewWidth, viewHeight).parent(this.$refs.patternCanvas);
-          p.background(255, 0, 255);
+          this.canvas = p.createCanvas(viewWidth, viewHeight).parent(this.$refs.defaultCanvas);
+          p.background(45, 7, 100);
+          
+          imageWidth = p.width - 50;
+          scaleFactor = imageWidth / chosenImage.width;
+          imageHeight = chosenImage.height * scaleFactor;
 
+          p.image(
+            chosenImage,
+            25,
+            p.height/2.5 - imageHeight/2,
+            imageWidth,
+            imageHeight,
+          );
+          
+          p.push()
+          p.fill(255);
+          p.textFont(fontBold);
+          p.textSize(imageHeight * 0.1);
+          p.textAlign(p.CENTER, p.CENTER);
+          p.text("Wähle einen Style aus", p.width/2, imageHeight * 1.3);
+          p.pop();
         }
       })//END P5 js
     },//END createCanvas()

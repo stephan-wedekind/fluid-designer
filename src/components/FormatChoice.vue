@@ -62,7 +62,7 @@ export default {
         { name: '4x5 Social Media', size: { w: 1080, h: 1350 }, image: '/Platzhalter/Formate/4x5.png' },
         { name: '9x16 Social Media', size: { w: 1080, h: 1920 }, image: '/Platzhalter/Formate/9x16.png' },
         { name: 'DIN A4 Flyer', size: { w: 210, h: 297 }, image: '/Platzhalter/Formate/A4.png' },
-        { name: 'DIN A5 Flyer', size: { w: 148, h: 210 }, image: '/Platzhalter/Formate/4x5.png' },
+        { name: 'DIN A5 Flyer', size: { w: 148, h: 210 }, image: '/Platzhalter/Formate/A4.png' },
         /* { name: 'Eigenes Format', size: { w: 0, h: 0 }, image: '/Platzhalter/Formate/Freies Format.png' }, */
 
       ],

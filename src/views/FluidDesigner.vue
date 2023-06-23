@@ -28,7 +28,15 @@
 
     <!-- Canvas Feld -->
     <div class="generated-content">
-      <ClassicCanvas />
+      <component :is="getCanvas()" />
+      <div class="loading">
+        <div class="loading-container">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+      </div>
     </div>
   </div>
   
@@ -44,7 +52,10 @@ import TextInput from '@/components/TextInput.vue';
 import BildChoice from '@/components/BildChoice.vue';
 import PatternChange from '@/components/PatternChange.vue';
 import WelcomeToFluid from '@/components/WelcomeToFluid.vue';
-import ClassicCanvas from '@/algorythms/Classic.vue'
+import ClassicCanvas from '@/algorythms/Classic.vue';
+import OverlayCanvas from '@/algorythms/Overlay.vue';
+import PatternCanvas from '@/algorythms/Pattern.vue';
+import DefaultCanvas from '@/algorythms/DefaultCanvas.vue'
 
 
 export default {
@@ -56,10 +67,13 @@ export default {
     BildChoice,
     PatternChange,
     WelcomeToFluid,
-    ClassicCanvas
+    ClassicCanvas,
+    OverlayCanvas,
+    PatternCanvas,
+    DefaultCanvas
   },
   computed: {
-    ...mapState(['activeNavigation', 'navigations']),
+    ...mapState(['activeNavigation', 'navigations', 'styleClassic', 'styleOverlay', 'stylePattern']),
   },
   methods: {
     ...mapMutations(['setActiveNavigation']),
@@ -94,6 +108,18 @@ export default {
           return 'WelcomeToFluid';
       }
     },
+
+    getCanvas() {
+      if (this.styleClassic) {
+        return 'ClassicCanvas';
+      } else if (this.styleOverlay) {
+        return 'OverlayCanvas';
+      } else if (this.stylePattern) {
+        return 'PatternCanvas';
+      } else {
+        return 'DefaultCanvas';
+      }
+    }
   },
 };
 </script>
@@ -185,7 +211,7 @@ li.active img path {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 60px;
+  /* padding: 60px; */
 }
 
 .canvas {
@@ -194,5 +220,77 @@ li.active img path {
   ;
   background-color: #6638B6;
   filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.1));
+}
+
+.loading{
+
+  position: absolute;
+  box-sizing: border-box;
+  left: calc(70px + 45vw);
+  top: 60px;
+  width: calc(100vw - (70px + 45vw));
+  height: calc(100vh - 120px);
+  z-index: -1;
+}
+
+/* Loading Animation  from:
+https://uiverse.io/terenceodonoghue/rare-cow-16 */
+.loading-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  height: 96px;
+  width: 96px;
+  animation: rotate_3922 1.2s linear infinite;
+  
+  background: linear-gradient(#6638B6, #05C3DE, #00ffff);
+}
+
+.loading-container span {
+  position: absolute;
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+  
+  background: linear-gradient(#6638B6, #05C3DE, #00ffff);
+}
+
+.loading-container span:nth-of-type(1) {
+  filter: blur(5px);
+}
+
+.loading-container span:nth-of-type(2) {
+  filter: blur(10px);
+}
+
+.loading-container span:nth-of-type(3) {
+  filter: blur(25px);
+}
+
+.loading-container span:nth-of-type(4) {
+  filter: blur(50px);
+}
+
+.loading-container::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  background-color: #f2f2f2;
+  border: solid 5px #f2f2f2;
+  border-radius: 50%;
+}
+
+@keyframes rotate_3922 {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 </style>

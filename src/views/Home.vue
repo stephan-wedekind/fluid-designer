@@ -96,6 +96,7 @@ export default {
   left: 0;
   height: 65vh;
   background: linear-gradient(135deg, #05C3DE 5%, #6638B6 35%, #2D0764 85%);
+  /* background: linear-gradient(135deg, #6638B6 5%, #05C3DE 35%, #00ffff 85%); */
   z-index: -1;
 }
 

@@ -48,10 +48,14 @@ const initialState = {
   subheadline: "",
   copyText: "",
   urlQR: "",
+  
+  //QR Code
+  qrCodeImage: "",
 
   //refreshing Text
 
   refreshing : 0,
+  refreshQR: 0,
 };
 
 export default createStore({
@@ -174,9 +178,19 @@ export default createStore({
       state.urlQR = text;
     },
 
+    //QR Code
+
+    setQRCodeImage(state, qrCodeImage) {
+      state.qrCodeImage = qrCodeImage;
+    },
+
     //refreshing
     incrementRefreshing(state){
       state.refreshing += 1;
+    },
+
+    incrementRefreshQR(state){
+      state.refreshQR += 1;
     }
   },
 
@@ -216,7 +230,7 @@ export default createStore({
     },
 
     handleFormatChoice({ commit }, value){
-      console.log("handleFormatChoice");
+      
       commit("setFormatChoice", value)
     },
 
@@ -294,7 +308,7 @@ export default createStore({
       commit("setCanvasWidth", w);
       commit("setCanvasHeight", h);
 
-      console.log(w + "  " + h);
+      
 
       let ratio = w / h;
       if (ratio >= 0.71) {
