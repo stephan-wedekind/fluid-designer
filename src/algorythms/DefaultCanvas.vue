@@ -28,7 +28,7 @@ export default {
   },
   
   beforeRouteLeave(to, from, next) {
-    console.log('beforeRouteLeave in DefaultCanvas');
+    console.log('beforeRouteLeave in default')
     this.removeCanvas();
     next();
   },
