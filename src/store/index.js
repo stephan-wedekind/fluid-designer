@@ -40,7 +40,7 @@ const initialState = {
 
   //Ausgewähltes Bild 
   activeImage: null,
-  imagePath: "",
+  imagePath: "Platzhalter/default/default-image.png",
 
   //Text Inputs
 
@@ -48,6 +48,10 @@ const initialState = {
   subheadline: "",
   copyText: "",
   urlQR: "",
+
+  //refreshing Text
+
+  refreshing : 0,
 };
 
 export default createStore({
@@ -168,8 +172,12 @@ export default createStore({
     },
     setUrlQR(state, text){
       state.urlQR = text;
-    }
+    },
 
+    //refreshing
+    incrementRefreshing(state){
+      state.refreshing += 1;
+    }
   },
 
 

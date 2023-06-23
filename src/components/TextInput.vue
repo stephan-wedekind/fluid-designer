@@ -25,7 +25,7 @@
     </section>
 
     <div class="buttons">
-      <Btn buttonType="Secondary" buttonName="Aktualisieren" buttonIcons="Wiederholen.png" id="refresh"/>
+      <Btn buttonType="Secondary" buttonName="Aktualisieren" buttonIcons="Wiederholen.png" id="refresh" @click="incrementRefreshing"/>
       <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" id="download"/>
     </div>
     
@@ -53,11 +53,11 @@ export default {
   },
 
   computed: {
-    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR'])
+    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'refreshing'])
   },
 
   methods: {
-    ...mapMutations(['setHeadline', 'setSubheadline', 'setCopyText', 'setUrlQR']),
+    ...mapMutations(['setHeadline', 'setSubheadline', 'setCopyText', 'setUrlQR', 'incrementRefreshing']),
 
     updateHeadline(newHeadline){
       this.setHeadline(newHeadline);
