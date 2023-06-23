@@ -27,15 +27,15 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   },
   
-  beforeRouteLeave(to, from, next) {
+  /* beforeRouteLeave(to, from, next) {
 
     console.log('beforeRouteLeave in Pattern');
     this.removeCanvas();
     next();
-  },
+  }, */
 
   computed: {
-    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath'])
+    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'canvasDestroyer'])
   },
 
   watch: {
@@ -46,19 +46,66 @@ export default {
     canvasHeight() {
       this.removeCanvas();
       this.createCanvas();
-    }
+    },
+    canvasDestroyer(){
+      this.removeCanvas();
+    },
   },
 
   methods: {
     ...mapMutations(['setHeadline', 'setSubheadline', 'setCopyText', 'setUrlQR']),
 
     createCanvas() {
+      //Canvas Größe
       let ratioW;
       let ratioH;
       let viewHeight;
       let viewWidth;
       let maxWidth;
       let maxHeight;
+
+      //Bild
+      let chosenImage;
+      let imageWidth;
+      let imageHeight;
+      let scaleFactor;
+      let offsetX;
+      let offsetY;
+
+      //CD Logo
+      let logo;
+
+      //Font
+      let fontBold;
+      let fontMedium;
+      let fontRegular;
+
+      //Font Sizing
+
+      let headlineSize;
+      let subheadlineSize;
+      let copyTextSize;
+      let moreInfoSize;
+
+      //Farben
+      let rwLila;
+      let rwLilaDark;
+      let rwCyan;
+      let rwCyanLight;
+
+      //Layout Grid
+      let horizontalMargin;
+      let verticalMargin;
+      let gridHorizontal = 12;
+      let gridVertical;
+      let gridWidth;
+      let gridHeight;
+
+      //Base Unit
+      let unit
+
+      //QR Code
+      let imageQR;
       this.p = new p5((p) => {
         
         p.setup = () => {
@@ -78,6 +125,14 @@ export default {
 
 
           this.canvas = p.createCanvas(viewWidth, viewHeight).parent(this.$refs.patternCanvas);
+
+          //Color Setting
+          rwLila = p.color(102, 56, 182);
+          rwLilaDark = p.color(45,7,100);
+          rwCyan = p.color(0, 169, 206);
+          rwCyanLight = p.color(5, 195, 222);
+
+          //Background Setting
           p.background(255, 0, 255);
 
         }
@@ -104,6 +159,7 @@ export default {
       }
       if (this.canvas) {
         this.canvas.remove();
+        console.log('pattern destroyed');
       }
     },
 

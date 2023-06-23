@@ -56,6 +56,10 @@ const initialState = {
 
   refreshing : 0,
   refreshQR: 0,
+
+  //Canvas Destroyer
+
+  canvasDestroyer: 0,
 };
 
 export default createStore({
@@ -191,6 +195,12 @@ export default createStore({
 
     incrementRefreshQR(state){
       state.refreshQR += 1;
+    },
+
+    //Canvas Destroyer
+    setCanvasDestroyer(state) {
+      console.log('Canvas destroyer')
+      state.canvasDestroyer += 1;
     }
   },
 

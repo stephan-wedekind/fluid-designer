@@ -27,15 +27,15 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   },
 
-  beforeRouteLeave(to, from, next) {
+  /* beforeRouteLeave(to, from, next) {
 
     console.log('beforeRouteLeave in Overlay');
     this.removeCanvas();
     next();
-  },
+  }, */
 
   computed: {
-    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'refreshing', 'refreshQR', 'qrCodeImage'])
+    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'refreshing', 'refreshQR', 'qrCodeImage', 'canvasDestroyer'])
   },
 
   watch: {
@@ -58,7 +58,10 @@ export default {
     },
     refreshQR() {
       this.generateQRCode();
-    }
+    },
+    canvasDestroyer(){
+      this.removeCanvas();
+    },
   },
 
   methods: {
@@ -97,7 +100,10 @@ export default {
       let moreInfoSize;
 
       //Farben
-      let rwLila
+      let rwLila;
+      let rwLilaDark;
+      let rwCyan;
+      let rwCyanLight;
 
       //Layout Grid
       let horizontalMargin;
@@ -136,7 +142,10 @@ export default {
         }
 
         p.setup = () => {
+          //Auflösung
+          if (visualViewport.height < 1000){
           p.pixelDensity(10);
+          }
           //Canvas Size is Calculated
           ratioW = this.canvasWidth / this.canvasHeight;
           ratioH = this.canvasHeight / this.canvasWidth;
@@ -155,6 +164,9 @@ export default {
 
           //Color Setting
           rwLila = p.color(102, 56, 182);
+          rwLilaDark = p.color(45,7,100);
+          rwCyan = p.color(0, 169, 206);
+          rwCyanLight = p.color(5, 195, 222);
           p.background(rwLila);
 
           //Layout Grid Setup
@@ -259,14 +271,14 @@ export default {
 
           //Typografie
 
-          headlineSize = 1.5*unit;
-          subheadlineSize = unit;
-          copyTextSize = unit * 0.75;
+          headlineSize = unit;
+          subheadlineSize = unit * 0.75;
+          copyTextSize = unit * 0.5;
           p.push();
           p.translate(horizontalMargin, verticalMargin*3);
           //Headline
           p.textFont(fontBold);
-          p.fill(255);
+          p.fill(rwCyanLight);
           p.textSize(headlineSize);
           p.textAlign(p.LEFT, p.TOP);
           p.textLeading(headlineSize * 1.1);
@@ -278,6 +290,7 @@ export default {
 
           //Subheadline  ----OFFSET MUSS NOCH GENAUER GESETZT WERDEN
           p.textFont(fontMedium);
+          p.fill(255);
           let offsetSub = headlineSize + subheadlineSize;;
           if (this.headline.length >= 25 && this.headline.length < 50) {
             offsetSub = 2 * headlineSize + subheadlineSize;
@@ -287,7 +300,7 @@ export default {
             offsetSub = 4 * headlineSize + subheadlineSize;
           }
           p.textSize(subheadlineSize);
-          p.textLeading(subheadlineSize * 1.4);
+          p.textLeading(subheadlineSize * 1.2);
           p.text(
             this.subheadline,
             0,
@@ -297,6 +310,7 @@ export default {
           //Copy Text
           let offsetCopy = offsetSub + 2*subheadlineSize + copyTextSize;
           p.textSize(copyTextSize);
+          p.fill(255);
           p.textLeading(copyTextSize * 1.4);
           p.text(
             this.copyText,
@@ -390,6 +404,7 @@ export default {
       }
       if (this.canvas) {
         this.canvas.remove();
+        console.log('pattern destroyed');
       }
     },
 

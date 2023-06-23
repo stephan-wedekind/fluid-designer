@@ -27,14 +27,14 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   },
   
-  beforeRouteLeave(to, from, next) {
+  /* beforeRouteLeave(to, from, next) {
     console.log('beforeRouteLeave in DefaultCanvas');
     this.removeCanvas();
     next();
-  },
+  }, */
 
   computed: {
-    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath'])
+    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'canvasDestroyer'])
   },
 
   watch: {
@@ -45,7 +45,10 @@ export default {
     canvasHeight() {
       this.removeCanvas();
       this.createCanvas();
-    }
+    },
+    canvasDestroyer(){
+      this.removeCanvas();
+    },
   },
 
   methods: {
@@ -84,7 +87,10 @@ export default {
       let moreInfoSize;
 
       //Farben
-      let rwLila
+      let rwLila;
+      let rwLilaDark;
+      let rwCyan;
+      let rwCyanLight;
 
       //Layout Grid
       let horizontalMargin;
@@ -123,7 +129,11 @@ export default {
 
 
           this.canvas = p.createCanvas(viewWidth, viewHeight).parent(this.$refs.defaultCanvas);
-          p.background(45, 7, 100);
+          rwLila = p.color(102, 56, 182);
+          rwLilaDark = p.color(45,7,100);
+          rwCyan = p.color(0, 169, 206);
+          rwCyanLight = p.color(5, 195, 222);
+          p.background(rwLilaDark);
           
           imageWidth = p.width - 50;
           scaleFactor = imageWidth / chosenImage.width;
@@ -168,6 +178,7 @@ export default {
       }
       if (this.canvas) {
         this.canvas.remove();
+        console.log('default destroyed');
       }
     },
 

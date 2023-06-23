@@ -3,7 +3,7 @@
 
     <!-- navigation -->
     <nav>
-      <router-link to="/" class="close" @click="resetStore()">
+      <router-link to="/" class="close" @click="resetStore(), setCanvasDestroyer()">
       
         <img src="Icons/primary/Menue-schliessen.png" class="iconSidebar" alt="">
       
@@ -76,7 +76,7 @@ export default {
     ...mapState(['activeNavigation', 'navigations', 'styleClassic', 'styleOverlay', 'stylePattern']),
   },
   methods: {
-    ...mapMutations(['setActiveNavigation']),
+    ...mapMutations(['setActiveNavigation', 'setCanvasDestroyer']),
 
     ...mapActions(['resetStore']),
 

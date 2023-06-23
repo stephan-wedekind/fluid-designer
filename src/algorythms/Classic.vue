@@ -27,15 +27,15 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   },
 
-  beforeRouteLeave(to, from, next) {
+  /* beforeRouteLeave(to, from, next) {
 
     console.log('beforeRouteLeave in Classic');
     this.removeCanvas();
     next();
-  },
+  }, */
 
   computed: {
-    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'refreshing', 'refreshQR', 'qrCodeImage'])
+    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'refreshing', 'refreshQR', 'qrCodeImage', 'canvasDestroyer'])
   },
 
   watch: {
@@ -58,7 +58,10 @@ export default {
     },
     refreshQR() {
       this.generateQRCode();
-    }
+    },
+    canvasDestroyer(){
+      this.removeCanvas();
+    },
   },
 
   methods: {
@@ -97,7 +100,10 @@ export default {
       let moreInfoSize;
 
       //Farben
-      let rwLila
+      let rwLila;
+      let rwLilaDark;
+      let rwCyan;
+      let rwCyanLight;
 
       //Layout Grid
       let horizontalMargin;
@@ -147,6 +153,10 @@ export default {
 
           //Color Setting
           rwLila = p.color(102, 56, 182);
+          rwLilaDark = p.color(45,7,100);
+          rwCyan = p.color(0, 169, 206);
+          rwCyanLight = p.color(5, 195, 222);
+          //Set background
           p.background(rwLila);
 
           //Layout Grid Setup
@@ -219,7 +229,7 @@ export default {
             offsetSub = 4 * headlineSize + subheadlineSize;
           }
           p.textSize(subheadlineSize);
-          p.textLeading(subheadlineSize * 1.4);
+          p.textLeading(subheadlineSize * 1.2);
           p.text(
             this.subheadline,
             0,
@@ -322,6 +332,7 @@ export default {
       }
       if (this.canvas) {
         this.canvas.remove();
+        console.log('classic destroyed');
       }
     },
 

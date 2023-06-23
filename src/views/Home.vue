@@ -79,7 +79,22 @@ export default {
   methods: {
     ...mapActions(['handleFormatChoice']),
 
+    removeMainElement() {
+      setTimeout(() => {
+        //Wenn man von /fluidDesigner hier her zurück kommt bleibt noch ein p5Canvas übrig der hier zerstört wird
+        //Da mounted vor der erstellung des Main elements das den Canvas enthält passiert wurde ein timeout hinzugefügt
+        const mainElement = document.querySelector('main');
+        if (mainElement) {
+          mainElement.parentNode.removeChild(mainElement);
+        }
+      }, 1000);
+    },
+
   },
+
+  mounted() {
+    this.removeMainElement();
+  }
 }
 </script>
 

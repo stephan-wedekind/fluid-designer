@@ -13,7 +13,7 @@
 
     <section class="user-input">
       <h2 class="fontLila">Text</h2>
-      <textarea :class="{'filled' : newCopyText.length > 0}" maxlength="100" v-model="newCopyText" @input="updateCopyText(newCopyText)"></textarea>
+      <textarea :class="{'filled' : newCopyText.length > 0}" maxlength="500" v-model="newCopyText" @input="updateCopyText(newCopyText)"></textarea>
     </section>
 
     <section class="qr-code">
