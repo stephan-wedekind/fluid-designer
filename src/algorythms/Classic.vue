@@ -15,6 +15,8 @@ export default {
     return {
       p: null,
       canvas: null,
+      typingTimer: null,
+      doneTypingInterval: 1500 
     }
   },
 
@@ -28,7 +30,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'refreshing', 'refreshQR', 'qrCodeImage', 'isPrint', 'headlineLines'])
+    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'refreshing', 'refreshQR', 'qrCodeImage', 'isPrint', 'headlineLines', 'subheadlineLines'])
   },
 
   watch: {
@@ -43,6 +45,17 @@ export default {
     imagePath() {
       this.removeCanvas();
       this.createCanvas();
+    },
+
+    headline(newValue) {
+      clearTimeout(this.typingTimer);
+
+      if (newValue) {
+        this.typingTimer = setTimeout(() => {
+          this.removeCanvas();
+          this.createCanvas();
+        }, this.doneTypingInterval);
+      }
     },
 
     refreshing() {
@@ -220,7 +233,11 @@ export default {
           p.textFont(fontMedium);
 
           //Offset für Subheadline nach User Zeilen Umbruch gesetzt
+          
           UserOffsetSub = this.headlineLines.length * (headlineSize * 1.1);
+          if(this.headlineLines.length == 0) {
+            UserOffsetSub = headlineSize *1.1;
+          }
           offsetSub = 0;
           for (let i = 0; i < this.headlineLines.length - 1; i++) {
             headlineCharBeforeBreak += this.headlineLines[i];
@@ -237,6 +254,7 @@ export default {
           }
 
           let totalOffsetSub = UserOffsetSub + offsetSub + subheadlineSize * 1.2;
+          console.log(totalOffsetSub);
           p.translate(0, totalOffsetSub);
           p.textSize(subheadlineSize);
           p.textLeading(subheadlineSize * 1.2);

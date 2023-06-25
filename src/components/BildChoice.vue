@@ -2,7 +2,7 @@
   <div class="fix padding-60">
 
     <input type="search" name="searchfield" id="searching-images" placeholder="Suche" v-model="searchInput"
-      @keyup.enter="setSelectedCategory()" :class="{'filled': this.searchInput.length > 0}">
+      @keyup.enter="setSearchedTag()" :class="{'filled': this.searchInput.length > 0}">
     <div class="buttons">
       <Btn buttonType="Secondary" buttonName="Fokus wählen" buttonIcons="Vorschau.png" class="btn-fokus" />
       <Btn buttonType="Primary" buttonName="Alle Bilder" buttonIcons="Bild.png" class="btn-fokus" @click="showAllImages"/>
@@ -31,33 +31,33 @@ export default {
   data() {
     return {
       images: [
-        { id: 1, name: "image1", path: "bild-server-ersatz/_MG_1398.jpg", tag: "flowers", humans: false },
-        { id: 2, name: "image2", path: "bild-server-ersatz/Angewandte-Gesundheitswissenschaft--(4).jpg", tag: "flowers", humans: false },
-        { id: 3, name: "image3", path: "bild-server-ersatz/Betriebswirtschaftslehre-und-Management-(4).jpg", tag: "flowers", humans: false },
-        { id: 4, name: "image4", path: "bild-server-ersatz/Electrical-Engineering-(3).jpg", tag: "flowers", humans: false },
-        { id: 5, name: "image5", path: "bild-server-ersatz/Elektromobilität-(4).jpg", tag: "flowers", humans: false },
-        { id: 6, name: "image6", path: "bild-server-ersatz/Elektrotechnik-(1).jpg", tag: "flowers", humans: false },
-        { id: 7, name: "image7", path: "bild-server-ersatz/Elektrotechnik-(3).jpg", tag: "flowers", humans: false },
-        { id: 8, name: "image8", path: "bild-server-ersatz/Energie--und-Umwelttechnik-(2).jpg", tag: "flowers", humans: false },
-        { id: 9, name: "image9", path: "bild-server-ersatz/Fahrzeugtechnik--(1).jpg", tag: "flowers", humans: false },
-        { id: 10, name: "image10", path: "bild-server-ersatz/First-Responder-1.jpg", tag: "flowers", humans: false },
-        { id: 11, name: "image11", path: "bild-server-ersatz/Foyer-H-Gebäude-(3).jpg", tag: "flowers", humans: false },
-        { id: 12, name: "image12", path: "bild-server-ersatz/Frühling_Campus-1.jpg", tag: "flowers", humans: false },
-        { id: 13, name: "image13", path: "bild-server-ersatz/Gesundheitsökonomie--(3).jpg", tag: "flowers", humans: false },
-        { id: 14, name: "image14", path: "bild-server-ersatz/H.O.M.E.jpg", tag: "flowers", humans: false },
-        { id: 15, name: "image15", path: "bild-server-ersatz/Informatik-(3).jpg", tag: "flowers", humans: false },
-        { id: 16, name: "image16", path: "bild-server-ersatz/International-Business-Management-(6).jpg", tag: "flowers", humans: false },
-        { id: 17, name: "image17", path: "bild-server-ersatz/Kaffeebar-(1).jpg", tag: "flowers", humans: false },
-        { id: 18, name: "image18", path: "bild-server-ersatz/Kfz-Labor-2.jpg", tag: "flowers", humans: false },
-        { id: 19, name: "image19", path: "bild-server-ersatz/Maschinenbau--(3).jpg", tag: "flowers", humans: false },
-        { id: 20, name: "image20", path: "bild-server-ersatz/Mediendesign-(3).jpg", tag: "flowers", humans: false },
-        { id: 21, name: "image21", path: "bild-server-ersatz/NZ-Labor-1.jpg", tag: "flowers", humans: false },
-        { id: 22, name: "image22", path: "bild-server-ersatz/Pflege--(5).jpg", tag: "flowers", humans: false },
-        { id: 23, name: "image23", path: "bild-server-ersatz/Wirtschaftsingenieurwesen-(4).jpg", tag: "flowers", humans: false },
+        { id: 1, name: "image1", path: "bild-server-ersatz/_MG_1398.jpg", tag: ["innen", "labor", "equipment", "chemie", "gesundheit", "wissenschaft", "gebäude", "raum"], humans: false },
+        { id: 2, name: "image2", path: "bild-server-ersatz/Angewandte-Gesundheitswissenschaft--(4).jpg", tag: ["angewandte", "gesundheitswissenschaft", "person",  "innen", "frau", "gruppenarbeit", "büro", "fenster", "sitzen", "computer", "lernen", "lerngruppe", "lerngruppen"], humans: false },
+        { id: 3, name: "image3", path: "bild-server-ersatz/Betriebswirtschaftslehre-und-Management-(4).jpg", tag: ["betriebswirtschaftslehre", "management", "person",  "innen", "frau", "mann", "gruppenarbeit", "büro", "fenster", "sitzen", "computer", "lernen", "lerngruppe", "lerngruppen"], humans: false },
+        { id: 4, name: "image4", path: "bild-server-ersatz/Electrical-Engineering-(3).jpg", tag: ["electrical", "engineering", "person",  "innen", "frau", "mann", "gruppenarbeit", "büro", "fenster", "sitzen", "computer", "lernen", "lerngruppe", "lerngruppen"], humans: false },
+        { id: 5, name: "image5", path: "bild-server-ersatz/Elektromobilität-(4).jpg", tag: ["elektromobilität", "außen", "aussen", "windrad", "windenergie", "ökostrom", "elektroauto", "e-auto"], humans: false },
+        { id: 6, name: "image6", path: "bild-server-ersatz/Elektrotechnik-(1).jpg", tag: ["elektrotechnik"], humans: false },
+        { id: 7, name: "image7", path: "bild-server-ersatz/Elektrotechnik-(3).jpg", tag: ["elektrotechnik"], humans: false },
+        { id: 8, name: "image8", path: "bild-server-ersatz/Energie--und-Umwelttechnik-(2).jpg", tag: ["energie", "umwelttechnik"], humans: false },
+        { id: 9, name: "image9", path: "bild-server-ersatz/Fahrzeugtechnik--(1).jpg", tag: ["fahrzeugtechnik"], humans: false },
+        { id: 10, name: "image10", path: "bild-server-ersatz/First-Responder-1.jpg", tag: ["first", "responder"], humans: false },
+        { id: 11, name: "image11", path: "bild-server-ersatz/Foyer-H-Gebäude-(3).jpg", tag: ["foyer", "gebäude", "innen"], humans: false },
+        { id: 12, name: "image12", path: "bild-server-ersatz/Frühling_Campus-1.jpg", tag: ["frühling", "baum", "campus"], humans: false },
+        { id: 13, name: "image13", path: "bild-server-ersatz/Gesundheitsökonomie--(3).jpg", tag: ["gesundheitsökonomie"], humans: false },
+        { id: 14, name: "image14", path: "bild-server-ersatz/H.O.M.E.jpg", tag: ["home"], humans: false },
+        { id: 15, name: "image15", path: "bild-server-ersatz/Informatik-(3).jpg", tag: ["informatik"], humans: false },
+        { id: 16, name: "image16", path: "bild-server-ersatz/International-Business-Management-(6).jpg", tag: ["international", "buisness", "management"], humans: false },
+        { id: 17, name: "image17", path: "bild-server-ersatz/Kaffeebar-(1).jpg", tag: ["kaffee", "bar"], humans: false },
+        { id: 18, name: "image18", path: "bild-server-ersatz/Kfz-Labor-2.jpg", tag: ["kfz", "labor"], humans: false },
+        { id: 19, name: "image19", path: "bild-server-ersatz/Maschinenbau--(3).jpg", tag: ["maschinenbau"], humans: false },
+        { id: 20, name: "image20", path: "bild-server-ersatz/Mediendesign-(3).jpg", tag: ["mediendesign"], humans: false },
+        { id: 21, name: "image21", path: "bild-server-ersatz/NZ-Labor-1.jpg", tag: ["labor"], humans: false },
+        { id: 22, name: "image22", path: "bild-server-ersatz/Pflege--(5).jpg", tag: ["pflege"], humans: false },
+        { id: 23, name: "image23", path: "bild-server-ersatz/Wirtschaftsingenieurwesen-(4).jpg", tag: ["Wirtschaftsingenieurwesen"], humans: false },
       ],
       
       isSelected: true,
-      selectedCategory: '',
+      searchedTag: '',
       searchInput: '',
     }
   },
@@ -74,12 +74,12 @@ export default {
 
       return this.activeImage == Id;
     },
-    setSelectedCategory() {
-      this.selectedCategory = this.searchInput.toLowerCase();
+    setSearchedTag() {
+      this.searchedTag = this.searchInput.toLowerCase();
     },
 
     showAllImages() {
-      this.selectedCategory = '';
+      this.searchedTag = '';
       this.searchInput = '';
     }
   },
@@ -88,13 +88,19 @@ export default {
     ...mapState(['imagePath', 'activeImage']),
 
     filteredImages() {
-      if (this.selectedCategory === '') {
-        return this.images;
-      } else {
+      if (!this.searchedTag) {
+      return this.images; // Wenn nichts gesucht wurde, werden alle Bilder angezeigt
+    }
 
-        return this.images.filter(image => image.tag === this.selectedCategory);
-
+    const searchTerms = this.searchedTag.split(" ");
+    return this.images.filter(image => {
+      for (const term of searchTerms) {
+        if (image.tag.includes(term)) {
+          return true; // Wenn ein Suchbegriff gefunden wurde, bleibt das Bild im Filter
+        }
       }
+      return false; // Wenn kein Suchbegriff gefunden wurde, wird das Bild aus dem Filter entfernt
+    });
 
     }
   }

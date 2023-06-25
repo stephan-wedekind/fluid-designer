@@ -13,6 +13,7 @@ const initialState = {
 
   toFormatChoice: false,
   isPrint: false,
+  activeFormat: null,
 
   //Style Auswahl
   classicPossible: false,
@@ -106,6 +107,10 @@ export default createStore({
       state.isPrint = value;
     },
 
+    setActiveFormat(state, number) {
+      state.activeFormat = number;
+    },
+
     //Style Auswahl
     setClassicPossible(state, value) {
       state.classicPossible = value;
@@ -194,7 +199,7 @@ export default createStore({
       state.headlineLines = lines;
     },
 
-    SET_HEADLINE_LINES(state, lines) {
+    SET_SUBHEADLINE_LINES(state, lines) {
       state.subHeadlineLines = lines;
     },
 
@@ -345,11 +350,13 @@ export default createStore({
     //Zeilenumbrüche
     updateHeadlineLines({ commit }, text) {
       const lines = text.split(/\r?\n/).map(line => line.length);
+      console.log(lines)
       commit('SET_HEADLINE_LINES', lines);
     },
     updateSubHeadlineLines({ commit }, text) {
       const lines = text.split(/\r?\n/).map(line => line.length);
-      commit('SET_HEADLINE_LINES', lines);
+      console.log(2)
+      commit('SET_SUBHEADLINE_LINES', lines);
     },
   },
 });

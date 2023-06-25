@@ -34,7 +34,7 @@
       <p>Hintergrund Pattern bestehend aus Viertelkreisen, Dreiecken und Quadraten.</p>
     </div>
   </section>
-  <!-- <h3 class="fontLila" style="margin-bottom: 30px;" v-if="!this.classicPossible">Stil »Klassisch« mit diesem Format nicht verfügbar!</h3> -->
+  
   <Btn buttonType="Secondary" buttonName="Format Ändern" buttonIcons="Vergroeßern.png" class="format-btn" @click="handleFormatChoice(true)"/>
 
 </div>

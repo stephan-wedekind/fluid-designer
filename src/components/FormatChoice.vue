@@ -11,8 +11,8 @@
 
         <div to="/fluidDesigner" class="format-grid" v-for="format in formats" :key="format.name">
           <router-link to="/fluidDesigner" class="format-grid"
-            @click="handleFormatChoice(!toFormatChoice), updateCanvasSize({ w: format.size.w, h: format.size.h, p: format.print })">
-            <img :src="format.image" alt="">
+            @click="handleFormatChoice(!toFormatChoice), updateCanvasSize({ w: format.size.w, h: format.size.h, p: format.print }), setActiveFormat(format.id)">
+            <img :src="format.image" alt="" :class="{ 'selected': isActiveFormat(format.id) }">
             <h3 class="fontLila">{{ format.name }}</h3>
           </router-link>
         </div>
@@ -39,11 +39,7 @@
           </router-link>
 
         </div>
-
     </div>
-
-
-
   </div>
 </template>
 
@@ -58,10 +54,10 @@ export default {
   data() {
     return {
       formats: [
-        { name: 'DIN A4 Flyer', size: { w: 210, h: 297 }, image: '/Platzhalter/Formate/A4.png', print: true },
-        { name: 'DIN A5 Flyer', size: { w: 148, h: 210 }, image: '/Platzhalter/Formate/A4.png', print:true },
-        { name: '1x1 Social Media', size: { w: 1080, h: 1080 }, image: '/Platzhalter/Formate/1x1.png' , print: false},
-        { name: '4x5 Social Media', size: { w: 1080, h: 1350 }, image: '/Platzhalter/Formate/4x5.png', print: false },
+        { id: 1, name: 'DIN A4 Flyer', size: { w: 210, h: 297 }, image: '/Platzhalter/Formate/A4.png', print: true },
+        { id: 2, name: 'DIN A5 Flyer', size: { w: 148, h: 210 }, image: '/Platzhalter/Formate/A4.png', print:true },
+        { id: 3, name: '1x1 Social Media', size: { w: 1080, h: 1080 }, image: '/Platzhalter/Formate/1x1.png' , print: false},
+        { id: 4, name: '4x5 Social Media', size: { w: 1080, h: 1350 }, image: '/Platzhalter/Formate/4x5.png', print: false },
         /* { name: '9x16 Social Media', size: { w: 1080, h: 1920 }, image: '/Platzhalter/Formate/9x16.png', print: false }, */
         /* { name: 'Eigenes Format', size: { w: 0, h: 0 }, image: '/Platzhalter/Formate/Freies Format.png' }, */
 
@@ -78,7 +74,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['canvasWidth', 'canvasHeight', 'toFormatChoice']),
+    ...mapState(['canvasWidth', 'canvasHeight', 'toFormatChoice', 'activeFormat']),
 
     inputIsMade() {
       return this.customWidth && this.customHeight;
@@ -86,10 +82,15 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['setActiveFormat']),
     ...mapActions(['updateCanvasSize', 'handleFormatChoice']),
 
     handleCustomFormat() {
       this.customFormatChoice = !this.customFormatChoice;
+    },
+
+    isActiveFormat(Id) {
+      return this.activeFormat == Id;
     }
   },
 }
