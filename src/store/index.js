@@ -12,6 +12,7 @@ const initialState = {
   //Format Auswahl
 
   toFormatChoice: false,
+  isPrint: false,
 
   //Style Auswahl
   classicPossible: false,
@@ -48,6 +49,11 @@ const initialState = {
   subheadline: "",
   copyText: "",
   urlQR: "",
+
+  //Umbruch Text
+
+  headlineLines: [],
+  subHeadlineLines: [],
   
   //QR Code
   qrCodeImage: "",
@@ -56,10 +62,6 @@ const initialState = {
 
   refreshing : 0,
   refreshQR: 0,
-
-  //Canvas Destroyer
-
-  canvasDestroyer: 0,
 };
 
 export default createStore({
@@ -98,6 +100,10 @@ export default createStore({
 
     setFormatChoice(state, value){
       state.toFormatChoice = value;
+    },
+
+    setIsPrint(state, value) {
+      state.isPrint = value;
     },
 
     //Style Auswahl
@@ -182,6 +188,16 @@ export default createStore({
       state.urlQR = text;
     },
 
+    //Textumbruch Offset
+
+    SET_HEADLINE_LINES(state, lines) {
+      state.headlineLines = lines;
+    },
+
+    SET_HEADLINE_LINES(state, lines) {
+      state.subHeadlineLines = lines;
+    },
+
     //QR Code
 
     setQRCodeImage(state, qrCodeImage) {
@@ -196,12 +212,6 @@ export default createStore({
     incrementRefreshQR(state){
       state.refreshQR += 1;
     },
-
-    //Canvas Destroyer
-    setCanvasDestroyer(state) {
-      console.log('Canvas destroyer')
-      state.canvasDestroyer += 1;
-    }
   },
 
 
@@ -314,11 +324,10 @@ export default createStore({
       }
     },
 
-    updateCanvasSize({ commit }, { w, h }) {
+    updateCanvasSize({ commit }, { w, h, p }) {
       commit("setCanvasWidth", w);
       commit("setCanvasHeight", h);
-
-      
+      commit("setIsPrint", p);
 
       let ratio = w / h;
       if (ratio >= 0.71) {
@@ -331,6 +340,16 @@ export default createStore({
         
         commit("setClassicPossible", true);
       }
+    },
+
+    //Zeilenumbrüche
+    updateHeadlineLines({ commit }, text) {
+      const lines = text.split(/\r?\n/).map(line => line.length);
+      commit('SET_HEADLINE_LINES', lines);
+    },
+    updateSubHeadlineLines({ commit }, text) {
+      const lines = text.split(/\r?\n/).map(line => line.length);
+      commit('SET_HEADLINE_LINES', lines);
     },
   },
 });

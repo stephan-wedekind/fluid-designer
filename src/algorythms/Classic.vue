@@ -27,15 +27,8 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   },
 
-  /* beforeRouteLeave(to, from, next) {
-
-    console.log('beforeRouteLeave in Classic');
-    this.removeCanvas();
-    next();
-  }, */
-
   computed: {
-    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'refreshing', 'refreshQR', 'qrCodeImage', 'canvasDestroyer'])
+    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'refreshing', 'refreshQR', 'qrCodeImage', 'isPrint', 'headlineLines'])
   },
 
   watch: {
@@ -59,13 +52,10 @@ export default {
     refreshQR() {
       this.generateQRCode();
     },
-    canvasDestroyer(){
-      this.removeCanvas();
-    },
   },
 
   methods: {
-    ...mapMutations(['setHeadline', 'setSubheadline', 'setCopyText', 'setUrlQR' , 'setQRCodeImage']),
+    ...mapMutations(['setHeadline', 'setSubheadline', 'setCopyText', 'setUrlQR', 'setQRCodeImage']),
 
     createCanvas() {
       //Canvas Größe
@@ -99,6 +89,13 @@ export default {
       let copyTextSize;
       let moreInfoSize;
 
+      let offsetSub;
+      let UserOffsetSub;
+
+      //Headline länge
+
+      let headlineCharBeforeBreak = 0;
+
       //Farben
       let rwLila;
       let rwLilaDark;
@@ -128,7 +125,7 @@ export default {
           fontBold = p.loadFont("fonts/Barlow-Semicondensed/BarlowSemiCondensed-Bold.ttf");
           fontMedium = p.loadFont("fonts/Barlow-Semicondensed/BarlowSemiCondensed-Medium.ttf");
           fontRegular = p.loadFont("fonts/Barlow-Semicondensed/BarlowSemiCondensed-Regular.ttf");
-          if (this.urlQR != ""){
+          if (this.urlQR != "") {
             imageQR = p.loadImage(this.qrCodeImage);
           }
         }
@@ -153,14 +150,14 @@ export default {
 
           //Color Setting
           rwLila = p.color(102, 56, 182);
-          rwLilaDark = p.color(45,7,100);
+          rwLilaDark = p.color(45, 7, 100);
           rwCyan = p.color(0, 169, 206);
           rwCyanLight = p.color(5, 195, 222);
           //Set background
           p.background(rwLila);
 
           //Layout Grid Setup
-          gridVertical = parseInt(gridHorizontal*ratioH) + 1;
+          gridVertical = parseInt(gridHorizontal * ratioH) + 1;
 
           unit = p.width / 14;
 
@@ -204,13 +201,14 @@ export default {
           headlineSize = unit;
           subheadlineSize = unit * 0.75;
           copyTextSize = unit * 0.5;
+
+          p.textAlign(p.LEFT, p.TOP);
           p.push();
           p.translate(horizontalMargin, imageHeight + horizontalMargin);
           //Headline
           p.textFont(fontBold);
           p.fill(255);
           p.textSize(headlineSize);
-          p.textAlign(p.LEFT, p.TOP);
           p.textLeading(headlineSize * 1.1);
           p.text(
             this.headline,
@@ -220,24 +218,37 @@ export default {
 
           //Subheadline  ----OFFSET MUSS NOCH GENAUER GESETZT WERDEN
           p.textFont(fontMedium);
-          let offsetSub = headlineSize + subheadlineSize;;
-          if (this.headline.length >= 25 && this.headline.length < 50) {
-            offsetSub = 2 * headlineSize + subheadlineSize;
-          } else if (this.headline.length >= 50 && this.headline.length < 70) {
-            offsetSub = 3 * headlineSize + subheadlineSize;
-          } else if (this.headline.length >= 70) {
-            offsetSub = 4 * headlineSize + subheadlineSize;
+
+          //Offset für Subheadline nach User Zeilen Umbruch gesetzt
+          UserOffsetSub = this.headlineLines.length * (headlineSize * 1.1);
+          offsetSub = 0;
+          for (let i = 0; i < this.headlineLines.length - 1; i++) {
+            headlineCharBeforeBreak += this.headlineLines[i];
           }
+
+          let lastLineAfterBreak = this.headline.length - headlineCharBeforeBreak - (this.headlineLines.length - 1);
+
+          //Falls kein User Zeilenumbruch stattfindet wird hier nochmal offset gesetzt
+
+          if (lastLineAfterBreak > 29 && lastLineAfterBreak < 55) {
+            offsetSub = headlineSize * 1.1;
+          } else if (lastLineAfterBreak >= 55) {
+            offsetSub = (2 * (headlineSize * 1.1));
+          }
+
+          let totalOffsetSub = UserOffsetSub + offsetSub + subheadlineSize * 1.2;
+          p.translate(0, totalOffsetSub);
           p.textSize(subheadlineSize);
           p.textLeading(subheadlineSize * 1.2);
           p.text(
             this.subheadline,
             0,
-            offsetSub,
+            0,
             gridWidth
           );
+
           //Copy Text
-          let offsetCopy = offsetSub + 2*subheadlineSize + copyTextSize;
+          let offsetCopy = offsetSub + 2 * subheadlineSize + copyTextSize;
           p.textSize(copyTextSize);
           p.textLeading(copyTextSize * 1.4);
           p.text(
@@ -249,35 +260,39 @@ export default {
 
           p.pop();
 
-          //Logo placement
-          p.push();
-          scaleFactor = unit / logo.height;
-          let logoHeight = logo.height * scaleFactor;
-          let logoWidth = logo.width * scaleFactor;
-          p.translate(horizontalMargin, verticalMargin + gridHeight - unit);
-          p.image(logo, 0, 0, logoWidth, logoHeight);
+          //Logo und QR Code nur in Print Produkten A4 A5, nicht in digital Formaten
+          if (this.isPrint) {
+            //Logo placement
+            p.push();
+            scaleFactor = unit / logo.height;
+            let logoHeight = logo.height * scaleFactor;
+            let logoWidth = logo.width * scaleFactor;
+            p.translate(horizontalMargin, verticalMargin + gridHeight - unit);
+            p.image(logo, 0, 0, logoWidth, logoHeight);
 
-          //QR Code
-          if (this.urlQR != "") {
-            //Top-Level Domain - extract
+            //QR Code
+            if (this.urlQR != "") {
+              //Top-Level Domain - extract
 
-            let startIndex = this.urlQR.indexOf("//") + 2;
-            let endIndex = this.urlQR.indexOf("/", startIndex);
-            let urlShort = this.urlQR.substring(startIndex, endIndex);
+              let startIndex = this.urlQR.indexOf("//") + 2;
+              let endIndex = this.urlQR.indexOf("/", startIndex);
+              let urlShort = this.urlQR.substring(startIndex, endIndex);
 
-            p.fill(255);
-            p.textFont(fontRegular);
-            p.textAlign(p.RIGHT, p.BASELINE);
-            p.textSize(copyTextSize / 2);
-            p.text(
-              "Mehr Infos unter: " + urlShort,
-              gridWidth - logoHeight - unit / 3,
-              logoHeight - logoHeight * 0.192
-            );
-            p.translate(gridWidth - logoHeight, unit - logoHeight);
-            p.image(imageQR, 0, 0, logoHeight, logoHeight);
+              p.fill(255);
+              p.textFont(fontRegular);
+              p.textAlign(p.RIGHT, p.BASELINE);
+              p.textSize(copyTextSize / 2);
+              p.text(
+                "Mehr Infos unter: " + urlShort,
+                gridWidth - logoHeight - unit / 3,
+                logoHeight - logoHeight * 0.192
+              );
+              p.translate(gridWidth - logoHeight, unit - logoHeight);
+              p.image(imageQR, 0, 0, logoHeight, logoHeight);
+            }
+            p.pop();
+
           }
-          p.pop();
 
         };//setup()
 

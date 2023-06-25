@@ -35,7 +35,7 @@ export default {
   }, */
 
   computed: {
-    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'refreshing', 'refreshQR', 'qrCodeImage', 'canvasDestroyer'])
+    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'refreshing', 'refreshQR', 'qrCodeImage', 'isPrint'])
   },
 
   watch: {
@@ -144,7 +144,9 @@ export default {
         p.setup = () => {
           //Auflösung
           if (visualViewport.height < 1000){
-          p.pixelDensity(10);
+            p.pixelDensity(10);
+          }else {
+            p.pixelDensity(4);
           }
           //Canvas Size is Calculated
           ratioW = this.canvasWidth / this.canvasHeight;
@@ -321,6 +323,8 @@ export default {
 
           p.pop();
 
+          //Logo und QR Code nur in Print Produkten A4 A5, nicht in digital Formaten
+          if (this.isPrint) {
           //Logo placement
           p.push();
           scaleFactor = unit / logo.height;
@@ -350,6 +354,7 @@ export default {
             p.image(imageQR, 0, 0, logoHeight, logoHeight);
           }
           p.pop();
+          }
 
         };//setup()
 

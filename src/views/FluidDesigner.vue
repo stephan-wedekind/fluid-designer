@@ -3,7 +3,7 @@
 
     <!-- navigation -->
     <nav>
-      <router-link to="/" class="close" @click="resetStore(), setCanvasDestroyer()">
+      <router-link to="/" class="close" @click="resetStore()">
       
         <img src="Icons/primary/Menue-schliessen.png" class="iconSidebar" alt="">
       
@@ -21,9 +21,6 @@
     <!-- User Input Feld -->
     <div class="user-input-field">
         <component :is="getActiveComponent()" />
-        <div class="btn-container">
-        <!-- <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" class="btn-download"/> -->
-        </div>
     </div>
 
     <!-- Canvas Feld -->
@@ -76,7 +73,7 @@ export default {
     ...mapState(['activeNavigation', 'navigations', 'styleClassic', 'styleOverlay', 'stylePattern']),
   },
   methods: {
-    ...mapMutations(['setActiveNavigation', 'setCanvasDestroyer']),
+    ...mapMutations(['setActiveNavigation']),
 
     ...mapActions(['resetStore']),
 
@@ -105,7 +102,9 @@ export default {
         case 'pattern':
           return 'PatternChange';
         default:
-          return 'WelcomeToFluid';
+          this.setActive('style');
+          return 'StyleChange';
+
       }
     },
 

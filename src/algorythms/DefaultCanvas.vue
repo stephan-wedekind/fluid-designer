@@ -117,10 +117,10 @@ export default {
           ratioW = this.canvasWidth/this.canvasHeight;
           ratioH = this.canvasHeight/this.canvasWidth;
           maxHeight = visualViewport.height - 120;
-          maxWidth = visualViewport.width - ((visualViewport.width * 0.45) + 190);
+          maxWidth = visualViewport.width - (70 + 0.45*visualViewport.width + 120);
           
           viewHeight = maxHeight;
-          viewWidth = viewHeight * ratioW;
+          viewWidth = maxWidth;
 
           if (viewWidth > maxWidth ) {
             viewWidth = maxWidth;
@@ -139,10 +139,12 @@ export default {
           scaleFactor = imageWidth / chosenImage.width;
           imageHeight = chosenImage.height * scaleFactor;
 
+          let imagePositionY = p.height/2.5 - imageHeight/2;
+
           p.image(
             chosenImage,
             25,
-            p.height/2.5 - imageHeight/2,
+            imagePositionY,
             imageWidth,
             imageHeight,
           );
@@ -152,7 +154,7 @@ export default {
           p.textFont(fontBold);
           p.textSize(imageHeight * 0.1);
           p.textAlign(p.CENTER, p.CENTER);
-          p.text("Wähle einen Style aus", p.width/2, imageHeight * 1.3);
+          p.text("Wähle einen Style aus", p.width/2, imagePositionY + imageHeight + 30);
           p.pop();
         }
       })//END P5 js

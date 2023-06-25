@@ -11,7 +11,7 @@
 
         <div to="/fluidDesigner" class="format-grid" v-for="format in formats" :key="format.name">
           <router-link to="/fluidDesigner" class="format-grid"
-            @click="handleFormatChoice(!toFormatChoice), updateCanvasSize({ w: format.size.w, h: format.size.h })">
+            @click="handleFormatChoice(!toFormatChoice), updateCanvasSize({ w: format.size.w, h: format.size.h, p: format.print })">
             <img :src="format.image" alt="">
             <h3 class="fontLila">{{ format.name }}</h3>
           </router-link>
@@ -34,7 +34,7 @@
 
           <input type="number" v-model="customHeight" placeholder="Höhe">
 
-          <router-link to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: customWidth, h: customHeight }), handleFormatChoice(!toFormatChoice)" :disabled="!inputIsMade">
+          <router-link to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: customWidth, h: customHeight, p: 'false' }), handleFormatChoice(!toFormatChoice)" :disabled="!inputIsMade">
             <Btn buttonType="Primary" buttonName="FluidDesigner" buttonIcons="Weiter.png" class="btn-submit" :disabled="!inputIsMade" />
           </router-link>
 
@@ -58,11 +58,11 @@ export default {
   data() {
     return {
       formats: [
-        { name: '1x1 Social Media', size: { w: 1080, h: 1080 }, image: '/Platzhalter/Formate/1x1.png' },
-        { name: '4x5 Social Media', size: { w: 1080, h: 1350 }, image: '/Platzhalter/Formate/4x5.png' },
-        { name: '9x16 Social Media', size: { w: 1080, h: 1920 }, image: '/Platzhalter/Formate/9x16.png' },
-        { name: 'DIN A4 Flyer', size: { w: 210, h: 297 }, image: '/Platzhalter/Formate/A4.png' },
-        { name: 'DIN A5 Flyer', size: { w: 148, h: 210 }, image: '/Platzhalter/Formate/A4.png' },
+        { name: 'DIN A4 Flyer', size: { w: 210, h: 297 }, image: '/Platzhalter/Formate/A4.png', print: true },
+        { name: 'DIN A5 Flyer', size: { w: 148, h: 210 }, image: '/Platzhalter/Formate/A4.png', print:true },
+        { name: '1x1 Social Media', size: { w: 1080, h: 1080 }, image: '/Platzhalter/Formate/1x1.png' , print: false},
+        { name: '4x5 Social Media', size: { w: 1080, h: 1350 }, image: '/Platzhalter/Formate/4x5.png', print: false },
+        /* { name: '9x16 Social Media', size: { w: 1080, h: 1920 }, image: '/Platzhalter/Formate/9x16.png', print: false }, */
         /* { name: 'Eigenes Format', size: { w: 0, h: 0 }, image: '/Platzhalter/Formate/Freies Format.png' }, */
 
       ],

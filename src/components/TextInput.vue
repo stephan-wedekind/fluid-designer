@@ -3,23 +3,23 @@
 
     <section class="user-input">
       <h2 class="fontLila">Headline</h2>
-      <textarea :class="{'filled' : newHeadline.length > 0}" maxlength="72" v-model="newHeadline" @input="updateHeadline(newHeadline)" ></textarea>
+      <textarea :class="{'filled' : newHeadline.length > 0}" maxlength="72" v-model="newHeadline" @input="updateHeadline(newHeadline)" placeholder="z.B. Finde dein Studium"></textarea>
     </section>
 
     <section class="user-input">
       <h2 class="fontLila">Subheadline</h2>
-      <textarea :class="{'filled' : newSubheadline.length > 0}" maxlength="85" v-model="newSubheadline" @input="updateSubheadline(newSubheadline)"></textarea>
+      <textarea :class="{'filled' : newSubheadline.length > 0}" maxlength="85" v-model="newSubheadline" @input="updateSubheadline(newSubheadline)" placeholder="z.B. Dienstag 27.06.2023..."></textarea>
     </section>
 
     <section class="user-input">
       <h2 class="fontLila">Text</h2>
-      <textarea :class="{'filled' : newCopyText.length > 0}" maxlength="500" v-model="newCopyText" @input="updateCopyText(newCopyText)"></textarea>
+      <textarea :class="{'filled' : newCopyText.length > 0}" maxlength="500" v-model="newCopyText" @input="updateCopyText(newCopyText)" placeholder="Weitere Informationen"></textarea>
     </section>
 
-    <section class="qr-code">
+    <section class="qr-code" v-if="isPrint">
       <h2 class="fontLila">QR-Code</h2>
       <div class="qr-code-input">
-        <input type="text" v-model="newUrlQR" class="qr-url" @input="updateUrlQR(newUrlQR)" :class="{'filled' : newUrlQR.length > 0}">
+        <input type="text" v-model="newUrlQR" class="qr-url" @input="updateUrlQR(newUrlQR)" :class="{'filled' : newUrlQR.length > 0}" placeholder="URL hier einfügen">
         <Btn buttonType="Secondary" buttonName="Generieren" buttonIcons="Share.png" class="qr-btn" @click="incrementRefreshQR"/>
       </div>
     </section>
@@ -52,12 +52,19 @@ export default {
     Btn,
   },
 
+  watch: {
+    headline(newValue) {
+      this.updateHeadlineLines(newValue);
+    }
+  },
+
   computed: {
-    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'refreshing', 'refreshQR'])
+    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'refreshing', 'refreshQR', 'isPrint', 'headlineLines'])
   },
 
   methods: {
     ...mapMutations(['setHeadline', 'setSubheadline', 'setCopyText', 'setUrlQR', 'incrementRefreshing', 'incrementRefreshQR']),
+    ...mapActions(['updateHeadlineLines']),
 
     updateHeadline(newHeadline){
       this.setHeadline(newHeadline);

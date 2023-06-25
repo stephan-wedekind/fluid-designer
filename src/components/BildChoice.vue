@@ -31,12 +31,29 @@ export default {
   data() {
     return {
       images: [
-        { id: 1, name: "image1", path: "https://images.pexels.com/photos/16349261/pexels-photo-16349261/free-photo-of-blumen-rosen-flasche-stillleben.jpeg", tag: "flowers", humans: false },
-        { id: 2, name: "image2", path: "https://images.pexels.com/photos/17220398/pexels-photo-17220398/free-photo-of-holz-kunst-dreckig-mauer.jpeg", tag: "interior design", humans: false },
-        { id: 3, name: "image3", path: "https://images.pexels.com/photos/15652573/pexels-photo-15652573/free-photo-of-stadt-liebe-paris-strasse.jpeg", tag: "building", humans: false },
-        { id: 4, name: "image4", path: "https://images.pexels.com/photos/16124527/pexels-photo-16124527/free-photo-of-strasse-gehen-manner-big-ben.jpeg", tag: "street", humans: true },
-        { id: 5, name: "image5", path: "https://images.pexels.com/photos/1653090/pexels-photo-1653090.jpeg", tag: "music", humans: false },
-        { id: 6, name: "image6", path: "_MG_1398.jpg", tag: "music", humans: false },
+        { id: 1, name: "image1", path: "bild-server-ersatz/_MG_1398.jpg", tag: "flowers", humans: false },
+        { id: 2, name: "image2", path: "bild-server-ersatz/Angewandte-Gesundheitswissenschaft--(4).jpg", tag: "flowers", humans: false },
+        { id: 3, name: "image3", path: "bild-server-ersatz/Betriebswirtschaftslehre-und-Management-(4).jpg", tag: "flowers", humans: false },
+        { id: 4, name: "image4", path: "bild-server-ersatz/Electrical-Engineering-(3).jpg", tag: "flowers", humans: false },
+        { id: 5, name: "image5", path: "bild-server-ersatz/Elektromobilität-(4).jpg", tag: "flowers", humans: false },
+        { id: 6, name: "image6", path: "bild-server-ersatz/Elektrotechnik-(1).jpg", tag: "flowers", humans: false },
+        { id: 7, name: "image7", path: "bild-server-ersatz/Elektrotechnik-(3).jpg", tag: "flowers", humans: false },
+        { id: 8, name: "image8", path: "bild-server-ersatz/Energie--und-Umwelttechnik-(2).jpg", tag: "flowers", humans: false },
+        { id: 9, name: "image9", path: "bild-server-ersatz/Fahrzeugtechnik--(1).jpg", tag: "flowers", humans: false },
+        { id: 10, name: "image10", path: "bild-server-ersatz/First-Responder-1.jpg", tag: "flowers", humans: false },
+        { id: 11, name: "image11", path: "bild-server-ersatz/Foyer-H-Gebäude-(3).jpg", tag: "flowers", humans: false },
+        { id: 12, name: "image12", path: "bild-server-ersatz/Frühling_Campus-1.jpg", tag: "flowers", humans: false },
+        { id: 13, name: "image13", path: "bild-server-ersatz/Gesundheitsökonomie--(3).jpg", tag: "flowers", humans: false },
+        { id: 14, name: "image14", path: "bild-server-ersatz/H.O.M.E.jpg", tag: "flowers", humans: false },
+        { id: 15, name: "image15", path: "bild-server-ersatz/Informatik-(3).jpg", tag: "flowers", humans: false },
+        { id: 16, name: "image16", path: "bild-server-ersatz/International-Business-Management-(6).jpg", tag: "flowers", humans: false },
+        { id: 17, name: "image17", path: "bild-server-ersatz/Kaffeebar-(1).jpg", tag: "flowers", humans: false },
+        { id: 18, name: "image18", path: "bild-server-ersatz/Kfz-Labor-2.jpg", tag: "flowers", humans: false },
+        { id: 19, name: "image19", path: "bild-server-ersatz/Maschinenbau--(3).jpg", tag: "flowers", humans: false },
+        { id: 20, name: "image20", path: "bild-server-ersatz/Mediendesign-(3).jpg", tag: "flowers", humans: false },
+        { id: 21, name: "image21", path: "bild-server-ersatz/NZ-Labor-1.jpg", tag: "flowers", humans: false },
+        { id: 22, name: "image22", path: "bild-server-ersatz/Pflege--(5).jpg", tag: "flowers", humans: false },
+        { id: 23, name: "image23", path: "bild-server-ersatz/Wirtschaftsingenieurwesen-(4).jpg", tag: "flowers", humans: false },
       ],
       
       isSelected: true,
@@ -99,7 +116,6 @@ export default {
 .scroll {
   width: 100%;
   z-index: -1;
-  height: 1000px;
   padding-top: 30px;
 }
 
