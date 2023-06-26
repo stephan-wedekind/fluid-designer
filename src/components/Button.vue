@@ -1,5 +1,5 @@
 <template>
- <button :class="['btn'+ buttonType]" :disabled="isDisabled">
+ <button :class="['btn'+ buttonType]">
         <h4>{{buttonName}}</h4>
         <img :src="getButtonIcon(buttonIcons)" class="buttonIcon" alt="">
       </button>
@@ -12,7 +12,6 @@ export default {
     buttonType: String,
     buttonName: String,
     buttonIcons: String,
-    isDisabled: Boolean,
   },
 
 

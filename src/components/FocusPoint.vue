@@ -2,7 +2,7 @@
   <div class="overlay-container">
     <div class="foreground">
       <div class="focus-head">
-        <h1 class="fontLila">Wähle einen Fokuspunkt aus</h1>
+        <h1 class="fontLila">Wähle den passenden Bildauschnit</h1>
         <Btn buttonType="Tertiary" buttonName="" buttonIcons="Menue-schliessen.png" class="btn-close"
           @click="setChooseFocus(false)" />
       </div>
@@ -50,7 +50,8 @@ export default {
   },
 
   computed: {
-    ...mapState(['imagePath', 'canvasWidth', 'canvasHeight', 'styleClassic', 'focus']),
+    ...mapState(['imagePath', 'canvasWidth', 'canvasHeight', 'styleClassic', 'focus', 'chooseFocus']),
+  
   },
 
   methods: {
@@ -83,7 +84,6 @@ export default {
         }
 
         p.setup = () => {
-          console.log("focus point p setup:" + this.focus);
           p.pixelDensity(1);
           //Setup Canvas and Image Size and Aspect Ratio
           if (img.width > img.height) {
@@ -106,7 +106,7 @@ export default {
 
           
           
-          //Overlay Canvas
+          //Focus Overlay Canvas
           let ratioCanvas;
           if (this.styleClassic) {
             ratioCanvas = this.canvasWidth/((this.canvasWidth/14)*9);
@@ -115,24 +115,30 @@ export default {
           }
 
           let ratioImg = img.width / img.height;
-          
           if (ratioImg < ratioCanvas) {
             //CASE 1 offx=0
+            
             focusW = p.width;
             focusH = p.width * (1 / ratioCanvas);
             posX = p.width/2;
             posY = this.focus * p.height;
-          } else if (ratioImg > ratioCanvas) {
+          } else {
             //CASE 2 offy=0
-            focusH = p.height;
             focusW = p.height * (ratioCanvas);
+            focusH = p.height;
             posX = this.focus * p.width;
-            posY = p.height/2
+            posY = p.height/2;
           }
 
+          
+          p.image(img, 0, 0, width, height);
+          p.push()
+
+          p.translate(posX, posY);
+          
           p.rectMode(p.CENTER);
 
-          p.image(img, 0, 0, width, height);
+          
           const fillColor = p.color(
             p.red(rwLila),
             p.green(rwLila),
@@ -141,7 +147,6 @@ export default {
           );
           p.fill(fillColor);
           p.noStroke();
-          p.translate(posX, posY);
           
           p.rect(0,0, focusW, focusH);
           p.noFill();
@@ -149,17 +154,41 @@ export default {
           p.strokeWeight(6);
           p.rect(0,0, focusW-6, focusH-6);
 
+          p.pop()
+
+          
+
           p.mouseClicked = () => {
-            if (ratioImg < ratioCanvas) {
-              this.setFocus(p.mouseY / p.width);
-              this.setChooseFocus(false);
-              this.removeCanvas();
-            } else {
-              this.setFocus(p.mouseX / p.height);
-              this.setChooseFocus(false);
-              this.removeCanvas();
+            if (this.chooseFocus) {
+              if (p.mouseX >= 0 && p.mouseX <= p.width && p.mouseY >= 0 && p.mouseY <= p.height) {
+
+
+                if (ratioImg < ratioCanvas) {
+
+                  if (p.mouseY <= focusH/2){
+                    this.setFocus((focusH/2  / p.height));
+                  } else if (p.mouseY >= (p.height - (focusH/2))){
+                    this.setFocus((p.height - (focusH/2)) / p.height);
+                  } else {
+                    this.setFocus(p.mouseY / p.height);
+                  }
+                
+                } else {
+
+                  if (p.mouseX <= focusW/2) {
+                    this.setFocus((focusW/2)/p.width);
+                  } else if (p.mouseX >= (p.width - (focusW/2))){
+                    this.setFocus((p.width - (focusW/2)) / p.width);
+                  } else {
+                    this.setFocus(p.mouseX / p.width);
+                  }
+                  
+
+                }
+              }
             }
           };
+         
          
         }//setup
 

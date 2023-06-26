@@ -70,7 +70,16 @@ export default {
     DefaultCanvas
   },
   computed: {
-    ...mapState(['activeNavigation', 'navigations', 'styleClassic', 'styleOverlay', 'stylePattern']),
+    ...mapState(['activeNavigation', 'navigations', 'styleClassic', 'styleOverlay', 'stylePattern', 'focus']),
+  },
+
+  watch: {
+    focus() {
+      const mainElement = document.querySelector('main');
+        if (mainElement) {
+          mainElement.parentNode.removeChild(mainElement);
+        }
+    }
   },
   methods: {
     ...mapMutations(['setActiveNavigation']),
@@ -118,7 +127,7 @@ export default {
       } else {
         return 'DefaultCanvas';
       }
-    }
+    },
   },
 };
 </script>

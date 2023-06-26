@@ -30,7 +30,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'refreshing', 'refreshQR', 'qrCodeImage', 'isPrint', 'headlineLines', 'subheadlineLines'])
+    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'refreshing', 'refreshQR', 'qrCodeImage', 'isPrint', 'headlineLines', 'subheadlineLines', 'focus'])
   },
 
   watch: {
@@ -87,6 +87,10 @@ export default {
     refreshQR() {
       this.generateQRCode();
     },
+    focus() {
+      this.removeCanvas();
+      this.createCanvas();
+    }
   },
 
   methods: {
@@ -211,47 +215,16 @@ export default {
             scaleFactor = imageHeight / chosenImage.height;
           }
 
-          let focusPoint = "middle";
-          switch(focusPoint) {
-            case "top left":
-              offsetX = 0;
-              offsetY = 0;
-            case "left":
-              offsetX = 0;
-              offsetY = (imageHeight - chosenImage.height * scaleFactor) / 2;
-              break;
-            case "bottom left":
-              offsetX = 0;
-              offsetY = (imageHeight - chosenImage.height * scaleFactor);
-              break;
-            case "top": 
-              offsetX = offsetX = (imageWidth - chosenImage.width * scaleFactor) / 2;
-              offsetY = 0;
-              break;
-            case "middle":
-              offsetX = (imageWidth - chosenImage.width * scaleFactor) / 2;
-              offsetY = (imageHeight - chosenImage.height * scaleFactor) / 2;
-              break;
-            case "bottom":
-              offsetX = offsetX = (imageWidth - chosenImage.width * scaleFactor) / 2;
-              offsetY = (imageHeight - chosenImage.height * scaleFactor);
-              break;
-            case "top right":
-              offsetX = (imageWidth - chosenImage.width * scaleFactor);
-              offsetY = 0;
-              break;
-            case "right":
-              offsetX = (imageWidth - chosenImage.width * scaleFactor);
-              offsetY = (imageHeight - chosenImage.height * scaleFactor) / 2;
-              break;
-            case "bottom right":
-              offsetX = (imageWidth - chosenImage.width * scaleFactor);
-              offsetY = (imageHeight - chosenImage.height * scaleFactor);
-              break;
-            default: 
-              offsetX = (imageWidth - chosenImage.width * scaleFactor) / 2;
-              offsetY = (imageHeight - chosenImage.height * scaleFactor) / 2;
-              break;
+
+          let frameRatio = imageWidth/imageHeight
+          let ratioImg = chosenImage.width/chosenImage.height;
+          
+          if (ratioImg > frameRatio) {
+            offsetY = 0;
+            offsetX = (imageWidth/2) - (chosenImage.width * scaleFactor) * this.focus;
+          } else {
+            offsetX = 0
+            offsetY = (imageHeight/2) - (chosenImage.height * scaleFactor) * this.focus;
           }
 
           p.image(

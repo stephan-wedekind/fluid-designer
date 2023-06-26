@@ -36,6 +36,12 @@ const initialState = {
   isRectangle: true,
   isTriangle: true ,
 
+  //Pattern
+  patternStripeStart: 1,
+  patternStripeEnd: null,
+
+  patternSeed: 0,
+
   //Canvas Size
   canvasWidth: 0,
   canvasHeight: 0,
@@ -228,14 +234,40 @@ export default createStore({
     },
 
     setFocus(state, number) {
-      state.focusPoint = number;
-      console.log("setFocus: " + number)
-    }
+      state.focus = number;
+    },
+
+    //Pattern
+
+    increasePatternStripeStart(state){
+      state.patternStripeStart += 1;
+    },
+    decreasePatternStripeStart(state){
+      state.patternStripeStart -= 1;
+    },
+
+    increasePatternStripeEnd(state){
+      state.patternStripeEnd += 1;
+    },
+    decreasePatternStripeEnd(state){
+      state.patternStripeEnd -= 1;
+    },
+
+    increasePatternSeed(state){
+      console.log('increasePatternSeed' + state.patternSeed);
+      state.patternSeed += 1;
+    },
+    decreasePatternSeed(state){
+      console.log('decreasePatternSeed');
+      state.patternSeed -= 1;
+    },
   },
 
 
 
   actions: {
+
+    //Navigation bearbeiten
     addBild({ commit, state }) {
       if (!state.isImage) {
         if (state.navigations.find((navigation) => navigation.id === "pattern")) {
@@ -264,12 +296,15 @@ export default createStore({
         commit("setIsImage", false);
       }
     },
+
+    //Store wird zurückgesettz, später hier localStorage anbinden
     resetStore({ commit }) {
       commit("resetState");
     },
 
-    handleFormatChoice({ commit }, value){
-      
+
+    //Formatauswahl offen oder nicht
+    handleFormatChoice({ commit }, value){  
       commit("setFormatChoice", value)
     },
 
@@ -291,7 +326,6 @@ export default createStore({
     },
 
     // Pattern Auswahl
-
     changePattern({ commit }, pattern) {
       if (pattern === "mirror") {
         commit("setPatternMirror", true);
@@ -309,7 +343,6 @@ export default createStore({
     },
 
     // Pattern Filled?
-
     patternFill({ commit }, choice) {
       if (choice === "fill") {
         commit("setPatternFilled", true);
@@ -319,7 +352,6 @@ export default createStore({
     },
 
     // Pattern Shapes
-
     handleCircle({ commit, state }) {
       if (state.isCircle) {
         commit("setIsCircle", false);
@@ -343,6 +375,8 @@ export default createStore({
       }
     },
 
+
+    //Canvas größe wird je nach format gesetzt
     updateCanvasSize({ commit }, { w, h, p }) {
       commit("setCanvasWidth", w);
       commit("setCanvasHeight", h);

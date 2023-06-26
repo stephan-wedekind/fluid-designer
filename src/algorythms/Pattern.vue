@@ -15,6 +15,8 @@ export default {
     return {
       p: null,
       canvas: null,
+      typingTimer: null,
+      doneTypingInterval: 1500 
     }
   },
 
@@ -27,9 +29,25 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   },
 
-
   computed: {
-    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'refreshing', 'refreshQR', 'qrCodeImage', 'isPrint'])
+    ...mapState(
+      [
+        'headline', 
+        'subheadline', 
+        'copyText', 
+        'urlQR', 
+        'canvasWidth', 
+        'canvasHeight', 
+        'imagePath', 
+        'refreshing', 
+        'refreshQR', 
+        'qrCodeImage', 
+        'isPrint', 
+        'patternFilled',
+        'isCircle',
+        'isRectangle',
+        'isTriangle',
+      ])
   },
 
   watch: {
@@ -40,6 +58,38 @@ export default {
     canvasHeight() {
       this.removeCanvas();
       this.createCanvas();
+    },
+    headline(newValue) {
+      clearTimeout(this.typingTimer);
+
+      if (newValue) {
+        this.typingTimer = setTimeout(() => {
+          this.removeCanvas();
+          this.createCanvas();
+        }, this.doneTypingInterval);
+      }
+    },
+
+    subheadline(newValue) {
+      clearTimeout(this.typingTimer);
+
+      if (newValue) {
+        this.typingTimer = setTimeout(() => {
+          this.removeCanvas();
+          this.createCanvas();
+        }, this.doneTypingInterval);
+      }
+    },
+
+    copyText(newValue) {
+      clearTimeout(this.typingTimer);
+
+      if (newValue) {
+        this.typingTimer = setTimeout(() => {
+          this.removeCanvas();
+          this.createCanvas();
+        }, this.doneTypingInterval);
+      }
     },
     imagePath() {
       this.removeCanvas();
@@ -53,6 +103,13 @@ export default {
     refreshQR() {
       this.generateQRCode();
     },
+    canvasDestroyer(){
+      this.removeCanvas();
+    },
+    focus() {
+      this.removeCanvas();
+      this.createCanvas();
+    }
   },
 
   methods: {
@@ -122,7 +179,7 @@ export default {
       this.p = new p5((p) => {
 
         p.preload = () => {
-          chosenImage = p.loadImage(this.imagePath);
+          
           logo = p.loadImage("Logo/rwu_logo_hor-weiss-cyan-light.png");
           fontBold = p.loadFont("fonts/Barlow-Semicondensed/BarlowSemiCondensed-Bold.ttf");
           fontMedium = p.loadFont("fonts/Barlow-Semicondensed/BarlowSemiCondensed-Medium.ttf");
@@ -173,94 +230,14 @@ export default {
           horizontalMargin = (p.width - gridWidth) / 2;
           verticalMargin = (p.height - gridHeight) / 2;
 
-          //ImageSetting
-          let ratioImg = chosenImage.height/chosenImage.width;
-
-          if (ratioImg >= ratioH && chosenImage.height > chosenImage.width) {
-            scaleFactor = p.width / chosenImage.width;
-            imageWidth = p.width;
-            imageHeight = chosenImage.height * scaleFactor;
-          } else {
-            scaleFactor = p.height / chosenImage.height;
-            imageHeight = p.height;
-            imageWidth = chosenImage.width * scaleFactor;
-          }
-          
-          offsetX = (p.width - chosenImage.width * scaleFactor) / 2;
-          offsetY = (p.height - chosenImage.height * scaleFactor) / 2;
-
-          p.image(
-            chosenImage,
-            offsetX,
-            offsetY,
-            imageWidth,
-            imageHeight
-          );
-
-          //Bild Bearbeitung
-
           p.push();
-          p.loadPixels();
-          //Bild wird in Graustufen umgewandelt
-          for (let i = 0; i < p.pixels.length; i += 4) {
-            let r = p.pixels[i];
-            let g = p.pixels[i + 1];
-            let b = p.pixels[i + 2];
-            let c = p.int(0.2126 * r + 0.7152 * g + 0.0722 * b);
-            p.pixels[i] = c;
-            p.pixels[i + 1] = c;
-            p.pixels[i + 2] = c;
-            sumLuminos += c;
-            numPixels++;
-          }
-          p.updatePixels();
-          avgLuminos = Math.round(sumLuminos / numPixels);
-          for (let i = 0; i < p.pixels.length; i += 4) {
-            let c = p.pixels[i];
+          p.translate(horizontalMargin, verticalMargin);
 
-            if (c <= avgLuminos) numDark++;
-          }
-          perDark = numDark / numPixels;
-          p.loadPixels();
-          //dunkle Bilder werden aufgehellt
-          if (avgLuminos < 80) {
-            for (let i = 0; i < p.pixels.length; i += 4) {
-              let c = p.pixels[i];
 
-              c = Math.min(c * (1 + 1 * perDark), 255);
 
-              p.pixels[i] = c;
-              p.pixels[i + 1] = c;
-              p.pixels[i + 2] = c;
-            }
-          }
-          p.updatePixels();
+          // Pattern Code here
           p.pop();
-          //BLEND-1 //102, 56, 182
-          p.push();
-          p.blendMode(p.MULTIPLY);
-          const blendColorMulti = p.color(
-            p.red(rwLila),
-            p.green(rwLila),
-            p.blue(rwLila),
-            25
-          );
-          p.fill(blendColorMulti);
-          p.noStroke();
-          p.rect(0, 0, p.width, p.height);
-          p.pop();
-          //Blend-2
-          p.push();
-          const overlayColor = p.color(
-            p.red(rwLila),
-            p.green(rwLila),
-            p.blue(rwLila),
-            0.8 * 255
-          );
-          p.fill(overlayColor);
-          p.noStroke();
-          p.rect(0, 0, p.width, p.height);
-          p.pop();
+
 
           //Typografie
 

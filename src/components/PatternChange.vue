@@ -21,20 +21,20 @@
 
   <h2 class="fontLila">Pattern bearbeiten</h2>
   <section class="pattern-edit">
-    <div class="edit-line" id="number-shapes">
+    <!-- <div class="edit-line" id="number-shapes">
       <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png" />
       <div class="edit-label"><h2 class="fontLila">Anzahl Formen</h2></div>
       <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" />
-    </div>
+    </div> -->
     <div class="edit-line" id="change-pattern">
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Pfeil-links.png" />
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Pfeil-links.png" @click="decreasePatternSeed()"/>
       <div class="edit-label"><h2 class="fontLila">Pattern Ändern</h2></div>
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Pfeil-rechts.png" />
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Pfeil-rechts.png" @click="increasePatternSeed()"/>
     </div>
     <div class="edit-line" id="change-stripe" v-if="patternStripe">
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png"/>
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png" :disabled="checkPatternStartLow()" @click="decreasePatternStripeStart()" />
       <div class="edit-label"><h2 class="fontLila">Streifen Breite</h2></div>
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" />
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" :disabled="checkPatternStartHigh()" @click="increasePatternStripeStart()"/>
     </div>
   </section>
 
@@ -69,7 +69,7 @@
 
 <script>
 import Btn from '@/components/Button.vue'
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 
 export default {
   name: 'PatternChange',
@@ -85,10 +85,18 @@ export default {
   },
 
   computed: {
-    ...mapState(['selectedPattern', 'patternMirror', 'patternStripe', 'patternRandom' , 'patternFilled', 'isRectangle', 'isCircle', 'isTriangle']),
+    ...mapState(['selectedPattern', 'patternMirror', 'patternStripe', 'patternRandom' , 'patternFilled', 'isRectangle', 'isCircle', 'isTriangle', 'patternStripeStart', 'patternStripeEnd', 'patternSeed']),
   },
   methods: {
     ...mapActions(['changePattern', 'patternFill', 'handleCircle', 'handleRectangle', 'handleTriangle']),
+    ...mapMutations(['increasePatternStripeStart', 'decreasePatternStripeStart', 'increasePatternStripeEnd', 'decreasePatternStripeEnd', 'increasePatternSeed', 'decreasePatternSeed']),
+
+    checkPatternStartLow() {
+      return this.patternStripeStart<=1;
+    },
+    checkPatternStartHigh() {
+      return this.patternStripeStart>=6;
+    }
   }
 }
 

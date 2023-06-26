@@ -5,7 +5,7 @@
     <input type="search" name="searchfield" id="searching-images" placeholder="Suche" v-model="searchInput"
       @keyup.enter="setSearchedTag()" :class="{'filled': this.searchInput.length > 0}">
     <div class="buttons">
-      <Btn buttonType="Secondary" buttonName="Fokus wählen" buttonIcons="Vorschau.png" class="btn-fokus" @click="setChooseFocus(true)"/>
+      <Btn buttonType="Secondary" buttonName="Bildauschnitt ändern" buttonIcons="Vorschau.png" class="btn-fokus" @click="setChooseFocus(true)"/>
       <Btn buttonType="Primary" buttonName="Alle Bilder" buttonIcons="Bild.png" class="btn-fokus" @click="showAllImages"/>
     </div>
   </div>
@@ -58,7 +58,6 @@ export default {
         { id: 21, name: "image21", path: "bild-server-ersatz/NZ-Labor-1.jpg", tag: ["labor"], humans: false },
         { id: 22, name: "image22", path: "bild-server-ersatz/Pflege--(5).jpg", tag: ["pflege"], humans: false },
         { id: 23, name: "image23", path: "bild-server-ersatz/Wirtschaftsingenieurwesen-(4).jpg", tag: ["Wirtschaftsingenieurwesen"], humans: false },
-        { id: 24, name: "image24", path: "bild-server-ersatz/offset.jpg", tag: ["Wirtschaftsingenieurwesen"], humans: false },
         { id: 25, name: "image24", path: "bild-server-ersatz/pexels-oladimeji-ajegbile-2861798.jpg", tag: ["Wirtschaftsingenieurwesen"], humans: false },
       ],
       
@@ -70,7 +69,7 @@ export default {
 
   methods: {
 
-    ...mapMutations(['setImagePath', 'setActiveImage', 'setChooseFocus']),
+    ...mapMutations(['setImagePath', 'setActiveImage', 'setChooseFocus', 'setFocus']),
 
     setActive(Id) {
       this.setActiveImage(Id);
@@ -87,7 +86,8 @@ export default {
     showAllImages() {
       this.searchedTag = '';
       this.searchInput = '';
-    }
+    },
+   
   },
 
   computed: {
@@ -108,6 +108,12 @@ export default {
       return false; // Wenn kein Suchbegriff gefunden wurde, wird das Bild aus dem Filter entfernt
     });
 
+    }
+  },
+
+  watch: {
+    imagePath(){
+      this.setFocus(0.5);
     }
   }
 
