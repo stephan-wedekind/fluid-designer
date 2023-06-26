@@ -61,6 +61,7 @@ const initialState = {
 
   headlineLines: [], //Zeilenanzahl bei Zeilenumbruch durch User
   subHeadlineLines: [], //-"-
+  copyTextLines: [], //-"-
   //QR Code
   qrCodeImage: "", //QR Code
 
@@ -254,11 +255,9 @@ export default createStore({
     },
 
     increasePatternSeed(state){
-      console.log('increasePatternSeed' + state.patternSeed);
       state.patternSeed += 1;
     },
     decreasePatternSeed(state){
-      console.log('decreasePatternSeed');
       state.patternSeed -= 1;
     },
   },

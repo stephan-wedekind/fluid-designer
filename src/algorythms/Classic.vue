@@ -30,7 +30,23 @@ export default {
   },
 
   computed: {
-    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'refreshing', 'refreshQR', 'qrCodeImage', 'isPrint', 'headlineLines', 'subheadlineLines', 'focus'])
+    ...mapState(
+      [
+        'headline', 
+        'subheadline', 
+        'copyText', 
+        'urlQR', 
+        'canvasWidth', 
+        'canvasHeight', 
+        'imagePath', 
+        'refreshing', 
+        'refreshQR', 
+        'qrCodeImage', 
+        'isPrint', 
+        'headlineLines', 
+        'subHeadlineLines',  
+        'focus'
+      ]),
   },
 
   watch: {
@@ -96,6 +112,10 @@ export default {
   methods: {
     ...mapMutations(['setHeadline', 'setSubheadline', 'setCopyText', 'setUrlQR', 'setQRCodeImage']),
 
+    download() {
+      console.log("Download was triggerd from textinput in classic.vue");
+    },
+
     createCanvas() {
       //Canvas Größe
       let ratioW;
@@ -127,13 +147,15 @@ export default {
       let subheadlineSize;
       let copyTextSize;
       let moreInfoSize;
-
-      let offsetSub;
-      let UserOffsetSub;
-
       //Headline länge
 
       let headlineCharBeforeBreak = 0;
+      let subHeadlineCharBeforeBreak = 0;
+
+      let offsetSub;
+      let UserOffsetSub;
+      let offsetCopy;
+      let UserOffsetCopy;
 
       //Farben
       let rwLila;
@@ -243,7 +265,8 @@ export default {
           p.translate(0, imageHeight);
           p.rect(0, 0, p.width, p.height - imageHeight);
           p.pop();
-
+          
+          
           //Typografie
 
           headlineSize = unit;
@@ -260,7 +283,6 @@ export default {
           p.textFont(fontMedium);
 
           //Offset für Subheadline nach User Zeilen Umbruch gesetzt
-          
           UserOffsetSub = this.headlineLines.length * (headlineSize * 1.1);
           if(this.headlineLines.length == 0) {
             UserOffsetSub = headlineSize *1.1;
@@ -269,11 +291,10 @@ export default {
           for (let i = 0; i < this.headlineLines.length - 1; i++) {
             headlineCharBeforeBreak += this.headlineLines[i];
           }
-
+          
           let lastLineAfterBreak = this.headline.length - headlineCharBeforeBreak - (this.headlineLines.length - 1);
-
-          //Falls kein User Zeilenumbruch stattfindet wird hier nochmal offset gesetzt
-
+          
+                //Falls kein User Zeilenumbruch stattfindet wird hier nochmal offset gesetzt
           if (lastLineAfterBreak > 29 && lastLineAfterBreak < 55) {
             offsetSub = headlineSize * 1.1;
           } else if (lastLineAfterBreak >= 55) {
@@ -281,17 +302,35 @@ export default {
           }
 
           let totalOffsetSub = UserOffsetSub + offsetSub + subheadlineSize * 1.2;
-
+          
           //Subheadline
           p.translate(0, totalOffsetSub);
 
           renderSubheadline();
-
           //Offset Copy Text
-          let offsetCopy = offsetSub + 2 * subheadlineSize + copyTextSize;
+          UserOffsetCopy = this.subHeadlineLines.length * (subheadlineSize * 1.2);
+          if(this.subHeadlineLines.length == 0) {
+            UserOffsetCopy = subheadlineSize * 1.2;
+          }
+          offsetCopy = 0;
+          for (let i = 0; i < this.headlineLines.length - 1; i++) {
+            subHeadlineCharBeforeBreak += this.subHeadlineLines[i];
+          }
 
+          let lastLineAfterBreakSub = this.subheadline.length - subHeadlineCharBeforeBreak - (this.subHeadlineLines.length - 1);
+         
+                //Falls kein User Zeilenumbruch stattfindet wird hier nochmal offset gesetzt
+          if (lastLineAfterBreakSub > 40 && lastLineAfterBreakSub < 55) {
+           
+            offsetCopy = subheadlineSize * 1.2;
+          } else if (lastLineAfterBreakSub >= 55) {
+            offsetCopy = (2 * (subheadlineSize * 1.2));
+           
+          }
+
+          let totalOffsetCopy = UserOffsetCopy + offsetCopy + subheadlineSize * 1.2;
           //Copy Text
-          p.translate(0, offsetCopy);
+          p.translate(0, totalOffsetCopy);
           renderCopyText();
 
           p.pop();
@@ -416,7 +455,6 @@ export default {
       }
       if (this.canvas) {
         this.canvas.remove();
-        console.log('classic destroyed');
       }
     },
 

@@ -55,6 +55,9 @@ export default {
   watch: {
     headline(newValue) {
       this.updateHeadlineLines(newValue);
+    },
+    subheadline(newValue) {
+      this.updateSubHeadlineLines(newValue);
     }
   },
 
@@ -64,7 +67,7 @@ export default {
 
   methods: {
     ...mapMutations(['setHeadline', 'setSubheadline', 'setCopyText', 'setUrlQR', 'incrementRefreshing', 'incrementRefreshQR']),
-    ...mapActions(['updateHeadlineLines']),
+    ...mapActions(['updateHeadlineLines', 'updateSubHeadlineLines']),
 
     updateHeadline(newHeadline){
       this.setHeadline(newHeadline);
@@ -77,7 +80,7 @@ export default {
     },
     updateUrlQR(newUrlQR){
       this.setUrlQR(newUrlQR);
-    }
+    },
   },
 
   created() {

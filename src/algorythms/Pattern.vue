@@ -47,6 +47,9 @@ export default {
         'isCircle',
         'isRectangle',
         'isTriangle',
+        'headlineLines', 
+        'subHeadlineLines', 
+        'patternSeed',
       ])
   },
 
@@ -109,7 +112,27 @@ export default {
     focus() {
       this.removeCanvas();
       this.createCanvas();
-    }
+    },
+    patternFilled(){
+      this.removeCanvas();
+      this.createCanvas();
+    },
+    isRectangle(){
+      this.removeCanvas();
+      this.createCanvas();
+    },
+    isTriangle(){
+      this.removeCanvas();
+      this.createCanvas();
+    },
+    isCircle(){
+      this.removeCanvas();
+      this.createCanvas();
+    },
+    patternSeed(){
+      this.removeCanvas();
+      this.createCanvas();
+    },
   },
 
   methods: {
@@ -146,6 +169,15 @@ export default {
       let subheadlineSize;
       let copyTextSize;
       let moreInfoSize;
+      //Headline länge
+
+      let headlineCharBeforeBreak = 0;
+      let subHeadlineCharBeforeBreak = 0;
+
+      let offsetSub;
+      let UserOffsetSub;
+      let offsetCopy;
+      let UserOffsetCopy;
 
       //Farben
       let rwLila;
@@ -154,26 +186,20 @@ export default {
       let rwCyanLight;
 
       //Layout Grid
-      let horizontalMargin;
-      let verticalMargin;
-      let gridHorizontal = 12;
-      let gridVertical;
+      
+      let unitsHorizontal = 12;
+      let unitsVertical;
       let gridWidth;
       let gridHeight;
 
-      //Base Unit
+      //Base Unit & Shape größe
       let unit
 
       //QR Code
       let imageQR;
 
-      //Bild Bearbeitung
+     
 
-      let sumLuminos = 0;
-      let numPixels = 0;
-      let avgLuminos = 0;
-      let numDark = 0;
-      let perDark = 0;
 
 
       this.p = new p5((p) => {
@@ -199,6 +225,7 @@ export default {
           //Canvas Size is Calculated
           ratioW = this.canvasWidth / this.canvasHeight;
           ratioH = this.canvasHeight / this.canvasWidth;
+
           maxHeight = visualViewport.height - 120;
           maxWidth = visualViewport.width - ((visualViewport.width * 0.45) + 190);
 
@@ -220,22 +247,67 @@ export default {
           p.background(rwLila);
 
           //Layout Grid Setup
-          gridVertical = parseInt(gridHorizontal*ratioH) + 1;
+          unitsVertical = parseInt(unitsHorizontal*ratioH);
 
           unit = p.width / 14;
 
-          gridWidth = gridHorizontal * unit;
-          gridHeight = gridVertical * unit;
-
-          horizontalMargin = (p.width - gridWidth) / 2;
-          verticalMargin = (p.height - gridHeight) / 2;
+          gridWidth = unitsHorizontal * unit;
+          gridHeight = unitsVertical * unit;
 
           p.push();
-          p.translate(horizontalMargin, verticalMargin);
-
-
-
+          p.translate(unit, unit);
+          
           // Pattern Code here
+          p.randomSeed(this.patternSeed);
+          for (let y = 0; y < unitsVertical; y++) {
+            for (let x = 0; x < unitsHorizontal; x++) {
+              p.push();
+              if (this.patternFilled) {
+                p.fill(rwLilaDark);
+                p.noStroke();
+              } else {
+                p.noFill();
+                p.stroke(rwLilaDark);
+                p.strokeWeight(unit / 10);
+              }
+              p.translate(x * unit, y * unit);
+              p.strokeJoin(p.ROUND);
+
+              let orientation = p.int(p.random(0, 4));
+              let shapeType = 0;
+              if (this.isCircle && !this.isRectangle && !this.isTriangle) {
+                createQuarterCircle(unit, orientation);
+              } else if (!this.isCircle && this.isRectangle && !this.isTriangle) {
+                p.rect(0, 0, unit, unit);
+              } else if (!this.isCircle && !this.isRectangle && this.isTriangle) {
+                createTriangle(unit, orientation);
+              } else if (this.isCircle && this.isRectangle && !this.isTriangle) {
+                shapeType = p.int(p.random(0, 2));
+                if (shapeType === 0)
+                  createQuarterCircle(unit, orientation);
+                else p.rect(0, 0, unit, unit);
+              } else if (this.isCircle && !this.isRectangle && this.isTriangle) {
+                shapeType = p.int(p.random(0, 2));
+                if (shapeType === 0)
+                  createQuarterCircle(unit, orientation);
+                else createTriangle(unit, orientation);
+              } else if (!this.isCircle && this.isRectangle && this.isTriangle) {
+                shapeType = p.int(p.random(0, 2));
+                if (shapeType === 0) createTriangle(unit, orientation);
+                else p.rect(0, 0, unit, unit);
+              } else if (this.isCircle && this.isRectangle && this.isTriangle) {
+                shapeType = p.int(p.random(0, 3));
+                if (shapeType === 0)
+                  createQuarterCircle(unit, orientation);
+                else if (shapeType === 1)
+                  createTriangle(unit, orientation);
+                else p.rect(0, 0, unit, unit);
+              }
+
+              p.pop();
+            }
+          }
+
           p.pop();
 
 
@@ -244,52 +316,69 @@ export default {
           headlineSize = unit;
           subheadlineSize = unit * 0.75;
           copyTextSize = unit * 0.5;
-          p.push();
-          p.translate(horizontalMargin, verticalMargin*3);
-          //Headline
-          p.textFont(fontBold);
-          p.fill(rwCyanLight);
-          p.textSize(headlineSize);
-          p.textAlign(p.LEFT, p.TOP);
-          p.textLeading(headlineSize * 1.1);
-          p.text(
-            this.headline,
-            0,
-            0,
-            gridWidth);
 
-          //Subheadline  ----OFFSET MUSS NOCH GENAUER GESETZT WERDEN
+          p.textAlign(p.LEFT, p.TOP);
+          p.push();
+          p.translate(unit, 2*unit);
+          //Headline
+          renderHeadline();
+
+          //Subheadline OFFSET
           p.textFont(fontMedium);
-          p.fill(255);
-          let offsetSub = headlineSize + subheadlineSize;;
-          if (this.headline.length >= 25 && this.headline.length < 50) {
-            offsetSub = 2 * headlineSize + subheadlineSize;
-          } else if (this.headline.length >= 50 && this.headline.length < 70) {
-            offsetSub = 3 * headlineSize + subheadlineSize;
-          } else if (this.headline.length >= 70) {
-            offsetSub = 4 * headlineSize + subheadlineSize;
+
+          //Offset für Subheadline nach User Zeilen Umbruch gesetzt
+          UserOffsetSub = this.headlineLines.length * (headlineSize * 1.1);
+          if(this.headlineLines.length == 0) {
+            UserOffsetSub = headlineSize *1.1;
           }
-          p.textSize(subheadlineSize);
-          p.textLeading(subheadlineSize * 1.2);
-          p.text(
-            this.subheadline,
-            0,
-            offsetSub,
-            gridWidth
-          );
+          offsetSub = 0;
+          for (let i = 0; i < this.headlineLines.length - 1; i++) {
+            headlineCharBeforeBreak += this.headlineLines[i];
+          }
+          
+          let lastLineAfterBreak = this.headline.length - headlineCharBeforeBreak - (this.headlineLines.length - 1);
+  
+                //Falls kein User Zeilenumbruch stattfindet wird hier nochmal offset gesetzt
+          if (lastLineAfterBreak > 29 && lastLineAfterBreak < 55) {
+            offsetSub = headlineSize * 1.1;
+          } else if (lastLineAfterBreak >= 55) {
+            offsetSub = (2 * (headlineSize * 1.1));
+          }
+
+          let totalOffsetSub = UserOffsetSub + offsetSub + subheadlineSize * 1.2;
+          
+          //Subheadline
+          p.translate(0, totalOffsetSub);
+
+          renderSubheadline();
+          //Offset Copy Text
+          UserOffsetCopy = this.subHeadlineLines.length * (subheadlineSize * 1.2);
+          if(this.subHeadlineLines.length == 0) {
+            UserOffsetCopy = subheadlineSize * 1.2;
+          }
+          offsetCopy = 0;
+          for (let i = 0; i < this.headlineLines.length - 1; i++) {
+            subHeadlineCharBeforeBreak += this.subHeadlineLines[i];
+          }
+
+          let lastLineAfterBreakSub = this.subheadline.length - subHeadlineCharBeforeBreak - (this.subHeadlineLines.length - 1);
+        
+                //Falls kein User Zeilenumbruch stattfindet wird hier nochmal offset gesetzt
+          if (lastLineAfterBreakSub > 40 && lastLineAfterBreakSub < 55) {
+           
+            offsetCopy = subheadlineSize * 1.2;
+          } else if (lastLineAfterBreakSub >= 55) {
+            offsetCopy = (2 * (subheadlineSize * 1.2));
+           
+          }
+
+          let totalOffsetCopy = UserOffsetCopy + offsetCopy + subheadlineSize * 1.2;
           //Copy Text
-          let offsetCopy = offsetSub + 2*subheadlineSize + copyTextSize;
-          p.textSize(copyTextSize);
-          p.fill(255);
-          p.textLeading(copyTextSize * 1.4);
-          p.text(
-            this.copyText,
-            0,
-            offsetCopy,
-            gridWidth,
-          )
+          p.translate(0, totalOffsetCopy);
+          renderCopyText();
 
           p.pop();
+
 
           //Logo und QR Code nur in Print Produkten A4 A5, nicht in digital Formaten
           if (this.isPrint) {
@@ -298,7 +387,7 @@ export default {
           scaleFactor = unit / logo.height;
           let logoHeight = logo.height * scaleFactor;
           let logoWidth = logo.width * scaleFactor;
-          p.translate(horizontalMargin, verticalMargin + gridHeight - unit);
+          p.translate(unit, p.height - unit - logoHeight);
           p.image(logo, 0, 0, logoWidth, logoHeight);
 
           //QR Code
@@ -326,7 +415,75 @@ export default {
 
         };//setup()
 
+        const renderHeadline = () => {
+          p.textFont(fontBold);
+          p.fill(255);
+          p.textSize(headlineSize);
+          p.textLeading(headlineSize * 1.1);
+          p.text(
+            this.headline,
+            0,
+            0,
+            gridWidth
+          );
+        };
 
+        const renderSubheadline = () => {
+          p.textSize(subheadlineSize);
+          p.textLeading(subheadlineSize * 1.2);
+          p.text(
+            this.subheadline,
+            0,
+            0,
+            gridWidth
+          );
+        };
+
+        const renderCopyText = () => {
+          p.textSize(copyTextSize);
+          p.textLeading(copyTextSize * 1.4);
+          p.text(
+            this.copyText,
+            0,
+            0,
+            gridWidth,
+          )
+        };
+
+        function createQuarterCircle(size, orientation) {
+          switch (orientation) {
+            case 0:
+              p.arc(0, size, size * 2, size * 2, p.PI + p.HALF_PI, 0, p.PIE); //1
+              break;
+            case 1:
+              p.arc(0, 0, size * 2, size * 2, 0, p.HALF_PI, p.PIE); //2
+              break;
+            case 2:
+              p.arc(size, 0, size * 2, size * 2, p.HALF_PI, p.PI, p.PIE); //3
+              break;
+            case 3:
+              // eslint-disable-next-line prettier/prettier
+              p.arc(size, size, size * 2, size * 2, p.PI, p.PI + p.HALF_PI, p.PIE); //4
+              break;
+          }
+        }
+
+        function createTriangle(size, orientation) {
+          switch (orientation) {
+            case 0:
+              p.triangle(0, 0, 0, size, size, size); //1
+              break;
+            case 1:
+              p.triangle(size, 0, 0, size, 0, 0); //2
+              break;
+            case 2:
+              p.triangle(0, 0, size, 0, size, size); //3
+              break;
+            case 3:
+              p.triangle(0, size, size, 0, size, size); //4
+              break;
+          }
+        }
 
       })//END P5 js
     },//END createCanvas()
@@ -377,7 +534,6 @@ export default {
       }
       if (this.canvas) {
         this.canvas.remove();
-        console.log('pattern destroyed');
       }
     },
 

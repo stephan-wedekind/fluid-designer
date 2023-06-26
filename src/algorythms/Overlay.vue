@@ -30,7 +30,23 @@ export default {
   },
 
   computed: {
-    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'refreshing', 'refreshQR', 'qrCodeImage', 'isPrint', 'focus'])
+    ...mapState(
+      [
+        'headline', 
+        'subheadline', 
+        'copyText', 
+        'urlQR', 
+        'canvasWidth', 
+        'canvasHeight', 
+        'imagePath', 
+        'refreshing', 
+        'refreshQR', 
+        'qrCodeImage', 
+        'isPrint', 
+        'focus', 
+        'headlineLines', 
+        'subHeadlineLines', 
+      ])
   },
 
   watch: {
@@ -123,12 +139,21 @@ export default {
       let fontMedium;
       let fontRegular;
 
-      //Font Sizing
+     //Font Sizing
 
-      let headlineSize;
+     let headlineSize;
       let subheadlineSize;
       let copyTextSize;
       let moreInfoSize;
+      //Headline länge
+
+      let headlineCharBeforeBreak = 0;
+      let subHeadlineCharBeforeBreak = 0;
+
+      let offsetSub;
+      let UserOffsetSub;
+      let offsetCopy;
+      let UserOffsetCopy;
 
       //Farben
       let rwLila;
@@ -229,11 +254,15 @@ export default {
           }
           
           if (ratioImg < ratioW) {
-            offsetY = (p.height - imageHeight) / 2
-            offsetX =  (p.width/2) - imageWidth * this.focus;
+            offsetY = (viewHeight - imageHeight) / 2
+            
+            offsetX =  (viewWidth/2) - imageWidth * this.focus;
+            console.log("Case 1: ");
+    
           } else {
-            offsetX = (p.width - imageWidth) / 2;
-            offsetY = (p.height/2) - imageHeight * this.focus;
+            offsetX = (viewWidth - imageWidth) / 2;
+            offsetY = (viewHeight/2) - imageHeight * this.focus;
+            console.log("Case 1")
           }
 
           p.image(
@@ -314,50 +343,66 @@ export default {
           headlineSize = unit;
           subheadlineSize = unit * 0.75;
           copyTextSize = unit * 0.5;
-          p.push();
-          p.translate(horizontalMargin, verticalMargin*3);
-          //Headline
-          p.textFont(fontBold);
-          p.fill(rwCyanLight);
-          p.textSize(headlineSize);
-          p.textAlign(p.LEFT, p.TOP);
-          p.textLeading(headlineSize * 1.1);
-          p.text(
-            this.headline,
-            0,
-            0,
-            gridWidth);
 
-          //Subheadline  ----OFFSET MUSS NOCH GENAUER GESETZT WERDEN
+          p.textAlign(p.LEFT, p.TOP);
+          p.push();
+          p.translate(unit, 2*unit);
+          //Headline
+          renderHeadline();
+
+          //Subheadline OFFSET
           p.textFont(fontMedium);
-          p.fill(255);
-          let offsetSub = headlineSize + subheadlineSize;;
-          if (this.headline.length >= 25 && this.headline.length < 50) {
-            offsetSub = 2 * headlineSize + subheadlineSize;
-          } else if (this.headline.length >= 50 && this.headline.length < 70) {
-            offsetSub = 3 * headlineSize + subheadlineSize;
-          } else if (this.headline.length >= 70) {
-            offsetSub = 4 * headlineSize + subheadlineSize;
+
+          //Offset für Subheadline nach User Zeilen Umbruch gesetzt
+          UserOffsetSub = this.headlineLines.length * (headlineSize * 1.1);
+          if(this.headlineLines.length == 0) {
+            UserOffsetSub = headlineSize *1.1;
           }
-          p.textSize(subheadlineSize);
-          p.textLeading(subheadlineSize * 1.2);
-          p.text(
-            this.subheadline,
-            0,
-            offsetSub,
-            gridWidth
-          );
+          offsetSub = 0;
+          for (let i = 0; i < this.headlineLines.length - 1; i++) {
+            headlineCharBeforeBreak += this.headlineLines[i];
+          }
+          
+          let lastLineAfterBreak = this.headline.length - headlineCharBeforeBreak - (this.headlineLines.length - 1);
+          
+                //Falls kein User Zeilenumbruch stattfindet wird hier nochmal offset gesetzt
+          if (lastLineAfterBreak > 29 && lastLineAfterBreak < 55) {
+            offsetSub = headlineSize * 1.1;
+          } else if (lastLineAfterBreak >= 55) {
+            offsetSub = (2 * (headlineSize * 1.1));
+          }
+
+          let totalOffsetSub = UserOffsetSub + offsetSub + subheadlineSize * 1.2;
+          
+          //Subheadline
+          p.translate(0, totalOffsetSub);
+
+          renderSubheadline();
+          //Offset Copy Text
+          UserOffsetCopy = this.subHeadlineLines.length * (subheadlineSize * 1.2);
+          if(this.subHeadlineLines.length == 0) {
+            UserOffsetCopy = subheadlineSize * 1.2;
+          }
+          offsetCopy = 0;
+          for (let i = 0; i < this.headlineLines.length - 1; i++) {
+            subHeadlineCharBeforeBreak += this.subHeadlineLines[i];
+          }
+
+          let lastLineAfterBreakSub = this.subheadline.length - subHeadlineCharBeforeBreak - (this.subHeadlineLines.length - 1);
+         
+                //Falls kein User Zeilenumbruch stattfindet wird hier nochmal offset gesetzt
+          if (lastLineAfterBreakSub > 40 && lastLineAfterBreakSub < 55) {
+           
+            offsetCopy = subheadlineSize * 1.2;
+          } else if (lastLineAfterBreakSub >= 55) {
+            offsetCopy = (2 * (subheadlineSize * 1.2));
+           
+          }
+
+          let totalOffsetCopy = UserOffsetCopy + offsetCopy + subheadlineSize * 1.2;
           //Copy Text
-          let offsetCopy = offsetSub + 2*subheadlineSize + copyTextSize;
-          p.textSize(copyTextSize);
-          p.fill(255);
-          p.textLeading(copyTextSize * 1.4);
-          p.text(
-            this.copyText,
-            0,
-            offsetCopy,
-            gridWidth,
-          )
+          p.translate(0, totalOffsetCopy);
+          renderCopyText();
 
           p.pop();
 
@@ -396,7 +441,40 @@ export default {
 
         };//setup()
 
+        const renderHeadline = () => {
+          p.textFont(fontBold);
+          p.fill(255);
+          p.textSize(headlineSize);
+          p.textLeading(headlineSize * 1.1);
+          p.text(
+            this.headline,
+            0,
+            0,
+            gridWidth
+          );
+        };
 
+        const renderSubheadline = () => {
+          p.textSize(subheadlineSize);
+          p.textLeading(subheadlineSize * 1.2);
+          p.text(
+            this.subheadline,
+            0,
+            0,
+            gridWidth
+          );
+        };
+
+        const renderCopyText = () => {
+          p.textSize(copyTextSize);
+          p.textLeading(copyTextSize * 1.4);
+          p.text(
+            this.copyText,
+            0,
+            0,
+            gridWidth,
+          )
+        };
 
       })//END P5 js
     },//END createCanvas()
@@ -447,7 +525,6 @@ export default {
       }
       if (this.canvas) {
         this.canvas.remove();
-        console.log('pattern destroyed');
       }
     },
 
