@@ -58,6 +58,28 @@ export default {
       }
     },
 
+    subheadline(newValue) {
+      clearTimeout(this.typingTimer);
+
+      if (newValue) {
+        this.typingTimer = setTimeout(() => {
+          this.removeCanvas();
+          this.createCanvas();
+        }, this.doneTypingInterval);
+      }
+    },
+
+    copyText(newValue) {
+      clearTimeout(this.typingTimer);
+
+      if (newValue) {
+        this.typingTimer = setTimeout(() => {
+          this.removeCanvas();
+          this.createCanvas();
+        }, this.doneTypingInterval);
+      }
+    },
+
     refreshing() {
       this.removeCanvas();
       this.createCanvas();
@@ -189,8 +211,48 @@ export default {
             scaleFactor = imageHeight / chosenImage.height;
           }
 
-          offsetX = (imageWidth - chosenImage.width * scaleFactor) / 2;
-          offsetY = (imageHeight - chosenImage.height * scaleFactor) / 2;
+          let focusPoint = "middle";
+          switch(focusPoint) {
+            case "top left":
+              offsetX = 0;
+              offsetY = 0;
+            case "left":
+              offsetX = 0;
+              offsetY = (imageHeight - chosenImage.height * scaleFactor) / 2;
+              break;
+            case "bottom left":
+              offsetX = 0;
+              offsetY = (imageHeight - chosenImage.height * scaleFactor);
+              break;
+            case "top": 
+              offsetX = offsetX = (imageWidth - chosenImage.width * scaleFactor) / 2;
+              offsetY = 0;
+              break;
+            case "middle":
+              offsetX = (imageWidth - chosenImage.width * scaleFactor) / 2;
+              offsetY = (imageHeight - chosenImage.height * scaleFactor) / 2;
+              break;
+            case "bottom":
+              offsetX = offsetX = (imageWidth - chosenImage.width * scaleFactor) / 2;
+              offsetY = (imageHeight - chosenImage.height * scaleFactor);
+              break;
+            case "top right":
+              offsetX = (imageWidth - chosenImage.width * scaleFactor);
+              offsetY = 0;
+              break;
+            case "right":
+              offsetX = (imageWidth - chosenImage.width * scaleFactor);
+              offsetY = (imageHeight - chosenImage.height * scaleFactor) / 2;
+              break;
+            case "bottom right":
+              offsetX = (imageWidth - chosenImage.width * scaleFactor);
+              offsetY = (imageHeight - chosenImage.height * scaleFactor);
+              break;
+            default: 
+              offsetX = (imageWidth - chosenImage.width * scaleFactor) / 2;
+              offsetY = (imageHeight - chosenImage.height * scaleFactor) / 2;
+              break;
+          }
 
           p.image(
             chosenImage,
@@ -219,17 +281,9 @@ export default {
           p.push();
           p.translate(horizontalMargin, imageHeight + horizontalMargin);
           //Headline
-          p.textFont(fontBold);
-          p.fill(255);
-          p.textSize(headlineSize);
-          p.textLeading(headlineSize * 1.1);
-          p.text(
-            this.headline,
-            0,
-            0,
-            gridWidth);
+          renderHeadline();
 
-          //Subheadline  ----OFFSET MUSS NOCH GENAUER GESETZT WERDEN
+          //Subheadline OFFSET
           p.textFont(fontMedium);
 
           //Offset für Subheadline nach User Zeilen Umbruch gesetzt
@@ -254,27 +308,18 @@ export default {
           }
 
           let totalOffsetSub = UserOffsetSub + offsetSub + subheadlineSize * 1.2;
-          console.log(totalOffsetSub);
+
+          //Subheadline
           p.translate(0, totalOffsetSub);
-          p.textSize(subheadlineSize);
-          p.textLeading(subheadlineSize * 1.2);
-          p.text(
-            this.subheadline,
-            0,
-            0,
-            gridWidth
-          );
+
+          renderSubheadline();
+
+          //Offset Copy Text
+          let offsetCopy = offsetSub + 2 * subheadlineSize + copyTextSize;
 
           //Copy Text
-          let offsetCopy = offsetSub + 2 * subheadlineSize + copyTextSize;
-          p.textSize(copyTextSize);
-          p.textLeading(copyTextSize * 1.4);
-          p.text(
-            this.copyText,
-            0,
-            offsetCopy,
-            gridWidth,
-          )
+          p.translate(0, offsetCopy);
+          renderCopyText();
 
           p.pop();
 
@@ -314,9 +359,42 @@ export default {
 
         };//setup()
 
+        const renderHeadline = () => {
+          p.textFont(fontBold);
+          p.fill(255);
+          p.textSize(headlineSize);
+          p.textLeading(headlineSize * 1.1);
+          p.text(
+            this.headline,
+            0,
+            0,
+            gridWidth
+          );
+        };
 
+        const renderSubheadline = () => {
+          p.textSize(subheadlineSize);
+          p.textLeading(subheadlineSize * 1.2);
+          p.text(
+            this.subheadline,
+            0,
+            0,
+            gridWidth
+          );
+        };
 
-      })//END P5 js
+        const renderCopyText = () => {
+          p.textSize(copyTextSize);
+          p.textLeading(copyTextSize * 1.4);
+          p.text(
+            this.copyText,
+            0,
+            0,
+            gridWidth,
+          )
+        };
+
+      },)//END P5 js
     },//END createCanvas()
 
     generateQRCode() {

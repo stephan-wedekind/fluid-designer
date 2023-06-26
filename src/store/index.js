@@ -34,35 +34,39 @@ const initialState = {
 
   isCircle: true,
   isRectangle: true,
-  isTriangle: true,
+  isTriangle: true ,
 
   //Canvas Size
   canvasWidth: 0,
   canvasHeight: 0,
 
   //Ausgewähltes Bild 
-  activeImage: null,
-  imagePath: "Platzhalter/default/default-image.png",
+  activeImage: null, // gewähltes bild
+  imagePath: "Platzhalter/default/default-image.png",  //pfad zum gewählten bild
 
   //Text Inputs
 
-  headline: "",
-  subheadline: "",
-  copyText: "",
-  urlQR: "",
+  headline: "", //eingegebene headline
+  subheadline: "", //eingegebene subheadline
+  copyText: "", //eingegebener Text
+  urlQR: "", //eingegeben URL für QR code
 
   //Umbruch Text
 
-  headlineLines: [],
-  subHeadlineLines: [],
-  
+  headlineLines: [], //Zeilenanzahl bei Zeilenumbruch durch User
+  subHeadlineLines: [], //-"-
   //QR Code
-  qrCodeImage: "",
+  qrCodeImage: "", //QR Code
 
   //refreshing Text
 
-  refreshing : 0,
-  refreshQR: 0,
+  refreshing : 0, //wenn die zahl sich änder wird der canvas erneuert
+  refreshQR: 0, //-"-
+
+  //Fokus Punkt wählen
+
+  chooseFocus: false, //overlay für fokus wahl
+  focus: 0.5, 
 };
 
 export default createStore({
@@ -217,6 +221,16 @@ export default createStore({
     incrementRefreshQR(state){
       state.refreshQR += 1;
     },
+
+    //Fokus Punkt
+    setChooseFocus(state, value) {
+      state.chooseFocus = value;
+    },
+
+    setFocus(state, number) {
+      state.focusPoint = number;
+      console.log("setFocus: " + number)
+    }
   },
 
 
@@ -350,12 +364,10 @@ export default createStore({
     //Zeilenumbrüche
     updateHeadlineLines({ commit }, text) {
       const lines = text.split(/\r?\n/).map(line => line.length);
-      console.log(lines)
       commit('SET_HEADLINE_LINES', lines);
     },
     updateSubHeadlineLines({ commit }, text) {
       const lines = text.split(/\r?\n/).map(line => line.length);
-      console.log(2)
       commit('SET_SUBHEADLINE_LINES', lines);
     },
   },

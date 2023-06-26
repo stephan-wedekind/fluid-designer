@@ -189,14 +189,59 @@ export default {
             scaleFactor = p.width / chosenImage.width;
             imageWidth = p.width;
             imageHeight = chosenImage.height * scaleFactor;
+            console.log(1)
           } else {
             scaleFactor = p.height / chosenImage.height;
             imageHeight = p.height;
             imageWidth = chosenImage.width * scaleFactor;
+            console.log(2)
           }
           
-          offsetX = (p.width - chosenImage.width * scaleFactor) / 2;
-          offsetY = (p.height - chosenImage.height * scaleFactor) / 2;
+          
+        
+          let focusPoint = "";
+          switch (focusPoint) {
+            case "top left":
+              offsetX = 0;
+              offsetY = 0;
+              break;
+            case "left":
+              offsetX = 0;
+              offsetY = (p.height - imageHeight) / 2;
+              break;
+            case "bottom left":
+              offsetX = 0;
+              offsetY = p.height - imageHeight;
+              break;
+            case "top":
+              offsetX = (p.width - imageWidth) / 2;
+              offsetY = 0;
+              break;
+            case "middle":
+              offsetX = (p.width - imageWidth) / 2;
+              offsetY = (p.height - imageHeight) / 2;
+              break;
+            case "bottom":
+              offsetX = (p.width - imageWidth) / 2;
+              offsetY = p.height - imageHeight;
+              break;
+            case "top right":
+              offsetX = p.width - imageWidth;
+              offsetY = 0;
+              break;
+            case "right":
+              offsetX = p.width - imageWidth;
+              offsetY = (p.height - imageHeight) / 2;
+              break;
+            case "bottom right":
+              offsetX = p.width - imageWidth;
+              offsetY = p.height - imageHeight;
+              break;
+            default:
+              offsetX = (p.width - imageWidth) / 2;
+              offsetY = (p.height - imageHeight) / 2;
+              break;
+          }
 
           p.image(
             chosenImage,

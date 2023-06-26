@@ -1,10 +1,11 @@
 <template>
+   <FocusPoint v-if="chooseFocus"  class="focus"/>
   <div class="fix padding-60">
 
     <input type="search" name="searchfield" id="searching-images" placeholder="Suche" v-model="searchInput"
       @keyup.enter="setSearchedTag()" :class="{'filled': this.searchInput.length > 0}">
     <div class="buttons">
-      <Btn buttonType="Secondary" buttonName="Fokus wählen" buttonIcons="Vorschau.png" class="btn-fokus" />
+      <Btn buttonType="Secondary" buttonName="Fokus wählen" buttonIcons="Vorschau.png" class="btn-fokus" @click="setChooseFocus(true)"/>
       <Btn buttonType="Primary" buttonName="Alle Bilder" buttonIcons="Bild.png" class="btn-fokus" @click="showAllImages"/>
     </div>
   </div>
@@ -15,17 +16,20 @@
       </div>
     </div>
   </div>
+ 
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex';
 import Btn from "@/components/Button.vue";
+import FocusPoint from "@/components/FocusPoint.vue";
 
 export default {
   name: 'BildChoice',
 
   components: {
     Btn,
+    FocusPoint,
   },
 
   data() {
@@ -54,6 +58,8 @@ export default {
         { id: 21, name: "image21", path: "bild-server-ersatz/NZ-Labor-1.jpg", tag: ["labor"], humans: false },
         { id: 22, name: "image22", path: "bild-server-ersatz/Pflege--(5).jpg", tag: ["pflege"], humans: false },
         { id: 23, name: "image23", path: "bild-server-ersatz/Wirtschaftsingenieurwesen-(4).jpg", tag: ["Wirtschaftsingenieurwesen"], humans: false },
+        { id: 24, name: "image24", path: "bild-server-ersatz/offset.jpg", tag: ["Wirtschaftsingenieurwesen"], humans: false },
+        { id: 25, name: "image24", path: "bild-server-ersatz/pexels-oladimeji-ajegbile-2861798.jpg", tag: ["Wirtschaftsingenieurwesen"], humans: false },
       ],
       
       isSelected: true,
@@ -64,7 +70,7 @@ export default {
 
   methods: {
 
-    ...mapMutations(['setImagePath', 'setActiveImage']),
+    ...mapMutations(['setImagePath', 'setActiveImage', 'setChooseFocus']),
 
     setActive(Id) {
       this.setActiveImage(Id);
@@ -85,7 +91,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['imagePath', 'activeImage']),
+    ...mapState(['imagePath', 'activeImage', 'chooseFocus']),
 
     filteredImages() {
       if (!this.searchedTag) {
@@ -109,6 +115,12 @@ export default {
 </script>
 
 <style scoped>
+.focus {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+}
 .fix {
   width: 100%;
   position: sticky;
