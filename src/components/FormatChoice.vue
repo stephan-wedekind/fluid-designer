@@ -4,7 +4,9 @@
       <div class="format-head">
         <h1 class="fontLila">{{ formatHeader }}</h1>
         <Btn buttonType="Tertiary" buttonName="" buttonIcons="Menue-schliessen.png" class="btn-close"
-          @click="handleFormatChoice(!toFormatChoice)" />
+          @click="handleFormatChoice(!toFormatChoice)" v-if="!customFormatChoice"/>
+        <Btn buttonType="Tertiary" buttonName="" buttonIcons="Menue-schliessen.png" class="btn-close"
+          @click="handleCustomFormat" v-if="customFormatChoice"/>
       </div>
 
       <div v-if="!customFormatChoice" class="format-grid-container">
@@ -26,15 +28,18 @@
 
       <div class="customFormat" v-if="customFormatChoice">
          
-          <Btn buttonType="Secondary" buttonName="" buttonIcons="Zurueck.png" @click="this.customFormatChoice = false" />
+          
 
           <input type="number" v-model="customWidth" placeholder="Breite">
 
-          <img src="Icons/secondary/Menue-schliessen.png" alt="">
+          <img src="Icons/secondary/Menue-schliessen.png" alt="" :class="{ 'selected': isActiveFormat(5) }">
 
           <input type="number" v-model="customHeight" placeholder="Höhe">
 
-          <router-link to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: customWidth, h: customHeight, p: 'false' }), handleFormatChoice(!toFormatChoice)" :disabled="!inputIsMade">
+          <a v-if="!inputIsMade" class="format">
+            <Btn buttonType="Primary" buttonName="FluidDesigner" buttonIcons="Weiter.png" class="btn-submit" :disabled="!inputIsMade" />
+          </a>
+          <router-link v-if="inputIsMade" to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: customWidth, h: customHeight, p: 'false' }), handleFormatChoice(!toFormatChoice), setActiveFormat(5)" :disabled="!inputIsMade">
             <Btn buttonType="Primary" buttonName="FluidDesigner" buttonIcons="Weiter.png" class="btn-submit" :disabled="!inputIsMade" />
           </router-link>
 
@@ -62,7 +67,7 @@ export default {
         /* { name: 'Eigenes Format', size: { w: 0, h: 0 }, image: '/Platzhalter/Formate/Freies Format.png' }, */
 
       ],
-      formatHeader: 'Wähle ein Passendes format',
+      formatHeader: 'Wähle ein passendes Format',
       customFormatChoice: false,
       customWidth: null,
       customHeight: null,

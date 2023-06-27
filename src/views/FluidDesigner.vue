@@ -1,13 +1,14 @@
 <template>
+  <CloseWarning v-if="isCloseWarning" class="warning"/>
   <div class="gird-container">
 
     <!-- navigation -->
     <nav>
-      <router-link to="/" class="close" @click="resetStore()">
+      <div class="close" @click="setIsCloseWarning(!isCloseWarning)">
       
         <img src="Icons/primary/Menue-schliessen.png" class="iconSidebar" alt="">
       
-    </router-link>
+      </div>
       <ul>
         <li v-for="navigation in navigations" :key="navigation.id" :class="{ 'active': isActive(navigation.id) }" @click="setActive(navigation.id)">
           <img :src="getIconSrc(navigation.id)" :alt="navigation.label" class="iconSidebar" :id="navigation.id">
@@ -52,7 +53,8 @@ import WelcomeToFluid from '@/components/WelcomeToFluid.vue';
 import ClassicCanvas from '@/algorythms/Classic.vue';
 import OverlayCanvas from '@/algorythms/Overlay.vue';
 import PatternCanvas from '@/algorythms/Pattern.vue';
-import DefaultCanvas from '@/algorythms/DefaultCanvas.vue'
+import DefaultCanvas from '@/algorythms/DefaultCanvas.vue';
+import CloseWarning from '@/components/CloseWarning.vue'
 
 
 export default {
@@ -67,10 +69,11 @@ export default {
     ClassicCanvas,
     OverlayCanvas,
     PatternCanvas,
-    DefaultCanvas
+    DefaultCanvas,
+    CloseWarning
   },
   computed: {
-    ...mapState(['activeNavigation', 'navigations', 'styleClassic', 'styleOverlay', 'stylePattern', 'focus']),
+    ...mapState(['activeNavigation', 'navigations', 'styleClassic', 'styleOverlay', 'stylePattern', 'focus', 'isCloseWarning']),
   },
 
   watch: {
@@ -82,9 +85,9 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setActiveNavigation']),
+    ...mapMutations(['setActiveNavigation', 'setIsCloseWarning']),
 
-    ...mapActions(['resetStore']),
+    
 
     isActive(navigationId) {
       return this.activeNavigation === navigationId;
@@ -133,6 +136,9 @@ export default {
 </script>
 
 <style scoped>
+.close {
+  cursor: pointer;
+}
 .gird-container {
   display: grid;
   grid-template-columns: 70px 45vw auto;
@@ -230,6 +236,10 @@ li.active img path {
   filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.1));
 }
 
+.warning{
+z-index: 20; 
+}
+
 .loading{
 
   position: absolute;
@@ -240,6 +250,8 @@ li.active img path {
   height: calc(100vh - 120px);
   z-index: -1;
 }
+
+
 
 /* Loading Animation  from:
 https://uiverse.io/terenceodonoghue/rare-cow-16 */

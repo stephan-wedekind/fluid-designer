@@ -2,7 +2,7 @@
   <div class="overlay-container">
     <div class="foreground">
       <div class="focus-head">
-        <h1 class="fontLila">Wähle den passenden Bildauschnit</h1>
+        <h1 class="fontLila">Wähle den passenden Bildauschnitt</h1>
         <Btn buttonType="Tertiary" buttonName="" buttonIcons="Menue-schliessen.png" class="btn-close"
           @click="setChooseFocus(false)" />
       </div>

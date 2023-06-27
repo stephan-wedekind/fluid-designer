@@ -74,6 +74,11 @@ const initialState = {
 
   chooseFocus: false, //overlay für fokus wahl
   focus: 0.5, 
+
+
+  //Close Warning
+
+  isCloseWarning: false,
 };
 
 export default createStore({
@@ -120,6 +125,7 @@ export default createStore({
 
     setActiveFormat(state, number) {
       state.activeFormat = number;
+      console.log(number);
     },
 
     //Style Auswahl
@@ -259,6 +265,12 @@ export default createStore({
     },
     decreasePatternSeed(state){
       state.patternSeed -= 1;
+    },
+
+    //close Warning
+
+    setIsCloseWarning(state, value) {
+      state.isCloseWarning = value;
     },
   },
 
