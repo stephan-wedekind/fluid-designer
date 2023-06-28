@@ -20,7 +20,7 @@
         </div>
 
         <div class="format-grid" @click="handleCustomFormat" id="eigenes-format">
-          <img src="/Platzhalter/Formate/Freies Format.png" alt="">
+          <img src="/Platzhalter/Formate/Freies Format.png" alt="" :class="{ 'selected': isActiveFormat(5) }">
           <h3 class="fontLila">Eigenes Format</h3>
         </div>
 
@@ -32,7 +32,7 @@
 
           <input type="number" v-model="customWidth" placeholder="Breite">
 
-          <img src="Icons/secondary/Menue-schliessen.png" alt="" :class="{ 'selected': isActiveFormat(5) }">
+          <img src="Icons/secondary/Menue-schliessen.png" alt="" >
 
           <input type="number" v-model="customHeight" placeholder="Höhe">
 

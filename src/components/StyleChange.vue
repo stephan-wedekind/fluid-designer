@@ -2,7 +2,7 @@
   <div class="padding-60">
 
     <FormatChoice class="overlay" v-if="toFormatChoice"/>
-  <section class="stylePreview" id="style01"  @click="addBild(), changeStyle('style01'), setFocus(0.5)" v-if="this.classicPossible">
+  <section class="stylePreview" id="style01"  @click="addBild(), changeStyle('style01'), setFocus(0.5), setActive('bild')" v-if="this.classicPossible">
     <img src="Platzhalter/Stil/Stil-1.png" :class="{ 'selected': this.styleClassic }" alt="">
     <div class="styleDescription">
       <h1 class="fontLila">Klassisch</h1>
@@ -19,7 +19,7 @@
   </section>
   
 
-  <section class="stylePreview" id="style02" @click="addBild(), changeStyle('style02'), setFocus(0.5)">
+  <section class="stylePreview" id="style02" @click="addBild(), changeStyle('style02'), setFocus(0.5) ,setActive('bild')">
     <img src="Platzhalter/Stil/Stil-2.png" :class="{ 'selected': this.styleOverlay }" alt="">
     <div class="styleDescription">
       <h1 class="fontLila">Overlay</h1>
@@ -27,7 +27,7 @@
     </div>
   </section>
 
-  <section class="stylePreview" id="style03" @click="addPattern(), changeStyle('style03'), setFocus(0.5)">
+  <section class="stylePreview" id="style03" @click="addPattern(), changeStyle('style03'), setFocus(0.5), setActive('pattern')">
     <img src="Platzhalter/Stil/Stil-3.png" :class="{ 'selected': this.stylePattern }" alt="">
     <div class="styleDescription">
       <h1 class="fontLila">Pattern</h1>
@@ -57,7 +57,11 @@ export default {
   },
   methods: {
     ...mapActions(['addBild', 'addPattern', 'changeStyle', 'handleFormatChoice']),
-    ...mapMutations(['setFocus']),
+    ...mapMutations(['setFocus', 'setActiveNavigation']),
+
+    setActive(navigationId) {
+      this.setActiveNavigation(navigationId);
+    },
   },
 }
 </script>
