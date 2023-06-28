@@ -51,6 +51,7 @@
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
 import Btn from '@/components/Button.vue'
+import formatsData from "../assets/formats.json";
 
 export default {
   //updateCanvasSize({ w: 222, h: 333 })
@@ -58,15 +59,6 @@ export default {
 
   data() {
     return {
-      formats: [
-        { id: 1, name: 'DIN A4 Flyer', size: { w: 210, h: 297 }, image: '/Platzhalter/Formate/A4.png', print: true },
-        { id: 2, name: 'DIN A5 Flyer', size: { w: 148, h: 210 }, image: '/Platzhalter/Formate/A4.png', print:true },
-        { id: 3, name: '1x1 Social Media', size: { w: 1080, h: 1080 }, image: '/Platzhalter/Formate/1x1.png' , print: false},
-        { id: 4, name: '4x5 Social Media', size: { w: 1080, h: 1350 }, image: '/Platzhalter/Formate/4x5.png', print: false },
-        /* { name: '9x16 Social Media', size: { w: 1080, h: 1920 }, image: '/Platzhalter/Formate/9x16.png', print: false }, */
-        /* { name: 'Eigenes Format', size: { w: 0, h: 0 }, image: '/Platzhalter/Formate/Freies Format.png' }, */
-
-      ],
       formatHeader: 'Wähle ein passendes Format',
       customFormatChoice: false,
       customWidth: null,
@@ -78,12 +70,19 @@ export default {
     Btn,
   },
 
+
+
   computed: {
     ...mapState(['canvasWidth', 'canvasHeight', 'toFormatChoice', 'activeFormat']),
 
     inputIsMade() {
       return this.customWidth && this.customHeight;
+    },
+
+    formats() {
+      return formatsData;
     }
+
   },
 
   methods: {
@@ -96,7 +95,7 @@ export default {
 
     isActiveFormat(Id) {
       return this.activeFormat == Id;
-    }
+    },
   },
 }
 </script>
