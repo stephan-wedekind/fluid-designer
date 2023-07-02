@@ -3,12 +3,20 @@
     <div class="foreground">
       <div class="focus-head">
         <h1 class="fontLila">Wähle den passenden Bildauschnitt</h1>
-        <Btn buttonType="Tertiary" buttonName="" buttonIcons="Menue-schliessen.png" class="btn-close"
+        <Btn buttonType="Tertiary" buttonName="Auswahl bestätigen" buttonIcons="OK.png" class="btn-close"
           @click="setChooseFocus(false)" />
       </div>
       <!-- <img :src="imagePath" alt=""> -->
       <div class="canvas-container" >
-      <div ref="focusCanvas"></div>
+      <div ref="focusCanvas" class="canvas"></div>
+      <div class="loading">
+        <div class="loading-container">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -263,4 +271,16 @@ export default {
   width: 100%;
   height: auto;
 }
+
+.canvas {
+  z-index: 10;
+}
+.loading {
+  margin: auto;
+  width: 70vw;
+  height: 70vh;
+  z-index: 1;
+}
+
+
 </style>

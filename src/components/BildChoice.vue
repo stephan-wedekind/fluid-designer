@@ -1,12 +1,14 @@
 <template>
-   <FocusPoint v-if="chooseFocus"  class="focus"/>
+  <FocusPoint v-if="chooseFocus" class="focus" />
   <div class="fix padding-60">
 
     <input type="search" name="searchfield" id="searching-images" placeholder="Suche" v-model="searchInput"
-      @keyup.enter="setSearchedTag()" :class="{'filled': this.searchInput.length > 0}">
+      @keyup="searchWithDebounce" :class="{ 'filled': this.searchInput.length > 0 }">
     <div class="buttons">
-      <Btn buttonType="Secondary" buttonName="Bildauschnitt ändern" buttonIcons="Vorschau.png" class="btn-fokus" @click="setChooseFocus(true)"/>
-      <Btn buttonType="Primary" buttonName="Alle Bilder" buttonIcons="Bild.png" class="btn-fokus" @click="showAllImages"/>
+      <Btn buttonType="Secondary" buttonName="Bildauschnitt ändern" buttonIcons="Vorschau.png" class="btn-fokus"
+        @click="setChooseFocus(true)" />
+      <Btn buttonType="Primary" buttonName="Alle Bilder" buttonIcons="Bild.png" class="btn-fokus"
+        @click="showAllImages" />
     </div>
   </div>
   <div class="scroll padding-60">
@@ -16,11 +18,11 @@
       </div>
     </div>
   </div>
- 
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex';
+import { debounce } from 'lodash';
 import Btn from "@/components/Button.vue";
 import FocusPoint from "@/components/FocusPoint.vue";
 
@@ -36,9 +38,9 @@ export default {
     return {
       images: [
         { id: 1, name: "image1", path: "bild-server-ersatz/_MG_1398.jpg", tag: ["innen", "labor", "equipment", "chemie", "gesundheit", "wissenschaft", "gebäude", "raum"], humans: false },
-        { id: 2, name: "image2", path: "bild-server-ersatz/Angewandte-Gesundheitswissenschaft--(4).jpg", tag: ["angewandte", "gesundheitswissenschaft", "person",  "innen", "frau", "gruppenarbeit", "büro", "fenster", "sitzen", "computer", "lernen", "lerngruppe", "lerngruppen"], humans: false },
-        { id: 3, name: "image3", path: "bild-server-ersatz/Betriebswirtschaftslehre-und-Management-(4).jpg", tag: ["betriebswirtschaftslehre", "management", "person",  "innen", "frau", "mann", "gruppenarbeit", "büro", "fenster", "sitzen", "computer", "lernen", "lerngruppe", "lerngruppen"], humans: false },
-        { id: 4, name: "image4", path: "bild-server-ersatz/Electrical-Engineering-(3).jpg", tag: ["electrical", "engineering", "person",  "innen", "frau", "mann", "gruppenarbeit", "büro", "fenster", "sitzen", "computer", "lernen", "lerngruppe", "lerngruppen"], humans: false },
+        { id: 2, name: "image2", path: "bild-server-ersatz/Angewandte-Gesundheitswissenschaft--(4).jpg", tag: ["angewandte", "gesundheitswissenschaft", "person", "innen", "frau", "gruppenarbeit", "büro", "fenster", "sitzen", "computer", "lernen", "lerngruppe", "lerngruppen"], humans: false },
+        { id: 3, name: "image3", path: "bild-server-ersatz/Betriebswirtschaftslehre-und-Management-(4).jpg", tag: ["betriebswirtschaftslehre", "management", "person", "innen", "frau", "mann", "gruppenarbeit", "büro", "fenster", "sitzen", "computer", "lernen", "lerngruppe", "lerngruppen"], humans: false },
+        { id: 4, name: "image4", path: "bild-server-ersatz/Electrical-Engineering-(3).jpg", tag: ["electrical", "engineering", "person", "innen", "frau", "mann", "gruppenarbeit", "büro", "fenster", "sitzen", "computer", "lernen", "lerngruppe", "lerngruppen"], humans: false },
         { id: 5, name: "image5", path: "bild-server-ersatz/Elektromobilität-(4).jpg", tag: ["elektromobilität", "außen", "aussen", "windrad", "windenergie", "ökostrom", "elektroauto", "e-auto"], humans: false },
         { id: 6, name: "image6", path: "bild-server-ersatz/Elektrotechnik-(1).jpg", tag: ["elektrotechnik"], humans: false },
         { id: 7, name: "image7", path: "bild-server-ersatz/Elektrotechnik-(3).jpg", tag: ["elektrotechnik"], humans: false },
@@ -57,10 +59,10 @@ export default {
         { id: 20, name: "image20", path: "bild-server-ersatz/Mediendesign-(3).jpg", tag: ["mediendesign"], humans: false },
         { id: 21, name: "image21", path: "bild-server-ersatz/NZ-Labor-1.jpg", tag: ["labor"], humans: false },
         { id: 22, name: "image22", path: "bild-server-ersatz/Pflege--(5).jpg", tag: ["pflege"], humans: false },
-        { id: 23, name: "image23", path: "bild-server-ersatz/Wirtschaftsingenieurwesen-(4).jpg", tag: ["Wirtschaftsingenieurwesen"], humans: false },
-        { id: 25, name: "image24", path: "bild-server-ersatz/pexels-oladimeji-ajegbile-2861798.jpg", tag: ["Wirtschaftsingenieurwesen"], humans: false },
+        { id: 23, name: "image23", path: "bild-server-ersatz/Wirtschaftsingenieurwesen-(4).jpg", tag: ["wirtschaftsingenieurwesen"], humans: false },
+        { id: 25, name: "image24", path: "bild-server-ersatz/pexels-oladimeji-ajegbile-2861798.jpg", tag: ["wirtschaftsingenieurwesen"], humans: false },
       ],
-      
+
       isSelected: true,
       searchedTag: '',
       searchInput: '',
@@ -79,6 +81,11 @@ export default {
 
       return this.activeImage == Id;
     },
+
+    searchWithDebounce: debounce(function () {
+      this.setSearchedTag();
+    }, 100),
+
     setSearchedTag() {
       this.searchedTag = this.searchInput.toLowerCase();
     },
@@ -87,7 +94,7 @@ export default {
       this.searchedTag = '';
       this.searchInput = '';
     },
-   
+
   },
 
   computed: {
@@ -95,24 +102,23 @@ export default {
 
     filteredImages() {
       if (!this.searchedTag) {
-      return this.images; // Wenn nichts gesucht wurde, werden alle Bilder angezeigt
-    }
-
-    const searchTerms = this.searchedTag.split(" ");
-    return this.images.filter(image => {
-      for (const term of searchTerms) {
-        if (image.tag.includes(term)) {
-          return true; // Wenn ein Suchbegriff gefunden wurde, bleibt das Bild im Filter
-        }
+        return this.images; // Wenn nichts gesucht wurde, werden alle Bilder angezeigt
       }
-      return false; // Wenn kein Suchbegriff gefunden wurde, wird das Bild aus dem Filter entfernt
-    });
 
+      const searchTerms = this.searchedTag.toLowerCase().split(" ");
+      return this.images.filter(image => {
+        for (const term of searchTerms) {
+          if (image.tag.some(tag => tag.includes(term))) {
+            return true; // Wenn ein Suchbegriff gefunden wurde, bleibt das Bild im Filter
+          }
+        }
+        return false; // Wenn kein Suchbegriff gefunden wurde, wird das Bild aus dem Filter entfernt
+      });
     }
   },
 
   watch: {
-    imagePath(){
+    imagePath() {
       this.setFocus(0.5);
     }
   }
@@ -127,6 +133,7 @@ export default {
   left: 0;
   z-index: 3;
 }
+
 .fix {
   width: 100%;
   position: sticky;

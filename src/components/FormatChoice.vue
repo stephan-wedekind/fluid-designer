@@ -39,7 +39,7 @@
           <a v-if="!inputIsMade" class="format">
             <Btn buttonType="Primary" buttonName="FluidDesigner" buttonIcons="Weiter.png" class="btn-submit" :disabled="!inputIsMade" />
           </a>
-          <router-link v-if="inputIsMade" to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: customWidth, h: customHeight, p: 'false' }), handleFormatChoice(!toFormatChoice), setActiveFormat(5)" :disabled="!inputIsMade">
+          <router-link v-if="inputIsMade" to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: customWidth, h: customHeight, p: false }), handleFormatChoice(!toFormatChoice), setActiveFormat(5)" :disabled="!inputIsMade">
             <Btn buttonType="Primary" buttonName="FluidDesigner" buttonIcons="Weiter.png" class="btn-submit" :disabled="!inputIsMade" />
           </router-link>
 

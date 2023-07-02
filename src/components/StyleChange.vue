@@ -2,7 +2,7 @@
   <div class="padding-60">
 
     <FormatChoice class="overlay" v-if="toFormatChoice"/>
-  <section class="stylePreview" id="style01"  @click="addBild(), changeStyle('style01'), setFocus(0.5), setActive('bild')" v-if="this.classicPossible">
+  <section class="stylePreview" id="style01"  @click="addBild(), changeStyle('style01'), setFocus(0.5)" v-if="this.classicPossible">
     <img src="Platzhalter/Stil/Stil-1.png" :class="{ 'selected': this.styleClassic }" alt="">
     <div class="styleDescription">
       <h1 class="fontLila">Klassisch</h1>
@@ -19,7 +19,7 @@
   </section>
   
 
-  <section class="stylePreview" id="style02" @click="addBild(), changeStyle('style02'), setFocus(0.5) ,setActive('bild')">
+  <section class="stylePreview" id="style02" @click="addBild(), changeStyle('style02'), setFocus(0.5)">
     <img src="Platzhalter/Stil/Stil-2.png" :class="{ 'selected': this.styleOverlay }" alt="">
     <div class="styleDescription">
       <h1 class="fontLila">Overlay</h1>
@@ -27,15 +27,17 @@
     </div>
   </section>
 
-  <section class="stylePreview" id="style03" @click="addPattern(), changeStyle('style03'), setFocus(0.5), setActive('pattern')">
+  <section class="stylePreview" id="style03" @click="addPattern(), changeStyle('style03'), setFocus(0.5)">
     <img src="Platzhalter/Stil/Stil-3.png" :class="{ 'selected': this.stylePattern }" alt="">
     <div class="styleDescription">
       <h1 class="fontLila">Pattern</h1>
       <p>Hintergrund Pattern bestehend aus Viertelkreisen, Dreiecken und Quadraten.</p>
     </div>
   </section>
-  
+  <div class="button-group">
   <Btn buttonType="Secondary" buttonName="Format Ändern" buttonIcons="Vergroeßern.png" class="format-btn" @click="handleFormatChoice(true)"/>
+  <Btn buttonType="Primary" buttonName="Weiter" buttonIcons="Pfeil-rechts.png" class="format-btn" @click="setActive()" :disabled="styleSelected()"/>
+  </div>
 
 </div>
 </template>
@@ -52,6 +54,12 @@ export default {
     FormatChoice
   },
 
+  data() {
+    return {
+      chosenStyle: ""
+    }
+  },
+
   computed: {
     ...mapState(['isImage', 'isPattern', 'styleClassic', 'styleOverlay', 'stylePattern', 'classicPossible', 'toFormatChoice']),
   },
@@ -59,9 +67,21 @@ export default {
     ...mapActions(['addBild', 'addPattern', 'changeStyle', 'handleFormatChoice']),
     ...mapMutations(['setFocus', 'setActiveNavigation']),
 
-    setActive(navigationId) {
-      this.setActiveNavigation(navigationId);
+    setActive() {
+      if (this.stylePattern) {
+        this.setActiveNavigation('pattern')
+      } else {
+        this.setActiveNavigation('bild');
+      }
     },
+
+    styleSelected() {
+      if (!this.styleOverlay && !this.styleClassic && !this.stylePattern) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   },
 }
 </script>
@@ -99,5 +119,10 @@ export default {
   top: 0;
   left: 0;
   z-index: 1;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
