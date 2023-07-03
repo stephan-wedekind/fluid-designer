@@ -59,7 +59,7 @@
   <!-- Zuletzt erstellt -->
   <div class="recently-made">
     <h1 class="fontLila recently-headline">Zuletzt erstellt</h1>
-    <p v-if="checkStore()">es wurden noch keine Layouts mit FluidDesigner erstellt</p>
+    <p v-if="checkStore()">»es wurden noch keine Layouts mit FluidDesigner erstellt«</p>
     <div class="recently-grid">
       <router-link to="/fluidDesigner" v-for="state in storedStates" :key="state.id" class="recently-grid-item link" @click="updateStoredStates(state)">
         
