@@ -58,7 +58,25 @@
 
   <!-- Zuletzt erstellt -->
   <div class="recently-made">
-    <h1 class="fontLila">Zuletzt erstellt</h1>
+    <h1 class="fontLila recently-headline">Zuletzt erstellt</h1>
+    <div class="recently-grid">
+      <div class="recently-grid-item">
+        <h2>Dies ist eine überschrift ich versuche sie relativ</h2>
+        <p>28.06.2023</p>
+      </div>
+      <div class="recently-grid-item">
+        <h2>Dies ist eine überschrift ich versuche sie relativ</h2>
+        <p>28.06.2023</p>
+      </div>
+      <div class="recently-grid-item">
+        <h2>Dies ist eine überschrift ich versuche sie relativ</h2>
+        <p>28.06.2023</p>
+      </div>
+      <div class="recently-grid-item">
+        <h2>Dies ist eine überschrift ich versuche sie relativ</h2>
+        <p>28.06.2023</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -190,6 +208,31 @@ export default {
   width: 100vw;
   padding: 60px;
   background-color: white;
+  box-sizing: border-box;
+}
+
+.recently-headline {
+  margin: 0 0 45px 0;
+}
+
+.recently-grid {
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  gap: 30px;
+}
+
+.recently-grid-item {
+  background: linear-gradient(135deg, #05C3DE 5%, #6638B6 35%, #2D0764 85%);
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 30px;
+  display: flex;
+  justify-content: stretch;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow: hidden;
+  padding: 30px;
+  color: white;
   box-sizing: border-box;
 }
 /* -----------------------------------------------------------Overlay Styling*/
