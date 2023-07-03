@@ -276,8 +276,7 @@ export default {
   z-index: 10;
 }
 .loading {
-  margin: auto;
-  width: 70vw;
+  
   height: 70vh;
   z-index: 1;
 }
