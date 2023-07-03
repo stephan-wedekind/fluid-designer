@@ -77,12 +77,12 @@ export default {
   },
 
   watch: {
-    focus() {
+   /*  focus() {
       const mainElement = document.querySelector('main');
         if (mainElement) {
           mainElement.parentNode.removeChild(mainElement);
         }
-    }
+    } */
   },
   methods: {
     ...mapMutations(['setActiveNavigation', 'setIsCloseWarning']),
