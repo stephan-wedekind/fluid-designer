@@ -60,7 +60,7 @@
   <div class="recently-made">
     
     <h1 class="fontLila recently-headline">Zuletzt erstellt</h1>
-    <p v-if="checkStore()">»es wurden noch keine Layouts mit FluidDesigner erstellt«</p>
+    <p v-if="checkStore()">»es wurden noch keine Layouts im FluidDesigner erstellt«</p>
     <div class="recently-grid">
       
          
@@ -111,7 +111,7 @@ export default {
         if (mainElement) {
           mainElement.parentNode.removeChild(mainElement);
         }
-      }, 1000);
+      }, 500);
     },
 
     formatDate(timestamp) {
@@ -149,7 +149,7 @@ export default {
 
     if (storedData) {
       this.storedStates = JSON.parse(storedData);
-      console.log(this.storedStates);
+      this.storedStates = this.storedStates.slice().reverse();
     }
   }
 }
