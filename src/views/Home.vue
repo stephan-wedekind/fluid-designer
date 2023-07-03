@@ -60,10 +60,12 @@
   <div class="recently-made">
     <h1 class="fontLila recently-headline">Zuletzt erstellt</h1>
     <div class="recently-grid">
-      <div v-for="state in storedStates" :key="state.id" class="recently-grid-item">
+      <router-link to="/fluidDesigner" v-for="state in storedStates" :key="state.id" class="recently-grid-item link" @click="updateStoredStates(state)">
+        
         <h2>{{state.headline}}</h2>
         <p>{{formatDate(state.timestamp)}}</p>
-      </div>
+        
+      </router-link>
     
      
      
@@ -75,7 +77,7 @@
 <script>
 import Btn from '@/components/Button.vue';
 import FormatChoice from '@/components/FormatChoice.vue';
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 
 export default {
   name: 'Home',
@@ -99,6 +101,7 @@ export default {
   
   methods: {
     ...mapActions(['handleFormatChoice']),
+    ...mapMutations(['setStoredState']),
 
     removeMainElement() {
       setTimeout(() => {
@@ -119,6 +122,10 @@ export default {
 
       return `${day}.${month}.${year}`;
     },
+
+    updateStoredStates(storedState) {
+      this.$store.commit('setStoredState', storedState);
+    }
   
 
   },
@@ -254,6 +261,11 @@ export default {
   padding: 30px;
   color: white;
   box-sizing: border-box;
+}
+
+.link {
+  text-decoration: none;
+  color: white;
 }
 /* -----------------------------------------------------------Overlay Styling*/
 

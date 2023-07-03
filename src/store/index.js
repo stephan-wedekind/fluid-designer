@@ -34,7 +34,7 @@ const initialState = {
 
   isCircle: true,
   isRectangle: true,
-  isTriangle: true ,
+  isTriangle: true,
 
   //Pattern
   patternStripeStart: 1,
@@ -46,9 +46,9 @@ const initialState = {
   canvasWidth: 0,
   canvasHeight: 0,
 
-  //Ausgewähltes Bild 
+  //Ausgewähltes Bild
   activeImage: null, // gewähltes bild
-  imagePath: "Platzhalter/default/default-image.png",  //pfad zum gewählten bild
+  imagePath: "Platzhalter/default/default-image.png", //pfad zum gewählten bild
 
   //Text Inputs
 
@@ -67,23 +67,25 @@ const initialState = {
 
   //refreshing Text
 
-  refreshing : 0, //wenn die zahl sich änder wird der canvas erneuert
+  refreshing: 0, //wenn die zahl sich änder wird der canvas erneuert
   refreshQR: 0, //-"-
 
   //Fokus Punkt wählen
 
   chooseFocus: false, //overlay für fokus wahl
-  focus: 0.5, 
-
+  focus: 0.5,
 
   //Close Warning
 
   isCloseWarning: false,
+
+  //
+
+  storageId: null,
 };
 
 export default createStore({
   state: { ...initialState },
-
 
   mutations: {
     setIsImage(state, value) {
@@ -96,7 +98,9 @@ export default createStore({
       state.navigations.push(navigation);
     },
     removeNavigation(state, navigationId) {
-      const index = state.navigations.findIndex((navigation) => navigation.id === navigationId);
+      const index = state.navigations.findIndex(
+        (navigation) => navigation.id === navigationId
+      );
       if (index !== -1) {
         state.navigations.splice(index, 1);
       }
@@ -104,30 +108,8 @@ export default createStore({
     setActiveNavigation(state, navigationId) {
       state.activeNavigation = navigationId;
     },
-     /* isPrint: state.isPrint,
-          activeFormat: state.activeFormat,
-          styleClassic: state.styleClassic,
-          styleOverlay: state.styleOverlay,
-          stylePattern: state.stylePattern,
-          patternMirror: state.patternMirror,
-          patternStripe: state.patternStripe,
-          patternRandom: state.patternRandom,
-          patternFilled: state.patternFilled,
-          isCircle: state.isCircle,
-          isRectangle: state.isRectangle,
-          isTriangle: state.isTriangle,
-          patternStripeStart: state.patternStripeStart,
-          patternStripeEnd: state.patternStripeEnd,
-          patternSeed: state.patternSeed,
-          canvasWidth: state.canvasWidth,
-          canvasHeight: state.canvasHeight,
-          activeImage: state.activeImage,
-          imagePath: state.imagePath, */
-         
 
     resetState(state) {
- 
-
       const storedData = localStorage.getItem("storedStates");
 
       const newData = {
@@ -155,11 +137,15 @@ export default createStore({
         headline: state.headline,
         subheadline: state.subheadline,
         copyText: state.copyText,
-        urlQR: state.urlQR,
+        qrCodeImage: state.qrCodeImage,
         headlineLines: state.headlineLines,
         subHeadlineLines: state.subHeadlineLines,
         copyTextLines: state.copyTextLines,
         focus: state.focus,
+        isImage: state.isImage,
+        isPattern: state.isPattern,
+        navigations: state.navigations,
+        classicPossible: state.classicPossible,
       };
 
       let storedStates = [];
@@ -172,21 +158,51 @@ export default createStore({
 
       localStorage.setItem("storedStates", JSON.stringify(storedStates));
 
-
-      
-
       Object.assign(state, initialState),
-      
-      state.navigations = [
-        { id: "style", label: "Style", position: 0 },
-        { id: "text", label: "Text", position: 3 },
-      ];
-    
+        (state.navigations = [
+          { id: "style", label: "Style", position: 0 },
+          { id: "text", label: "Text", position: 3 },
+        ]);
+    },
+
+    setStoredState(state, storedState) {
+      (state.storageId = storedState.id),
+        (state.isPrint = storedState.isPrint),
+        (state.activeFormat = storedState.activeFormat),
+        (state.styleClassic = storedState.styleClassic),
+        (state.styleOverlay = storedState.styleOverlay),
+        (state.stylePattern = storedState.stylePattern),
+        (state.patternMirror = storedState.patternMirror),
+        (state.patternStripe = storedState.patternStripe),
+        (state.patternRandom = storedState.patternRandom),
+        (state.patternFilled = storedState.patternFilled),
+        (state.isCircle = storedState.isCircle),
+        (state.isRectangle = storedState.isRectangle),
+        (state.isTriangle = storedState.isTriangle),
+        (state.patternStripeStart = storedState.patternStripeStart),
+        (state.patternStripeEnd = storedState.patternStripeEnd),
+        (state.patternSeed = storedState.patternSeed),
+        (state.canvasWidth = storedState.canvasWidth),
+        (state.canvasHeight = storedState.canvasHeight),
+        (state.activeImage = storedState.activeImage),
+        (state.imagePath = storedState.imagePath),
+        (state.headline = storedState.headline),
+        (state.subheadline = storedState.subheadline),
+        (state.copyText = storedState.copyText),
+        (state.qrCodeImage = storedState.qrCodeImage),
+        (state.headlineLines = storedState.headlineLines),
+        (state.subHeadlineLines = storedState.subHeadlineLines),
+        (state.copyTextLines = storedState.copyTextLines),
+        (state.focus = storedState.focus);
+        (state.isImage = storedState.isImage);
+        (state.isPattern = storedState.isPattern);
+        (state.navigations = storedState.navigations);
+        (state.classicPossible = storedState.classicPossible);
     },
 
     //Format Auswahl
 
-    setFormatChoice(state, value){
+    setFormatChoice(state, value) {
       state.toFormatChoice = value;
     },
 
@@ -268,16 +284,16 @@ export default createStore({
 
     //Text Inputs
 
-    setHeadline(state, text){
+    setHeadline(state, text) {
       state.headline = text;
     },
-    setSubheadline(state, text){
+    setSubheadline(state, text) {
       state.subheadline = text;
     },
-    setCopyText(state, text){
+    setCopyText(state, text) {
       state.copyText = text;
     },
-    setUrlQR(state, text){
+    setUrlQR(state, text) {
       state.urlQR = text;
     },
 
@@ -298,11 +314,11 @@ export default createStore({
     },
 
     //refreshing
-    incrementRefreshing(state){
+    incrementRefreshing(state) {
       state.refreshing += 1;
     },
 
-    incrementRefreshQR(state){
+    incrementRefreshQR(state) {
       state.refreshQR += 1;
     },
 
@@ -317,24 +333,24 @@ export default createStore({
 
     //Pattern
 
-    increasePatternStripeStart(state){
+    increasePatternStripeStart(state) {
       state.patternStripeStart += 1;
     },
-    decreasePatternStripeStart(state){
+    decreasePatternStripeStart(state) {
       state.patternStripeStart -= 1;
     },
 
-    increasePatternStripeEnd(state){
+    increasePatternStripeEnd(state) {
       state.patternStripeEnd += 1;
     },
-    decreasePatternStripeEnd(state){
+    decreasePatternStripeEnd(state) {
       state.patternStripeEnd -= 1;
     },
 
-    increasePatternSeed(state){
+    increasePatternSeed(state) {
       state.patternSeed += 1;
     },
-    decreasePatternSeed(state){
+    decreasePatternSeed(state) {
       state.patternSeed -= 1;
     },
 
@@ -345,14 +361,13 @@ export default createStore({
     },
   },
 
-
-
   actions: {
-
     //Navigation bearbeiten
     addBild({ commit, state }) {
       if (!state.isImage) {
-        if (state.navigations.find((navigation) => navigation.id === "pattern")) {
+        if (
+          state.navigations.find((navigation) => navigation.id === "pattern")
+        ) {
           commit("removeNavigation", "pattern");
         }
         if (!state.navigations.find((navigation) => navigation.id === "bild")) {
@@ -369,8 +384,14 @@ export default createStore({
         if (state.navigations.find((navigation) => navigation.id === "bild")) {
           commit("removeNavigation", "bild");
         }
-        if (!state.navigations.find((navigation) => navigation.id === "pattern")) {
-          commit("addNavigation", { id: "pattern", label: "Pattern", position: 2 });
+        if (
+          !state.navigations.find((navigation) => navigation.id === "pattern")
+        ) {
+          commit("addNavigation", {
+            id: "pattern",
+            label: "Pattern",
+            position: 2,
+          });
           state.navigations.sort((a, b) => a.position - b.position);
         }
 
@@ -384,10 +405,9 @@ export default createStore({
       commit("resetState");
     },
 
-
     //Formatauswahl offen oder nicht
-    handleFormatChoice({ commit }, value){  
-      commit("setFormatChoice", value)
+    handleFormatChoice({ commit }, value) {
+      commit("setFormatChoice", value);
     },
 
     //Style Auswahl
@@ -457,7 +477,6 @@ export default createStore({
       }
     },
 
-
     //Canvas größe wird je nach format gesetzt
     updateCanvasSize({ commit }, { w, h, p }) {
       commit("setCanvasWidth", w);
@@ -472,25 +491,24 @@ export default createStore({
           commit("setStyleOverlay", true);
         }
       } else {
-        
         commit("setClassicPossible", true);
       }
     },
 
     //Zeilenumbrüche
     updateHeadlineLines({ commit }, text) {
-      const lines = text.split(/\r?\n/).map(line => line.length);
-      commit('SET_HEADLINE_LINES', lines);
+      const lines = text.split(/\r?\n/).map((line) => line.length);
+      commit("SET_HEADLINE_LINES", lines);
     },
     updateSubHeadlineLines({ commit }, text) {
-      const lines = text.split(/\r?\n/).map(line => line.length);
-      commit('SET_SUBHEADLINE_LINES', lines);
+      const lines = text.split(/\r?\n/).map((line) => line.length);
+      commit("SET_SUBHEADLINE_LINES", lines);
     },
   },
 });
 
 function generateUniqueId() {
   // jedem element aus localStorage storedStates wird einen eindeutige id zugewiesen
-  const { v4: uuidv4 } = require('uuid');
+  const { v4: uuidv4 } = require("uuid");
   return uuidv4();
 }
