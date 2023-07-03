@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import { mapState, mapMutations } from 'vuex';
 import { debounce } from 'lodash';
 import Btn from "@/components/Button.vue";
@@ -36,37 +37,20 @@ export default {
 
   data() {
     return {
-      images: [
-        { id: 1, name: "image1", path: "bild-server-ersatz/_MG_1398.jpg", tag: ["innen", "labor", "equipment", "chemie", "gesundheit", "wissenschaft", "gebäude", "raum"], humans: false },
-        { id: 2, name: "image2", path: "bild-server-ersatz/Angewandte-Gesundheitswissenschaft--(4).jpg", tag: ["angewandte", "gesundheitswissenschaft", "person", "innen", "frau", "gruppenarbeit", "büro", "fenster", "sitzen", "computer", "lernen", "lerngruppe", "lerngruppen"], humans: false },
-        { id: 3, name: "image3", path: "bild-server-ersatz/Betriebswirtschaftslehre-und-Management-(4).jpg", tag: ["betriebswirtschaftslehre", "management", "person", "innen", "frau", "mann", "gruppenarbeit", "büro", "fenster", "sitzen", "computer", "lernen", "lerngruppe", "lerngruppen"], humans: false },
-        { id: 4, name: "image4", path: "bild-server-ersatz/Electrical-Engineering-(3).jpg", tag: ["electrical", "engineering", "person", "innen", "frau", "mann", "gruppenarbeit", "büro", "fenster", "sitzen", "computer", "lernen", "lerngruppe", "lerngruppen"], humans: false },
-        { id: 5, name: "image5", path: "bild-server-ersatz/Elektromobilität-(4).jpg", tag: ["elektromobilität", "außen", "aussen", "windrad", "windenergie", "ökostrom", "elektroauto", "e-auto"], humans: false },
-        { id: 6, name: "image6", path: "bild-server-ersatz/Elektrotechnik-(1).jpg", tag: ["elektrotechnik"], humans: false },
-        { id: 7, name: "image7", path: "bild-server-ersatz/Elektrotechnik-(3).jpg", tag: ["elektrotechnik"], humans: false },
-        { id: 8, name: "image8", path: "bild-server-ersatz/Energie--und-Umwelttechnik-(2).jpg", tag: ["energie", "umwelttechnik"], humans: false },
-        { id: 9, name: "image9", path: "bild-server-ersatz/Fahrzeugtechnik--(1).jpg", tag: ["fahrzeugtechnik"], humans: false },
-        { id: 10, name: "image10", path: "bild-server-ersatz/First-Responder-1.jpg", tag: ["first", "responder"], humans: false },
-        { id: 11, name: "image11", path: "bild-server-ersatz/Foyer-H-Gebäude-(3).jpg", tag: ["foyer", "gebäude", "innen"], humans: false },
-        { id: 12, name: "image12", path: "bild-server-ersatz/Frühling_Campus-1.jpg", tag: ["frühling", "baum", "campus"], humans: false },
-        { id: 13, name: "image13", path: "bild-server-ersatz/Gesundheitsökonomie--(3).jpg", tag: ["gesundheitsökonomie"], humans: false },
-        { id: 14, name: "image14", path: "bild-server-ersatz/H.O.M.E.jpg", tag: ["home"], humans: false },
-        { id: 15, name: "image15", path: "bild-server-ersatz/Informatik-(3).jpg", tag: ["informatik"], humans: false },
-        { id: 16, name: "image16", path: "bild-server-ersatz/International-Business-Management-(6).jpg", tag: ["international", "buisness", "management"], humans: false },
-        { id: 17, name: "image17", path: "bild-server-ersatz/Kaffeebar-(1).jpg", tag: ["kaffee", "bar"], humans: false },
-        { id: 18, name: "image18", path: "bild-server-ersatz/Kfz-Labor-2.jpg", tag: ["kfz", "labor"], humans: false },
-        { id: 19, name: "image19", path: "bild-server-ersatz/Maschinenbau--(3).jpg", tag: ["maschinenbau"], humans: false },
-        { id: 20, name: "image20", path: "bild-server-ersatz/Mediendesign-(3).jpg", tag: ["mediendesign"], humans: false },
-        { id: 21, name: "image21", path: "bild-server-ersatz/NZ-Labor-1.jpg", tag: ["labor"], humans: false },
-        { id: 22, name: "image22", path: "bild-server-ersatz/Pflege--(5).jpg", tag: ["pflege"], humans: false },
-        { id: 23, name: "image23", path: "bild-server-ersatz/Wirtschaftsingenieurwesen-(4).jpg", tag: ["wirtschaftsingenieurwesen"], humans: false },
-        { id: 25, name: "image24", path: "bild-server-ersatz/pexels-oladimeji-ajegbile-2861798.jpg", tag: ["wirtschaftsingenieurwesen"], humans: false },
-      ],
+      images : [],
 
       isSelected: true,
       searchedTag: '',
       searchInput: '',
     }
+  },
+
+  mounted() {
+    axios.get("http://localhost:3030/allData").then((response) => {
+      this.images = response.data;
+    }). catch((error) => {
+      console.error(error);
+    });
   },
 
   methods: {
@@ -94,6 +78,7 @@ export default {
       this.searchedTag = '';
       this.searchInput = '';
     },
+
 
   },
 
