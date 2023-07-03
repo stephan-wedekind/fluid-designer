@@ -148,13 +148,21 @@ export default createStore({
         classicPossible: state.classicPossible,
       };
 
+      console.log("storageId: " + state.storageId);
+
       let storedStates = [];
 
       if (storedData) {
         storedStates = JSON.parse(storedData);
       }
 
-      storedStates.push(newData);
+      const existingState = storedStates.find((storedState) => storedState.id === state.storageId);
+
+      if (!existingState) {
+        storedStates.push(newData);
+      }
+
+     
 
       localStorage.setItem("storedStates", JSON.stringify(storedStates));
 
@@ -212,7 +220,6 @@ export default createStore({
 
     setActiveFormat(state, number) {
       state.activeFormat = number;
-      console.log(number);
     },
 
     //Style Auswahl
