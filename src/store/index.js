@@ -157,16 +157,26 @@ export default createStore({
         storedStates = JSON.parse(storedData);
       }
 
-      const existingState = storedStates.find((storedState) => storedState.id === state.storageId);
+      const existingStateIndex = storedStates.findIndex(
+        (storedState) => storedState.id === state.storageId
+      );
 
-      if (!existingState) {
+      if (existingStateIndex !== -1) {
+        storedStates[existingStateIndex] = newData;
+      } else {
         storedStates.push(newData);
       }
 
-     
-
       localStorage.setItem("storedStates", JSON.stringify(storedStates));
 
+      Object.assign(state, initialState),
+        (state.navigations = [
+          { id: "style", label: "Style", position: 0 },
+          { id: "text", label: "Text", position: 3 },
+        ]);
+    },
+
+    discardState(state) {
       Object.assign(state, initialState),
         (state.navigations = [
           { id: "style", label: "Style", position: 0 },
@@ -203,11 +213,11 @@ export default createStore({
         (state.subHeadlineLines = storedState.subHeadlineLines),
         (state.copyTextLines = storedState.copyTextLines),
         (state.focus = storedState.focus);
-        (state.isImage = storedState.isImage);
-        (state.isPattern = storedState.isPattern);
-        (state.navigations = storedState.navigations);
-        (state.classicPossible = storedState.classicPossible);
-        (state.urlQR = storedState.urlQR);
+      state.isImage = storedState.isImage;
+      state.isPattern = storedState.isPattern;
+      state.navigations = storedState.navigations;
+      state.classicPossible = storedState.classicPossible;
+      state.urlQR = storedState.urlQR;
     },
 
     //Format Auswahl
@@ -412,6 +422,10 @@ export default createStore({
     //Store wird zurückgesettz, später hier localStorage anbinden
     resetStore({ commit }) {
       commit("resetState");
+    },
+
+    discardStore({ commit }) {
+      commit("discardState");
     },
 
     //Formatauswahl offen oder nicht
