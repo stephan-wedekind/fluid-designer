@@ -138,6 +138,7 @@ export default createStore({
         subheadline: state.subheadline,
         copyText: state.copyText,
         qrCodeImage: state.qrCodeImage,
+        urlQR: state.urlQR,
         headlineLines: state.headlineLines,
         subHeadlineLines: state.subHeadlineLines,
         copyTextLines: state.copyTextLines,
@@ -206,6 +207,7 @@ export default createStore({
         (state.isPattern = storedState.isPattern);
         (state.navigations = storedState.navigations);
         (state.classicPossible = storedState.classicPossible);
+        (state.urlQR = storedState.urlQR);
     },
 
     //Format Auswahl

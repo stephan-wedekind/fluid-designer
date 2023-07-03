@@ -59,6 +59,7 @@
   <!-- Zuletzt erstellt -->
   <div class="recently-made">
     <h1 class="fontLila recently-headline">Zuletzt erstellt</h1>
+    <p v-if="checkStore()">es wurden noch keine Layouts mit FluidDesigner erstellt</p>
     <div class="recently-grid">
       <router-link to="/fluidDesigner" v-for="state in storedStates" :key="state.id" class="recently-grid-item link" @click="updateStoredStates(state)">
         
@@ -120,12 +121,20 @@ export default {
       const month = (date.getMonth() + 1).toString().padStart(2, '0');
       const year = date.getFullYear();
 
-      return `${day}.${month}.${year}`;
+      return `Erstellt am ${day}.${month}.${year}`;
     },
 
     updateStoredStates(storedState) {
       this.$store.commit('setStoredState', storedState);
-    }
+    },
+
+    checkStore() {
+      if (this.storedState == []) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   
 
   },
