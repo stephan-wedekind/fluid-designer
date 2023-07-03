@@ -15,7 +15,7 @@
           </router-link>
 
           <router-link to="/" class="link" @click="resetStore()">
-          <Btn buttonType="Primary" buttonName="Verlassen und Änderungen speichern" buttonIcons="Share.png" class="btn-decide"/>
+          <Btn buttonType="Primary" buttonName="Verlassen und Änderungen speichern" buttonIcons="Upload.png" class="btn-decide"/>
           </router-link>
           </div>
           <p>Die gespeicherten Inhalte findest du auf der Startseite unter »Zuletzt erstellt«</p>
