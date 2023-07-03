@@ -40,8 +40,8 @@
 
       <img src="Platzhalter/Tutorial/format-tutorial.png" alt="">
       <img src="Platzhalter/Tutorial/maple.png" alt="">
-      <img src="Platzhalter/Tutorial/style-tutorial.png" alt="">
       <img src="Platzhalter/Tutorial/background-tutorial.png" alt="">
+      <img src="Platzhalter/Tutorial/style-tutorial.png" alt="">
       <img src="Platzhalter/Tutorial/download-tutorial.png" alt="">
 
       <h2 class="fontLila">Wähle zunächst ein geeignetes Format (z.B.&nbsp;DIN&nbsp;A4)</h2>
