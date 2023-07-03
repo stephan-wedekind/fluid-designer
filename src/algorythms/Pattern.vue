@@ -50,6 +50,7 @@ export default {
         'headlineLines', 
         'subHeadlineLines', 
         'patternSeed',
+        'shapesFactor'
       ])
   },
 
@@ -133,6 +134,10 @@ export default {
       this.removeCanvas();
       this.createCanvas();
     },
+    shapesFactor() {
+      this.removeCanvas();
+      this.createCanvas();
+    }
   },
 
   methods: {
@@ -248,6 +253,12 @@ export default {
 
           //Layout Grid Setup
           unitsVertical = parseInt(unitsHorizontal*ratioH);
+          if (
+            this.canvasWidth === 148 && this.canvasHeight === 210 
+            || 
+            this.canvasWidth === 1080 && this.canvasHeight === 1350) unitsVertical--;
+
+          
 
           unit = p.width / 14;
 
@@ -255,12 +266,19 @@ export default {
           gridHeight = unitsVertical * unit;
 
           p.push();
-          p.translate(unit, unit);
+          if (this.isPrint) p.translate(unit, (unit));
+          else p.translate(unit, (p.height - gridHeight) /2);
+
+          
+          let shapeSize = unit*this.shapesFactor;
+          let shapesRow = unitsHorizontal/this.shapesFactor;
+          let shapesColumn = unitsVertical/this.shapesFactor;
+
           
           // Pattern Code here
           p.randomSeed(this.patternSeed);
-          for (let y = 0; y < unitsVertical; y++) {
-            for (let x = 0; x < unitsHorizontal; x++) {
+          for (let y = 0; y < shapesColumn; y++) {
+            for (let x = 0; x < shapesRow; x++) {
               p.push();
               if (this.patternFilled) {
                 p.fill(rwLilaDark);
@@ -268,40 +286,40 @@ export default {
               } else {
                 p.noFill();
                 p.stroke(rwLilaDark);
-                p.strokeWeight(unit / 10);
+                p.strokeWeight(shapeSize * 0.1);
               }
-              p.translate(x * unit, y * unit);
+              p.translate(x * shapeSize, y * shapeSize);
               p.strokeJoin(p.ROUND);
 
               let orientation = p.int(p.random(0, 4));
               let shapeType = 0;
               if (this.isCircle && !this.isRectangle && !this.isTriangle) {
-                createQuarterCircle(unit, orientation);
+                createQuarterCircle(shapeSize, orientation);
               } else if (!this.isCircle && this.isRectangle && !this.isTriangle) {
-                p.rect(0, 0, unit, unit);
+                p.rect(0, 0, shapeSize, shapeSize);
               } else if (!this.isCircle && !this.isRectangle && this.isTriangle) {
-                createTriangle(unit, orientation);
+                createTriangle(shapeSize, orientation);
               } else if (this.isCircle && this.isRectangle && !this.isTriangle) {
                 shapeType = p.int(p.random(0, 2));
                 if (shapeType === 0)
-                  createQuarterCircle(unit, orientation);
-                else p.rect(0, 0, unit, unit);
+                  createQuarterCircle(shapeSize, orientation);
+                else p.rect(0, 0, shapeSize, shapeSize);
               } else if (this.isCircle && !this.isRectangle && this.isTriangle) {
                 shapeType = p.int(p.random(0, 2));
                 if (shapeType === 0)
-                  createQuarterCircle(unit, orientation);
-                else createTriangle(unit, orientation);
+                  createQuarterCircle(shapeSize, orientation);
+                else createTriangle(shapeSize, orientation);
               } else if (!this.isCircle && this.isRectangle && this.isTriangle) {
                 shapeType = p.int(p.random(0, 2));
-                if (shapeType === 0) createTriangle(unit, orientation);
-                else p.rect(0, 0, unit, unit);
+                if (shapeType === 0) createTriangle(shapeSize, orientation);
+                else p.rect(0, 0, shapeSize, shapeSize);
               } else if (this.isCircle && this.isRectangle && this.isTriangle) {
                 shapeType = p.int(p.random(0, 3));
                 if (shapeType === 0)
-                  createQuarterCircle(unit, orientation);
+                  createQuarterCircle(shapeSize, orientation);
                 else if (shapeType === 1)
-                  createTriangle(unit, orientation);
-                else p.rect(0, 0, unit, unit);
+                  createTriangle(shapeSize, orientation);
+                else p.rect(0, 0, shapeSize, shapeSize);
               }
 
               p.pop();

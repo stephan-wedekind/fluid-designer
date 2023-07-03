@@ -21,15 +21,15 @@
 
   <h2 class="fontLila">Pattern bearbeiten</h2>
   <section class="pattern-edit">
-    <!-- <div class="edit-line" id="number-shapes">
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png" />
+    <div class="edit-line" id="number-shapes">
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png" @click="increaseShapesFactor()"/>
       <div class="edit-label"><h2 class="fontLila">Anzahl Formen</h2></div>
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" />
-    </div> -->
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" @click="decreaseShapesFactor()"/>
+    </div>
     <div class="edit-line" id="change-pattern">
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Pfeil-links.png" @click="decreasePatternSeed()"/>
-      <div class="edit-label"><h2 class="fontLila">Pattern Ändern</h2></div>
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Pfeil-rechts.png" @click="increasePatternSeed()"/>
+      <!-- <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Pfeil-links.png"/> -->
+      <div class="edit-label randomPattern"><h2 class="fontLila">Formen neu mischen</h2></div>
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Wiederholen.png" @click="randomPatternSeed()"/>
     </div>
     <div class="edit-line" id="change-stripe" v-if="patternStripe">
       <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png" :disabled="checkPatternStartLow()" @click="decreasePatternStripeStart()" />
@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     ...mapActions(['changePattern', 'patternFill', 'handleCircle', 'handleRectangle', 'handleTriangle']),
-    ...mapMutations(['increasePatternStripeStart', 'decreasePatternStripeStart', 'increasePatternStripeEnd', 'decreasePatternStripeEnd', 'increasePatternSeed', 'decreasePatternSeed']),
+    ...mapMutations(['increasePatternStripeStart', 'decreasePatternStripeStart', 'increasePatternStripeEnd', 'decreasePatternStripeEnd', 'increasePatternSeed', 'decreasePatternSeed' ,'randomPatternSeed', 'increaseShapesFactor', 'decreaseShapesFactor']),
 
     checkPatternStartLow() {
       return this.patternStripeStart<=1;
@@ -148,6 +148,10 @@ export default {
   border-radius: 10px;
   justify-content: center;
   align-items: center;
+}
+
+.randomPattern {
+  width: 82.5%;
 }
 
 .edit-label h2 {

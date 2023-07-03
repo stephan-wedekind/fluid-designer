@@ -1,3 +1,4 @@
+import { random } from "lodash";
 import { createStore } from "vuex";
 
 const initialState = {
@@ -41,6 +42,8 @@ const initialState = {
   patternStripeEnd: null,
 
   patternSeed: 0,
+
+  shapesFactor: 1, 
 
   //Canvas Size
   canvasWidth: 0,
@@ -147,6 +150,7 @@ export default createStore({
         isPattern: state.isPattern,
         navigations: state.navigations,
         classicPossible: state.classicPossible,
+        shapesFactor: state.shapesFactor,
       };
 
       console.log("storageId: " + state.storageId);
@@ -185,39 +189,40 @@ export default createStore({
     },
 
     setStoredState(state, storedState) {
-      (state.storageId = storedState.id),
-        (state.isPrint = storedState.isPrint),
-        (state.activeFormat = storedState.activeFormat),
-        (state.styleClassic = storedState.styleClassic),
-        (state.styleOverlay = storedState.styleOverlay),
-        (state.stylePattern = storedState.stylePattern),
-        (state.patternMirror = storedState.patternMirror),
-        (state.patternStripe = storedState.patternStripe),
-        (state.patternRandom = storedState.patternRandom),
-        (state.patternFilled = storedState.patternFilled),
-        (state.isCircle = storedState.isCircle),
-        (state.isRectangle = storedState.isRectangle),
-        (state.isTriangle = storedState.isTriangle),
-        (state.patternStripeStart = storedState.patternStripeStart),
-        (state.patternStripeEnd = storedState.patternStripeEnd),
-        (state.patternSeed = storedState.patternSeed),
-        (state.canvasWidth = storedState.canvasWidth),
-        (state.canvasHeight = storedState.canvasHeight),
-        (state.activeImage = storedState.activeImage),
-        (state.imagePath = storedState.imagePath),
-        (state.headline = storedState.headline),
-        (state.subheadline = storedState.subheadline),
-        (state.copyText = storedState.copyText),
-        (state.qrCodeImage = storedState.qrCodeImage),
-        (state.headlineLines = storedState.headlineLines),
-        (state.subHeadlineLines = storedState.subHeadlineLines),
-        (state.copyTextLines = storedState.copyTextLines),
-        (state.focus = storedState.focus);
+      state.storageId = storedState.id,
+      state.isPrint = storedState.isPrint,
+      state.activeFormat = storedState.activeFormat,
+      state.styleClassic = storedState.styleClassic,
+      state.styleOverlay = storedState.styleOverlay,
+      state.stylePattern = storedState.stylePattern,
+      state.patternMirror = storedState.patternMirror,
+      state.patternStripe = storedState.patternStripe,
+      state.patternRandom = storedState.patternRandom,
+      state.patternFilled = storedState.patternFilled,
+      state.isCircle = storedState.isCircle,
+      state.isRectangle = storedState.isRectangle,
+      state.isTriangle = storedState.isTriangle,
+      state.patternStripeStart = storedState.patternStripeStart,
+      state.patternStripeEnd = storedState.patternStripeEnd,
+      state.patternSeed = storedState.patternSeed,
+      state.canvasWidth = storedState.canvasWidth,
+      state.canvasHeight = storedState.canvasHeight,
+      state.activeImage = storedState.activeImage,
+      state.imagePath = storedState.imagePath,
+      state.headline = storedState.headline,
+      state.subheadline = storedState.subheadline,
+      state.copyText = storedState.copyText,
+      state.qrCodeImage = storedState.qrCodeImage,
+      state.headlineLines = storedState.headlineLines,
+      state.subHeadlineLines = storedState.subHeadlineLines,
+      state.copyTextLines = storedState.copyTextLines,
+      state.focus = storedState.focus;
       state.isImage = storedState.isImage;
       state.isPattern = storedState.isPattern;
       state.navigations = storedState.navigations;
       state.classicPossible = storedState.classicPossible;
       state.urlQR = storedState.urlQR;
+      state.shapesFactor = storedState.shapesFactor;
     },
 
     //Format Auswahl
@@ -371,6 +376,11 @@ export default createStore({
     },
     decreasePatternSeed(state) {
       state.patternSeed -= 1;
+      
+    },
+
+    randomPatternSeed(state) {
+      state.patternSeed = parseInt(random(0, 255));
     },
 
     //close Warning
@@ -378,6 +388,23 @@ export default createStore({
     setIsCloseWarning(state, value) {
       state.isCloseWarning = value;
     },
+
+    increaseShapesFactor(state) {
+      state.shapesFactor += 1;
+      if(state.shapesFactor >= 3) {
+        state.shapesFactor = 4;
+      }
+    },
+
+    decreaseShapesFactor(state) {
+      state.shapesFactor -= 1;
+      if (state.shapesFactor === 0) {
+        state.shapesFactor = 1;
+      } 
+      if (state.shapesFactor === 3) {
+        state.shapesFactor = 2;
+      }
+    }
   },
 
   actions: {
