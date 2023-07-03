@@ -6,15 +6,19 @@
         <Btn buttonType="Tertiary" buttonName="" buttonIcons="Menue-schliessen.png" class="btn-close"
           @click="setIsCloseWarning(!isCloseWarning)" />
       </div>
-      <div class="warning-msg">
-        <p class="close-msg">Alle Eingaben werden gelöscht. Wenn du an diesem Projekt weiter arbeiten möchtest findest du es unter »Zuletzt erstellt«</p>
         
-          <BtnIL buttonType="Secondary" buttonName="Zurück zum FluidDesigner" buttonIcons="Pfeil-links.png" class="btn-decide" @click="setIsCloseWarning(!isCloseWarning)" />
-          <router-link to="/" class="link" @click="resetStore()">
-          <Btn buttonType="Primary" buttonName="FluidDesigner Verlassen" buttonIcons="Menue-schliessen.png" class="btn-decide"/>
+          <div class="button-group close-msg">
+          <BtnIL buttonType="Tertiary" buttonName="Zurück" buttonIcons="Pfeil-links.png" class="btn-decide" @click="setIsCloseWarning(!isCloseWarning)" />
+
+          <router-link to="/" class="link" @click="discardStore()">
+          <Btn buttonType="Secondary" buttonName="Verlassen und Änderungen verwerfen" buttonIcons="Menue-schliessen.png" class="btn-decide"/>
           </router-link>
-        
-      </div>
+
+          <router-link to="/" class="link" @click="resetStore()">
+          <Btn buttonType="Primary" buttonName="Verlassen und Änderungen speichern" buttonIcons="Share.png" class="btn-decide"/>
+          </router-link>
+          </div>
+          <p>Die gespeicherten Inhalte findest du auf der Startseite unter »Zuletzt erstellt«</p>
     </div>
   </div>
 </template>
@@ -49,7 +53,7 @@ export default {
 
   methods: {
     ...mapMutations(['setIsCloseWarning']),
-    ...mapActions(['resetStore']),
+    ...mapActions(['resetStore', 'discardStore']),
 
   },
 }
@@ -64,7 +68,6 @@ export default {
   width: 100vw;
   height: 100vh;
   background: rgba(102, 56, 182, 0.95);
-  /* backdrop-filter: blur(20px); */
 }
 
 .foreground {
@@ -80,27 +83,17 @@ export default {
   justify-content: space-between;
 }
 
-.warning-msg {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
 .close-msg {
   margin: 60px 0 30px;
 }
 
-.btn-decide {
-  width: 350px;
+.button-group {
+  display: flex;
+  justify-content: space-between;
 }
+
+
 .link {
   text-decoration: none;
 }
-
-/* .btn-wraper {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-} */
 </style>
