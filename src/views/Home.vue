@@ -2,23 +2,23 @@
   <header class="background-top">
     <img src="Logo/Logo-Wort-Bild.png" class="logo-header-home" alt="">
     <section class="CTA-intro">
-    <h1 class="fontWhite introText">
-      Der
-      »<span style="font-style: italic">RWU </span>
-      <span style="font-weight: 700; letter-spacing: 0.03em;">FluidDesigner</span>« hilft dir dabei, <br />
-      Layouts automatisch und <br />
-      Corporate Design konform zu erstellen!
-    </h1>
-    <div class="introButton">
-      <Btn buttonType="Tertiary" buttonName="Erstelle ein neues Layout" buttonIcons="Hinzufuegen.png" class="btn-toFluid"
-        @click="handleFormatChoice(!toFormatChoice)" />
-    </div>
+      <h1 class="fontWhite introText">
+        Der
+        »<span style="font-style: italic">RWU </span>
+        <span style="font-weight: 700; letter-spacing: 0.03em;">FluidDesigner</span>« hilft dir dabei, <br />
+        Layouts automatisch und <br />
+        Corporate Design konform zu erstellen!
+      </h1>
+      <div class="introButton">
+        <Btn buttonType="Tertiary" buttonName="Erstelle ein neues Layout" buttonIcons="Hinzufuegen.png"
+          class="btn-toFluid" @click="handleFormatChoice(!toFormatChoice)" />
+      </div>
     </section>
   </header>
 
 
   <!-- Overlay&Format Auswahl -->
-  <FormatChoice v-if="toFormatChoice"  class="overlay" />
+  <FormatChoice v-if="toFormatChoice" class="overlay" />
 
 
   <!-- Tutorial -->
@@ -52,26 +52,25 @@
 
     </section>
     <Btn buttonType="Primary" buttonName="Erstelle ein neues Layout" buttonIcons="Hinzufuegen.png" class="btn-tutorial"
-        @click="handleFormatChoice(!toFormatChoice)" />
+      @click="handleFormatChoice(!toFormatChoice)" />
 
   </div>
 
   <!-- Zuletzt erstellt -->
   <div class="recently-made">
+    
     <h1 class="fontLila recently-headline">Zuletzt erstellt</h1>
     <p v-if="checkStore()">»es wurden noch keine Layouts mit FluidDesigner erstellt«</p>
     <div class="recently-grid">
-      <router-link to="/fluidDesigner" v-for="state in storedStates" :key="state.id" class="recently-grid-item link" @click="updateStoredStates(state)">
-        
-        <h2>{{state.headline}}</h2>
-        <p>{{formatDate(state.timestamp)}}</p>
-        
-      </router-link>
-    
-     
-     
-     
+      
+         
+          <router-link to="/fluidDesigner" class="recently-grid-item link" v-for="state in storedStates" :key="state.id" @click="updateStoredStates(state)">
+            <h2>{{ state.headline }}</h2>
+            <p>{{ formatDate(state.timestamp) }}</p>
+          </router-link>
+  
     </div>
+
   </div>
 </template>
 
@@ -99,7 +98,7 @@ export default {
     ...mapState(['toFormatChoice'])
   },
 
-  
+
   methods: {
     ...mapActions(['handleFormatChoice']),
     ...mapMutations(['setStoredState']),
@@ -129,23 +128,23 @@ export default {
     },
 
     checkStore() {
-      
+
       if (this.storedStates === null) {
         return true;
       } else {
         return false;
       }
     },
-  
+
 
   },
 
   mounted() {
 
-    
+
     this.removeMainElement();
 
- 
+
     const storedData = localStorage.getItem('storedStates');
 
     if (storedData) {
@@ -254,7 +253,7 @@ export default {
 
 .recently-grid {
   display: grid;
-  grid-template-columns: repeat(5,1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 30px;
 }
 
@@ -266,8 +265,8 @@ export default {
   display: flex;
   justify-content: stretch;
   align-items: center;
-  flex-wrap: wrap;
-  overflow: hidden;
+  flex-wrap: wrap;/* 
+  overflow: hidden; */
   padding: 30px;
   color: white;
   box-sizing: border-box;
@@ -277,6 +276,7 @@ export default {
   text-decoration: none;
   color: white;
 }
+
 /* -----------------------------------------------------------Overlay Styling*/
 
 .overlay {
