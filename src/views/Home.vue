@@ -89,7 +89,7 @@ export default {
 
   data() {
     return {
-      storedStates: [],
+      storedStates: null,
     }
   },
 
@@ -129,7 +129,8 @@ export default {
     },
 
     checkStore() {
-      if (this.storedState == []) {
+      
+      if (this.storedStates === null) {
         return true;
       } else {
         return false;
