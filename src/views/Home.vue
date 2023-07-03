@@ -60,22 +60,14 @@
   <div class="recently-made">
     <h1 class="fontLila recently-headline">Zuletzt erstellt</h1>
     <div class="recently-grid">
-      <div class="recently-grid-item">
-        <h2>Dies ist eine überschrift ich versuche sie relativ</h2>
-        <p>28.06.2023</p>
+      <div v-for="state in storedStates" :key="state.id" class="recently-grid-item">
+        <h2>{{state.headline}}</h2>
+        <p>{{formatDate(state.timestamp)}}</p>
       </div>
-      <div class="recently-grid-item">
-        <h2>Dies ist eine überschrift ich versuche sie relativ</h2>
-        <p>28.06.2023</p>
-      </div>
-      <div class="recently-grid-item">
-        <h2>Dies ist eine überschrift ich versuche sie relativ</h2>
-        <p>28.06.2023</p>
-      </div>
-      <div class="recently-grid-item">
-        <h2>Dies ist eine überschrift ich versuche sie relativ</h2>
-        <p>28.06.2023</p>
-      </div>
+    
+     
+     
+     
     </div>
   </div>
 </template>
@@ -91,6 +83,14 @@ export default {
     Btn,
     FormatChoice
   },
+
+  data() {
+    return {
+      storedStates: [],
+    }
+  },
+
+
 
   computed: {
     ...mapState(['toFormatChoice'])
@@ -111,10 +111,30 @@ export default {
       }, 1000);
     },
 
+    formatDate(timestamp) {
+      const date = new Date(timestamp);
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const year = date.getFullYear();
+
+      return `${day}.${month}.${year}`;
+    },
+  
+
   },
 
   mounted() {
+
+    
     this.removeMainElement();
+
+ 
+    const storedData = localStorage.getItem('storedStates');
+
+    if (storedData) {
+      this.storedStates = JSON.parse(storedData);
+      console.log(this.storedStates);
+    }
   }
 }
 </script>
