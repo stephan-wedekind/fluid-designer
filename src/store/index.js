@@ -104,13 +104,82 @@ export default createStore({
     setActiveNavigation(state, navigationId) {
       state.activeNavigation = navigationId;
     },
+     /* isPrint: state.isPrint,
+          activeFormat: state.activeFormat,
+          styleClassic: state.styleClassic,
+          styleOverlay: state.styleOverlay,
+          stylePattern: state.stylePattern,
+          patternMirror: state.patternMirror,
+          patternStripe: state.patternStripe,
+          patternRandom: state.patternRandom,
+          patternFilled: state.patternFilled,
+          isCircle: state.isCircle,
+          isRectangle: state.isRectangle,
+          isTriangle: state.isTriangle,
+          patternStripeStart: state.patternStripeStart,
+          patternStripeEnd: state.patternStripeEnd,
+          patternSeed: state.patternSeed,
+          canvasWidth: state.canvasWidth,
+          canvasHeight: state.canvasHeight,
+          activeImage: state.activeImage,
+          imagePath: state.imagePath, */
+         
+
     resetState(state) {
+ 
+
+      const storedData = localStorage.getItem("storedState");
+
+      const newData = {
+        isPrint: state.isPrint,
+        activeFormat: state.activeFormat,
+        styleClassic: state.styleClassic,
+        styleOverlay: state.styleOverlay,
+        stylePattern: state.stylePattern,
+        patternMirror: state.patternMirror,
+        patternStripe: state.patternStripe,
+        patternRandom: state.patternRandom,
+        patternFilled: state.patternFilled,
+        isCircle: state.isCircle,
+        isRectangle: state.isRectangle,
+        isTriangle: state.isTriangle,
+        patternStripeStart: state.patternStripeStart,
+        patternStripeEnd: state.patternStripeEnd,
+        patternSeed: state.patternSeed,
+        canvasWidth: state.canvasWidth,
+        canvasHeight: state.canvasHeight,
+        activeImage: state.activeImage,
+        imagePath: state.imagePath,
+        headline: state.headline,
+        subheadline: state.subheadline,
+        copyText: state.copyText,
+        urlQR: state.urlQR,
+        headlineLines: state.headlineLines,
+        subHeadlineLines: state.subHeadlineLines,
+        copyTextLines: state.copyTextLines,
+        focus: state.focus,
+      };
+
+      let storedStates = [];
+
+      if (storedData) {
+        storedStates = JSON.parse(storedData);
+      }
+
+      storedStates.push(newData);
+
+      localStorage.setItem("storedState", JSON.stringify(storedStates));
+
+
+      
+
       Object.assign(state, initialState),
       
       state.navigations = [
         { id: "style", label: "Style", position: 0 },
         { id: "text", label: "Text", position: 3 },
       ];
+    
     },
 
     //Format Auswahl
