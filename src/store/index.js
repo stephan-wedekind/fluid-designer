@@ -128,9 +128,11 @@ export default createStore({
     resetState(state) {
  
 
-      const storedData = localStorage.getItem("storedState");
+      const storedData = localStorage.getItem("storedStates");
 
       const newData = {
+        id: generateUniqueId(),
+        timestamp: new Date().toISOString(),
         isPrint: state.isPrint,
         activeFormat: state.activeFormat,
         styleClassic: state.styleClassic,
@@ -168,7 +170,7 @@ export default createStore({
 
       storedStates.push(newData);
 
-      localStorage.setItem("storedState", JSON.stringify(storedStates));
+      localStorage.setItem("storedStates", JSON.stringify(storedStates));
 
 
       
@@ -486,3 +488,9 @@ export default createStore({
     },
   },
 });
+
+function generateUniqueId() {
+  // jedem element aus localStorage storedStates wird einen eindeutige id zugewiesen
+  const { v4: uuidv4 } = require('uuid');
+  return uuidv4();
+}
