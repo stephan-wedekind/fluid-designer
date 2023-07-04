@@ -227,7 +227,8 @@ export default {
       let unitsVertical;
       let gridWidth;
       let gridHeight;
-
+      let marginX;
+      let marginY;
       //Base Unit & Shape größe
       let unit
 
@@ -297,20 +298,22 @@ export default {
             unitsVertical = unitsHorizontal;
             gridHeight = gridWidth;
           }
-          
-          if (this.patternRandom){
+          p.randomSeed(this.patternSeed);
+
+          //--------------------------------------------------------------Pattern Random
           p.push();
-          if (this.isPrint) p.translate(unit, (unit));
-          else p.translate(unit, (p.height - gridHeight) / 2);
-
-
           let shapeSize = unit * this.shapesFactor;
           let shapesRow = unitsHorizontal / this.shapesFactor;
           let shapesColumn = unitsVertical / this.shapesFactor;
+          if (this.isPrint) p.translate(unit, unit);
+          else p.translate(unit, (p.height - gridHeight) / 2);
+          if (this.patternRandom){
+          
+          
 
 
-          // Pattern Code here
-          p.randomSeed(this.patternSeed);
+         
+          
           for (let y = 0; y < shapesColumn; y++) {
             for (let x = 0; x < shapesRow; x++) {
               p.push();
@@ -359,20 +362,508 @@ export default {
               p.pop();
             }
           }
-          p.pop();
+          //p.pop();
           }
 
+          //--------------------------------------------------------------Pattern Mirror
+          
           if(this.patternMirror) {
+            //p.push();
+            
+            marginX = (p.width - gridWidth)/2;
+            marginY = (p.height - gridHeight)/2;
+            
+           
+            for (let y=0; y < shapesColumn / 2; y++) {
+              for(let x=0; x< shapesRow / 2; x++){
 
+              let orientation = p.int(p.random(0, 4));
+              let orientations = [
+                [0, 3, 1, 2],
+                [1, 2, 0, 3],
+                [2, 1, 3, 0],
+                [3, 0, 2, 1],
+              ];
+              let shapeType = 0;
+
+              //Fill or Stroke
+              if (this.patternFilled) {
+                p.fill(rwLilaDark);
+                p.noStroke();
+              } else {
+                p.noFill();
+                p.stroke(rwLilaDark);
+                p.strokeWeight(shapeSize * 0.1);
+              }
+              p.strokeJoin(p.ROUND);
+
+              //formen auswahl---------------------------------
+              // -----------
+              //KREISE
+              if (this.isCircle && !this.isRectangle && !this.isTriangle) {
+                //Quadrant 0
+                p.push();
+                p.translate(x * shapeSize, y * shapeSize);
+                createQuarterCircle(shapeSize, orientations[orientation][0]);
+                p.pop();
+                //Quadrant 1
+                p.push();
+                p.translate(
+                  p.width - x * shapeSize - shapeSize - 2 * marginX,
+                  y * shapeSize
+                );
+
+                createQuarterCircle(shapeSize, orientations[orientation][1]);
+                p.pop();
+                //Quadrant 2
+                p.push();
+                p.translate(
+                  x * shapeSize,
+                  gridHeight - y * shapeSize - shapeSize
+                );
+
+                createQuarterCircle(shapeSize, orientations[orientation][2]);
+                p.pop();
+                //Quadrant 3
+                p.push();
+                p.translate(
+                  p.width - x * shapeSize - shapeSize - 2 * marginX,
+                  gridHeight - y * shapeSize  - shapeSize 
+                );
+
+                createQuarterCircle(shapeSize, orientations[orientation][3]);
+                p.pop();
+              }
+              // -----------
+              //QUADRATE
+              else if (!this.isCircle && this.isRectangle && !this.isTriangle) {
+                //Quadrant 0
+                p.push();
+                p.translate(x * shapeSize, y * shapeSize);
+                p.rect(0, 0, shapeSize, shapeSize);
+                p.pop();
+                //Quadrant 1
+                p.push();
+                p.translate(
+                  p.width - x * shapeSize - shapeSize - 2 * marginX,
+                  y * shapeSize
+                );
+
+                p.rect(0, 0, shapeSize, shapeSize);
+                p.pop();
+                //Quadrant 2
+                p.push();
+                p.translate(
+                  x * shapeSize,
+                  gridHeight - y * shapeSize - shapeSize
+                );
+
+                p.rect(0, 0, shapeSize, shapeSize);
+                p.pop();
+                //Quadrant 3
+                p.push();
+                p.translate(
+                  p.width - x * shapeSize - shapeSize - 2 * marginX,
+                  gridHeight - y * shapeSize - shapeSize
+                );
+
+                p.rect(0, 0, shapeSize, shapeSize);
+                p.pop();
+              }
+              // -----------
+              //DREIECKE
+              else if (!this.isCircle && !this.isRectangle && this.isTriangle) {
+                //Quadrant 0
+                p.push();
+                p.translate(x * shapeSize, y * shapeSize);
+                createTriangle(shapeSize, orientations[orientation][0]);
+                p.pop();
+                //Quadrant 1
+                p.push();
+                p.translate(
+                  p.width - x * shapeSize - shapeSize - 2 * marginX,
+                  y * shapeSize
+                );
+
+                createTriangle(shapeSize, orientations[orientation][1]);
+                p.pop();
+                //Quadrant 2
+                p.push();
+                p.translate(
+                  x * shapeSize,
+                  gridHeight - y * shapeSize - shapeSize
+                );
+
+                createTriangle(shapeSize, orientations[orientation][2]);
+                p.pop();
+                //Quadrant 3
+                p.push();
+                p.translate(
+                  p.width - x * shapeSize - shapeSize - 2 * marginX,
+                  gridHeight - y * shapeSize - shapeSize
+                );
+
+                createTriangle(shapeSize, orientations[orientation][3]);
+                p.pop();
+              }
+
+              // -----------
+              //KREISE & QUADRATE
+              else if (this.isCircle && this.isRectangle && !this.isTriangle) {
+                p.push();
+                shapeType = p.int(p.random(0, 2));
+                if (shapeType === 0) {
+                  //Quadrant 0
+                  p.push();
+                  p.translate(x * shapeSize, y * shapeSize);
+                  p.rect(0, 0, shapeSize, shapeSize);
+                  p.pop();
+                  //Quadrant 1
+                  p.push();
+                  p.translate(
+                    p.width - x * shapeSize - shapeSize - 2 * marginX,
+                    y * shapeSize
+                  );
+
+                  p.rect(0, 0, shapeSize, shapeSize);
+                  p.pop();
+                  //Quadrant 2
+                  p.push();
+                  p.translate(
+                    x * shapeSize,
+                    gridHeight - y * shapeSize - shapeSize
+                  );
+
+                  p.rect(0, 0, shapeSize, shapeSize);
+                  p.pop();
+                  //Quadrant 3
+                  p.push();
+                  p.translate(
+                    p.width - x * shapeSize - shapeSize - 2 * marginX,
+                    gridHeight - y * shapeSize - shapeSize
+                  );
+
+                  p.rect(0, 0, shapeSize, shapeSize);
+                  p.pop();
+                } else {
+                  //Quadrant 0
+                  p.push();
+                  p.translate(x * shapeSize, y * shapeSize);
+                  createQuarterCircle(shapeSize, orientations[orientation][0]);
+                  p.pop();
+                  //Quadrant 1
+                  p.push();
+                  p.translate(
+                    p.width - x * shapeSize - shapeSize - 2 * marginX,
+                    y * shapeSize
+                  );
+
+                  createQuarterCircle(shapeSize, orientations[orientation][1]);
+                  p.pop();
+                  //Quadrant 2
+                  p.push();
+                  p.translate(
+                    x * shapeSize,
+                    gridHeight - y * shapeSize - shapeSize
+                  );
+
+                  createQuarterCircle(shapeSize, orientations[orientation][2]);
+                  p.pop();
+                  //Quadrant 3
+                  p.push();
+                  p.translate(
+                    p.width - x * shapeSize - shapeSize - 2 * marginX,
+                    gridHeight - y * shapeSize - shapeSize
+                  );
+
+                  createQuarterCircle(shapeSize, orientations[orientation][3]);
+                  p.pop();
+                }
+                p.pop();
+              }
+
+              // -----------
+              //KREISE & DREIECKE
+              else if (this.isCircle && !this.isRectangle && this.isTriangle) {
+                p.push();
+                shapeType = p.int(p.random(0, 2));
+                if (shapeType === 0) {
+                  //Quadrant 0
+                  p.push();
+                  p.translate(x * shapeSize, y * shapeSize);
+                  createTriangle(shapeSize, orientations[orientation][0]);
+                  p.pop();
+                  //Quadrant 1
+                  p.push();
+                  p.translate(
+                    p.width - x * shapeSize - shapeSize - 2 * marginX,
+                    y * shapeSize
+                  );
+
+                  createTriangle(shapeSize, orientations[orientation][1]);
+                  p.pop();
+                  //Quadrant 2
+                  p.push();
+                  p.translate(
+                    x * shapeSize,
+                    gridHeight - y * shapeSize - shapeSize
+                  );
+
+                  createTriangle(shapeSize, orientations[orientation][2]);
+                  p.pop();
+                  //Quadrant 3
+                  p.push();
+                  p.translate(
+                    p.width - x * shapeSize - shapeSize - 2 * marginX,
+                    gridHeight - y * shapeSize - shapeSize
+                  );
+
+                  createTriangle(shapeSize, orientations[orientation][3]);
+                  p.pop();
+                } else {
+                  //Quadrant 0
+                  p.push();
+                  p.translate(x * shapeSize, y * shapeSize);
+                  createQuarterCircle(shapeSize, orientations[orientation][0]);
+                  p.pop();
+                  //Quadrant 1
+                  p.push();
+                  p.translate(
+                    p.width - x * shapeSize - shapeSize - 2 * marginX,
+                    y * shapeSize
+                  );
+
+                  createQuarterCircle(shapeSize, orientations[orientation][1]);
+                  p.pop();
+                  //Quadrant 2
+                  p.push();
+                  p.translate(
+                    x * shapeSize,
+                    gridHeight - y * shapeSize - shapeSize
+                  );
+
+                  createQuarterCircle(shapeSize, orientations[orientation][2]);
+                  p.pop();
+                  //Quadrant 3
+                  p.push();
+                  p.translate(
+                    p.width - x * shapeSize - shapeSize - 2 * marginX,
+                    gridHeight - y * shapeSize - shapeSize
+                  );
+
+                  createQuarterCircle(shapeSize, orientations[orientation][3]);
+                  p.pop();
+                }
+                p.pop();
+              }
+
+              // -----------
+              //QUADRATE & DREIECKE
+              else if (!this.isCircle && this.isRectangle && this.isTriangle) {
+                
+                shapeType = p.int(p.random(0, 2));
+                p.push();
+                //DREIECKE
+                if (shapeType === 0) {
+                  //Quadrant 0
+                  p.push();
+                  p.translate(x * shapeSize, y * shapeSize);
+                  createTriangle(shapeSize, orientations[orientation][0]);
+                  p.pop();
+                  //Quadrant 1
+                  p.push();
+                  p.translate(
+                    p.width - x * shapeSize - shapeSize - 2 * marginX,
+                    y * shapeSize
+                  );
+
+                  createTriangle(shapeSize, orientations[orientation][1]);
+                  p.pop();
+                  //Quadrant 2
+                  p.push();
+                  p.translate(
+                    x * shapeSize,
+                    gridHeight - y * shapeSize - shapeSize
+                  );
+
+                  createTriangle(shapeSize, orientations[orientation][2]);
+                  p.pop();
+                  //Quadrant 3
+                  p.push();
+                  p.translate(
+                    p.width - x * shapeSize - shapeSize - 2 * marginX,
+                    gridHeight - y * shapeSize - shapeSize
+                  );
+
+                  createTriangle(shapeSize, orientations[orientation][3]);
+                  p.pop();
+                } else {
+                  //----
+                  //Quadrant 0
+                  p.push();
+                  p.translate(x * shapeSize, y * shapeSize);
+                  p.rect(0, 0, shapeSize, shapeSize);
+                  p.pop();
+                  //Quadrant 1
+                  p.push();
+                  p.translate(
+                    p.width - x * shapeSize - shapeSize - 2 * marginX,
+                    y * shapeSize
+                  );
+                  p.rect(0, 0, shapeSize, shapeSize);
+                  p.pop();
+                  //Quadrant 2
+                  p.push();
+                  p.translate(
+                    x * shapeSize,
+                    gridHeight - y * shapeSize - shapeSize
+                  );
+                  p.rect(0, 0, shapeSize, shapeSize);
+                  p.pop();
+                  //Quadrant 3
+                  p.push();
+                  p.translate(
+                    p.width - x * shapeSize - shapeSize - 2 * marginX,
+                    gridHeight - y * shapeSize - shapeSize
+                  );
+                  p.rect(0, 0, shapeSize, shapeSize);
+                  p.pop();
+                }
+                p.pop();
+              }
+
+              // -----------
+              //ALLE FORMEN
+              else if (this.isCircle && this.isRectangle && this.isTriangle) {
+                // ALLE DREI FORMEN
+
+                
+                shapeType = p.int(p.random(0, 7));
+                p.push();
+                //RECHTECKE
+                if (shapeType === 0) {
+                  //----
+                  //Quadrant 0
+                  p.push();
+                  p.translate(x * shapeSize, y * shapeSize);
+                  p.rect(0, 0, shapeSize, shapeSize);
+                  p.pop();
+                  //Quadrant 1
+                  p.push();
+                  p.translate(
+                    p.width - x * shapeSize - shapeSize - 2 * marginX,
+                    y * shapeSize
+                  );
+                  p.rect(0, 0, shapeSize, shapeSize);
+                  p.pop();
+                  //Quadrant 2
+                  p.push();
+                  p.translate(
+                    x * shapeSize,
+                    gridHeight - y * shapeSize - shapeSize
+                  );
+                  p.rect(0, 0, shapeSize, shapeSize);
+                  p.pop();
+                  //Quadrant 3
+                  p.push();
+                  p.translate(
+                    p.width - x * shapeSize - shapeSize - 2 * marginX,
+                    gridHeight - y * shapeSize - shapeSize
+                  );
+                  p.rect(0, 0, shapeSize, shapeSize);
+                  p.pop();
+                }
+
+                //DREIECKE
+                else if (shapeType === 1 || shapeType === 2 || shapeType == 3) {
+                  //Quadrant 0
+                  p.push();
+                  p.translate(x * shapeSize, y * shapeSize);
+                  createTriangle(shapeSize, orientations[orientation][0]);
+                  p.pop();
+                  //Quadrant 1
+                  p.push();
+                  p.translate(
+                    p.width - x * shapeSize - shapeSize - 2 * marginX,
+                    y * shapeSize
+                  );
+
+                  createTriangle(shapeSize, orientations[orientation][1]);
+                  p.pop();
+                  //Quadrant 2
+                  p.push();
+                  p.translate(
+                    x * shapeSize,
+                    gridHeight - y * shapeSize - shapeSize
+                  );
+
+                  createTriangle(shapeSize, orientations[orientation][2]);
+                  p.pop();
+                  //Quadrant 3
+                  p.push();
+                  p.translate(
+                    p.width - x * shapeSize - shapeSize - 2 * marginX,
+                    gridHeight - y * shapeSize - shapeSize
+                  );
+
+                  createTriangle(shapeSize, orientations[orientation][3]);
+                  p.pop();
+                }
+
+                //VIERTELKREISE
+                else if (
+                  shapeType === 4 ||
+                  shapeType === 5 ||
+                  shapeType === 6
+                ) {
+                  //Quadrant 0
+                  p.push();
+                  p.translate(x * shapeSize, y * shapeSize);
+                  createQuarterCircle(shapeSize, orientations[orientation][0]);
+                  p.pop();
+                  //Quadrant 1
+                  p.push();
+                  p.translate(
+                    p.width - x * shapeSize - shapeSize - 2 * marginX,
+                    y * shapeSize
+                  );
+
+                  createQuarterCircle(shapeSize, orientations[orientation][1]);
+                  p.pop();
+                  //Quadrant 2
+                  p.push();
+                  p.translate(
+                    x * shapeSize,
+                    gridHeight - y * shapeSize - shapeSize
+                  );
+
+                  createQuarterCircle(shapeSize, orientations[orientation][2]);
+                  p.pop();
+                  //Quadrant 3
+                  p.push();
+                  p.translate(
+                    p.width - x * shapeSize - shapeSize - 2 * marginX,
+                    gridHeight - y * shapeSize - shapeSize
+                  );
+
+                  createQuarterCircle(shapeSize, orientations[orientation][3]);
+                  p.pop();
+                }
+                p.pop();
+              }
+              }
+            }
+            
           }
-
+          p.pop();
+          //--------------------------------------------------------------Pattern Stripe
           if(this.patternStripe) {
             p.push();
             let shapeSize = p.height*0.1;
             let shapesColumn = p.height/shapeSize;
 
             p.translate(p.width - (shapeSize*this.patternStripeWidth) - shapeSize,0)
-            
+          
             for (let y = 0; y < shapesColumn; y++) {
               for (let x = 0; x < this.patternStripeWidth; x++){
                 p.push();
