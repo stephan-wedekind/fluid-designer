@@ -17,7 +17,9 @@ export default {
       p: null,
       canvas: null,
       typingTimer: null,
-      doneTypingInterval: 1000
+      doneTypingInterval: 1000,
+      
+
     }
   },
 

@@ -23,9 +23,9 @@
   <section class="pattern-edit">
 
     <div class="edit-line" id="number-shapes" v-if="!patternStripe">
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png" @click="decreaseShapesFactor()" :disabled="false"/>
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png" @click="decreaseShapesFactor()" :disabled="shapesFactor===1"/>
       <div class="edit-label"><h2 class="fontLila">Formen Größe</h2></div>
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" @click="increaseShapesFactor()" :disabled="false"/>
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" @click="increaseShapesFactor()" :disabled="shapesFactor === maxShapesFactor"/>
     </div>
 
     <div class="edit-line" id="change-stripe" v-if="patternStripe">
@@ -81,9 +81,8 @@ export default {
 
   data() {
     return {
-      limitReached: false,
-     /*  shapeMinus: false,
-      shapePlus: false */
+      
+      maxShapesFactor: 2
     }
   },
 
@@ -104,8 +103,24 @@ export default {
     },
     checkPatternStartHigh() {
       return this.patternStripeWidth>=4;
-    }
+    },
   },
+  watch: {
+    patternMirror(newValue, oldValue) {
+     if (newValue) {
+      this.maxShapesFactor = 2;
+      if (newValue && this.shapesFactor === 4) {
+        this.decreaseShapesFactor();
+      }
+    }
+    },
+    patternRandom(newValue, oldValue) {
+      if (newValue) {
+        this.maxShapesFactor = 4;
+      }
+    }
+  }
+
 }
 
 </script>
