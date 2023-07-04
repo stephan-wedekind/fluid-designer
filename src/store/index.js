@@ -341,6 +341,10 @@ export default createStore({
       state.subHeadlineLines = lines;
     },
 
+    SET_COPY_LINE(state, lines){
+      state.copyTextLines = lines;
+    },
+
     //QR Code
 
     setQRCodeImage(state, qrCodeImage) {
@@ -548,6 +552,11 @@ export default createStore({
     updateSubHeadlineLines({ commit }, text) {
       const lines = text.split(/\r?\n/).map((line) => line.length);
       commit("SET_SUBHEADLINE_LINES", lines);
+    },
+    updateCopyLines({ commit }, text) {
+      const lines = text.split(/\r?\n/).map((line) => line.length);
+      commit("SET_COPY_LINE", lines);
+      console.log(lines);
     },
   },
 });

@@ -52,6 +52,7 @@ export default {
         'isTriangle',
         'headlineLines',
         'subHeadlineLines',
+        'copyTextLines',
         'patternSeed',
         'shapesFactor',
         'downloadTrigger',
@@ -211,6 +212,7 @@ export default {
 
       let headlineCharBeforeBreak = 0;
       let subHeadlineCharBeforeBreak = 0;
+      let copyTextLineCharBeforeBreak = 0;
 
       let offsetSub;
       let UserOffsetSub;
@@ -922,21 +924,15 @@ export default {
             p.pop();
           }
 
-          //Typografie
-
+          //Typografie//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          /* (this.isPrint) ? headlineSize = unit : headlineSize = 2*unit; */
           headlineSize = unit;
-          subheadlineSize = unit * 0.75;
-          copyTextSize = unit * 0.5;
-
+          subheadlineSize = headlineSize * 0.75;
+          copyTextSize = headlineSize * 0.5;
           p.textAlign(p.LEFT, p.TOP);
           p.push();
-          p.translate(unit, 2 * unit);
-          //Headline
-          renderHeadline();
-
-          //Subheadline OFFSET
-          p.textFont(fontMedium);
-
+          let lineCountHead = 0;
+          //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
           //Offset für Subheadline nach User Zeilen Umbruch gesetzt
           UserOffsetSub = this.headlineLines.length * (headlineSize * 1.1);
           if (this.headlineLines.length == 0) {
@@ -946,23 +942,19 @@ export default {
           for (let i = 0; i < this.headlineLines.length - 1; i++) {
             headlineCharBeforeBreak += this.headlineLines[i];
           }
-
           let lastLineAfterBreak = this.headline.length - headlineCharBeforeBreak - (this.headlineLines.length - 1);
-
           //Falls kein User Zeilenumbruch stattfindet wird hier nochmal offset gesetzt
           if (lastLineAfterBreak > 29 && lastLineAfterBreak < 55) {
             offsetSub = headlineSize * 1.1;
+            lineCountHead = 1;
           } else if (lastLineAfterBreak >= 55) {
             offsetSub = (2 * (headlineSize * 1.1));
+            lineCountHead = 2;
           }
-
+          lineCountHead = lineCountHead + this.headlineLines.length; 
           let totalOffsetSub = UserOffsetSub + offsetSub + subheadlineSize * 1.2;
-
-          //Subheadline
-          p.translate(0, totalOffsetSub);
-
-          renderSubheadline();
-          //Offset Copy Text
+          ////// //Offset Copy Text ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          let lineCountSub = 0;
           UserOffsetCopy = this.subHeadlineLines.length * (subheadlineSize * 1.2);
           if (this.subHeadlineLines.length == 0) {
             UserOffsetCopy = subheadlineSize * 1.2;
@@ -971,25 +963,44 @@ export default {
           for (let i = 0; i < this.headlineLines.length - 1; i++) {
             subHeadlineCharBeforeBreak += this.subHeadlineLines[i];
           }
-
           let lastLineAfterBreakSub = this.subheadline.length - subHeadlineCharBeforeBreak - (this.subHeadlineLines.length - 1);
-
           //Falls kein User Zeilenumbruch stattfindet wird hier nochmal offset gesetzt
           if (lastLineAfterBreakSub > 40 && lastLineAfterBreakSub < 55) {
-
             offsetCopy = subheadlineSize * 1.2;
+            lineCountSub = 1;
           } else if (lastLineAfterBreakSub >= 55) {
             offsetCopy = (2 * (subheadlineSize * 1.2));
-
+            lineCountSub = 2;
           }
-
+          lineCountSub = lineCountSub + this.subHeadlineLines.length;
           let totalOffsetCopy = UserOffsetCopy + offsetCopy + subheadlineSize * 1.2;
-          //Copy Text
+          let lineCountCopy = 0;
+          for (let i = 0; i<this.copyTextLines.length -1; i++){
+            copyTextLineCharBeforeBreak += this.copyTextLines[i];
+          }
+          let lastLineAfterBreakCopy = this.copyText.length - copyTextLineCharBeforeBreak - (this.copyTextLines.length -1);
+          let linesAfterBreak = parseInt(lastLineAfterBreakCopy/55);
+          lineCountCopy = this.copyTextLines.length + linesAfterBreak; 
+          let textHeight = 0;
+          if(this.isPrint){
+            textHeight = (lineCountHead *( headlineSize * 1.1)) + (lineCountSub * (subheadlineSize * 1.2)) + (lineCountCopy * (copyTextSize * 1.4));
+          } else {
+            textHeight = (lineCountHead *( headlineSize * 1.1)) + (lineCountSub * (subheadlineSize * 1.2));
+          }
+          p.translate(unit, ((gridHeight - textHeight)/2));
+          //Headline  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          renderHeadline();
+          //Subheadline  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          p.textFont(fontMedium);
+          p.translate(0, totalOffsetSub);
+          renderSubheadline();
+          //Copy Text  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          if (this.isPrint) {
           p.translate(0, totalOffsetCopy);
           renderCopyText();
-
+          }
           p.pop();
-
+          //TypoEnde //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
           //Logo und QR Code nur in Print Produkten A4 A5, nicht in digital Formaten
           if (this.isPrint) {

@@ -13,7 +13,7 @@
 
     <section class="user-input">
       <h2 class="fontLila">Text</h2>
-      <textarea :class="{'filled' : newCopyText.length > 0}" maxlength="500" v-model="newCopyText" @input="updateCopyText(newCopyText)" placeholder="Weitere Informationen"></textarea>
+      <textarea :class="{'filled' : newCopyText.length > 0}" maxlength="500" v-model="newCopyText" @input="updateCopyText(newCopyText)" placeholder="Weitere Informationen" :disabled="!isPrint"></textarea>
     </section>
 
     <section class="qr-code" v-if="isPrint">
@@ -58,16 +58,19 @@ export default {
     },
     subheadline(newValue) {
       this.updateSubHeadlineLines(newValue);
+    },
+    copyText(newValue) {
+      this.updateCopyLines(newValue);
     }
   },
 
   computed: {
-    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'refreshing', 'refreshQR', 'isPrint', 'headlineLines'])
+    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'refreshing', 'refreshQR', 'isPrint', 'headlineLines', 'isPrint'])
   },
 
   methods: {
     ...mapMutations(['setHeadline', 'setSubheadline', 'setCopyText', 'setUrlQR', 'incrementRefreshing', 'incrementRefreshQR', 'incrementDownloadTrigger']),
-    ...mapActions(['updateHeadlineLines', 'updateSubHeadlineLines']),
+    ...mapActions(['updateHeadlineLines', 'updateSubHeadlineLines', 'updateCopyLines']),
 
     updateHeadline(newHeadline){
       this.setHeadline(newHeadline);
@@ -107,6 +110,11 @@ textarea {
   padding-top: 15px;
   padding-bottom: 15px;
   overflow: hidden;
+}
+
+textarea:disabled {
+  border-color: #8D8D8D;
+  background-color: #f2f2f2;
 }
 
 
