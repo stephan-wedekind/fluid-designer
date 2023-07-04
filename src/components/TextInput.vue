@@ -26,7 +26,7 @@
 
     <div class="buttons">
       <Btn buttonType="Secondary" buttonName="Aktualisieren" buttonIcons="Wiederholen.png" id="refresh" @click="incrementRefreshing"/>
-      <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" id="download"/>
+      <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" id="download" @click="incrementDownloadTrigger"/>
     </div>
     
   </div>
@@ -66,7 +66,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['setHeadline', 'setSubheadline', 'setCopyText', 'setUrlQR', 'incrementRefreshing', 'incrementRefreshQR']),
+    ...mapMutations(['setHeadline', 'setSubheadline', 'setCopyText', 'setUrlQR', 'incrementRefreshing', 'incrementRefreshQR', 'incrementDownloadTrigger']),
     ...mapActions(['updateHeadlineLines', 'updateSubHeadlineLines']),
 
     updateHeadline(newHeadline){

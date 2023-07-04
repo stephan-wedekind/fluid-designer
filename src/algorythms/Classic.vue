@@ -5,6 +5,7 @@
 <script>
 import p5 from "p5";
 import QrCode from "qrcode";
+import jsPDF from "jspdf";
 
 import { mapState, mapActions, mapMutations } from 'vuex';
 
@@ -16,7 +17,7 @@ export default {
       p: null,
       canvas: null,
       typingTimer: null,
-      doneTypingInterval: 1000 
+      doneTypingInterval: 1000
     }
   },
 
@@ -32,20 +33,21 @@ export default {
   computed: {
     ...mapState(
       [
-        'headline', 
-        'subheadline', 
-        'copyText', 
-        'urlQR', 
-        'canvasWidth', 
-        'canvasHeight', 
-        'imagePath', 
-        'refreshing', 
-        'refreshQR', 
-        'qrCodeImage', 
-        'isPrint', 
-        'headlineLines', 
-        'subHeadlineLines',  
-        'focus'
+        'headline',
+        'subheadline',
+        'copyText',
+        'urlQR',
+        'canvasWidth',
+        'canvasHeight',
+        'imagePath',
+        'refreshing',
+        'refreshQR',
+        'qrCodeImage',
+        'isPrint',
+        'headlineLines',
+        'subHeadlineLines',
+        'focus',
+        'downloadTrigger'
       ]),
   },
 
@@ -106,6 +108,13 @@ export default {
     focus() {
       this.removeCanvas();
       this.createCanvas();
+    },
+    downloadTrigger() {
+      if (this.isPrint) {
+        this.downloadPDF();
+      } else {
+        this.downloadingImage();
+      }
     }
   },
 
@@ -238,15 +247,15 @@ export default {
           }
 
 
-          let frameRatio = imageWidth/imageHeight
-          let ratioImg = chosenImage.width/chosenImage.height;
-          
+          let frameRatio = imageWidth / imageHeight
+          let ratioImg = chosenImage.width / chosenImage.height;
+
           if (ratioImg > frameRatio) {
             offsetY = 0;
-            offsetX = (imageWidth/2) - (chosenImage.width * scaleFactor) * this.focus;
+            offsetX = (imageWidth / 2) - (chosenImage.width * scaleFactor) * this.focus;
           } else {
             offsetX = 0
-            offsetY = (imageHeight/2) - (chosenImage.height * scaleFactor) * this.focus;
+            offsetY = (imageHeight / 2) - (chosenImage.height * scaleFactor) * this.focus;
           }
 
           p.image(
@@ -265,8 +274,8 @@ export default {
           p.translate(0, imageHeight);
           p.rect(0, 0, p.width, p.height - imageHeight);
           p.pop();
-          
-          
+
+
           //Typografie
 
           headlineSize = unit;
@@ -284,17 +293,17 @@ export default {
 
           //Offset für Subheadline nach User Zeilen Umbruch gesetzt
           UserOffsetSub = this.headlineLines.length * (headlineSize * 1.1);
-          if(this.headlineLines.length == 0) {
-            UserOffsetSub = headlineSize *1.1;
+          if (this.headlineLines.length == 0) {
+            UserOffsetSub = headlineSize * 1.1;
           }
           offsetSub = 0;
           for (let i = 0; i < this.headlineLines.length - 1; i++) {
             headlineCharBeforeBreak += this.headlineLines[i];
           }
-          
+
           let lastLineAfterBreak = this.headline.length - headlineCharBeforeBreak - (this.headlineLines.length - 1);
-          
-                //Falls kein User Zeilenumbruch stattfindet wird hier nochmal offset gesetzt
+
+          //Falls kein User Zeilenumbruch stattfindet wird hier nochmal offset gesetzt
           if (lastLineAfterBreak > 29 && lastLineAfterBreak < 55) {
             offsetSub = headlineSize * 1.1;
           } else if (lastLineAfterBreak >= 55) {
@@ -302,14 +311,14 @@ export default {
           }
 
           let totalOffsetSub = UserOffsetSub + offsetSub + subheadlineSize * 1.2;
-          
+
           //Subheadline
           p.translate(0, totalOffsetSub);
 
           renderSubheadline();
           //Offset Copy Text
           UserOffsetCopy = this.subHeadlineLines.length * (subheadlineSize * 1.2);
-          if(this.subHeadlineLines.length == 0) {
+          if (this.subHeadlineLines.length == 0) {
             UserOffsetCopy = subheadlineSize * 1.2;
           }
           offsetCopy = 0;
@@ -318,14 +327,14 @@ export default {
           }
 
           let lastLineAfterBreakSub = this.subheadline.length - subHeadlineCharBeforeBreak - (this.subHeadlineLines.length - 1);
-         
-                //Falls kein User Zeilenumbruch stattfindet wird hier nochmal offset gesetzt
+
+          //Falls kein User Zeilenumbruch stattfindet wird hier nochmal offset gesetzt
           if (lastLineAfterBreakSub > 40 && lastLineAfterBreakSub < 55) {
-           
+
             offsetCopy = subheadlineSize * 1.2;
           } else if (lastLineAfterBreakSub >= 55) {
             offsetCopy = (2 * (subheadlineSize * 1.2));
-           
+
           }
 
           let totalOffsetCopy = UserOffsetCopy + offsetCopy + subheadlineSize * 1.2;
@@ -457,6 +466,78 @@ export default {
         this.canvas.remove();
       }
     },
+
+    downloadingImage() {
+      const currentDate = new Date();
+      const formattedDate = currentDate.toLocaleString().replace(/[/:]/g, "-");
+
+      let filename = this.headline + "_" + formattedDate + ".png";
+      const imageWidth = (this.canvasWidth / 72) * 300;
+      const imageHeight = (this.canvasHeight / 72) * 300;
+
+      const resizedCanvas = document.createElement("canvas");
+      resizedCanvas.width = imageWidth;
+      resizedCanvas.height = imageHeight;
+
+      const resizedContext = resizedCanvas.getContext("2d");
+
+      resizedContext.drawImage(
+        this.canvas.canvas,
+        0,
+        0,
+        imageWidth,
+        imageHeight
+      );
+
+      const image = resizedCanvas.toDataURL("image/png"); // Set the file type to PNG
+
+      const link = document.createElement("a");
+
+      link.href = image;
+      link.download = filename; 
+
+      link.click();
+    },
+
+    downloadPDF() {
+      const options = {
+        imageCompression: "JPEG",
+        compress: true,
+        quality: 1, // Adjust the quality value (0.0 - 1.0) to balance between file size and image quality
+      };
+
+      const currentDate = new Date();
+      const formattedDate = currentDate.toLocaleString().replace(/[/:]/g, "-");
+
+      let filename = this.headline + "_" + formattedDate;
+
+      if (this.canvasWidth === 210) {
+        filename = filename + "_A4.pdf";
+        const pdfA4 = new jsPDF("p", "mm", "a4");
+        pdfA4.addImage(
+          this.canvas.canvas.toDataURL("image/jpeg", options),
+          "JPEG",
+          0,
+          0,
+          210,
+          297
+        );
+        pdfA4.save(filename);
+      } else {
+        filename = filename + "_A5.pdf";
+        const pdfA5 = new jsPDF("p", "mm", "a5");
+        pdfA5.addImage(
+          this.canvas.canvas.toDataURL("image/jpeg", options),
+          "JPEG",
+          0,
+          0,
+          148,
+          210
+        );
+        pdfA5.save(filename);
+      }
+    }
+
 
   },//methods
 }//export default

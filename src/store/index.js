@@ -10,6 +10,10 @@ const initialState = {
     { id: "text", label: "Text", position: 3 },
   ],
 
+  //TRYOUT AREA
+  downloadTrigger: 0,
+  //TRYOUT AREA
+
   //Format Auswahl
 
   toFormatChoice: false,
@@ -91,6 +95,12 @@ export default createStore({
   state: { ...initialState },
 
   mutations: {
+    //TRYOUT AREA
+    incrementDownloadTrigger(state) {
+      state.downloadTrigger += 1;
+    },
+    //TRYOUT AREA
+
     setIsImage(state, value) {
       state.isImage = value;
     },
