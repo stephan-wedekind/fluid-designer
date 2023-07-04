@@ -42,7 +42,7 @@ const initialState = {
   isTriangle: true,
 
   //Pattern
-  patternStripeStart: 1,
+  patternStripeWidth: 1,
   patternStripeEnd: null,
 
   patternSeed: 0,
@@ -140,7 +140,7 @@ export default createStore({
         isCircle: state.isCircle,
         isRectangle: state.isRectangle,
         isTriangle: state.isTriangle,
-        patternStripeStart: state.patternStripeStart,
+        patternStripeWidth: state.patternStripeWidth,
         patternStripeEnd: state.patternStripeEnd,
         patternSeed: state.patternSeed,
         canvasWidth: state.canvasWidth,
@@ -212,7 +212,7 @@ export default createStore({
       state.isCircle = storedState.isCircle,
       state.isRectangle = storedState.isRectangle,
       state.isTriangle = storedState.isTriangle,
-      state.patternStripeStart = storedState.patternStripeStart,
+      state.patternStripeWidth = storedState.patternStripeWidth,
       state.patternStripeEnd = storedState.patternStripeEnd,
       state.patternSeed = storedState.patternSeed,
       state.canvasWidth = storedState.canvasWidth,
@@ -367,26 +367,11 @@ export default createStore({
 
     //Pattern
 
-    increasePatternStripeStart(state) {
-      state.patternStripeStart += 1;
+    increasePatternStripeWidth(state) {
+      state.patternStripeWidth += 1;
     },
-    decreasePatternStripeStart(state) {
-      state.patternStripeStart -= 1;
-    },
-
-    increasePatternStripeEnd(state) {
-      state.patternStripeEnd += 1;
-    },
-    decreasePatternStripeEnd(state) {
-      state.patternStripeEnd -= 1;
-    },
-
-    increasePatternSeed(state) {
-      state.patternSeed += 1;
-    },
-    decreasePatternSeed(state) {
-      state.patternSeed -= 1;
-      
+    decreasePatternStripeWidth(state) {
+      state.patternStripeWidth -= 1;
     },
 
     randomPatternSeed(state) {

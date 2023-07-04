@@ -52,7 +52,11 @@ export default {
         'subHeadlineLines',
         'patternSeed',
         'shapesFactor',
-        'downloadTrigger'
+        'downloadTrigger',
+        'patternMirror',
+        'patternStripe',
+        'patternRandom',
+        'patternStripeWidth'
       ])
   },
 
@@ -137,6 +141,24 @@ export default {
       this.createCanvas();
     },
     shapesFactor() {
+      this.removeCanvas();
+      this.createCanvas();
+    },
+
+    patternRandom() {
+      this.removeCanvas();
+      this.createCanvas();
+    },
+
+    patternMirror() {
+      this.removeCanvas();
+      this.createCanvas();
+    },
+    patternStripe() {
+      this.removeCanvas();
+      this.createCanvas();
+    },
+    patternStripeWidth() {
       this.removeCanvas();
       this.createCanvas();
     },
@@ -263,17 +285,20 @@ export default {
           //Layout Grid Setup
           unitsVertical = parseInt(unitsHorizontal * ratioH);
           if (
-            this.canvasWidth === 148 && this.canvasHeight === 210
-            ||
-            this.canvasWidth === 1080 && this.canvasHeight === 1350) unitsVertical--;
+            this.canvasWidth === 148 && this.canvasHeight === 210) unitsVertical--;
 
-
+          
 
           unit = p.width / 14;
 
           gridWidth = unitsHorizontal * unit;
           gridHeight = unitsVertical * unit;
-
+          if (this.canvasWidth === 1080 && this.canvasHeight === 1350) {
+            unitsVertical = unitsHorizontal;
+            gridHeight = gridWidth;
+          }
+          
+          if (this.patternRandom){
           p.push();
           if (this.isPrint) p.translate(unit, (unit));
           else p.translate(unit, (p.height - gridHeight) / 2);
@@ -334,9 +359,75 @@ export default {
               p.pop();
             }
           }
-
           p.pop();
+          }
 
+          if(this.patternMirror) {
+
+          }
+
+          if(this.patternStripe) {
+            p.push();
+            let shapeSize = p.height*0.1;
+            let shapesColumn = p.height/shapeSize;
+
+            p.translate(p.width - (shapeSize*this.patternStripeWidth) - shapeSize,0)
+            
+            for (let y = 0; y < shapesColumn; y++) {
+              for (let x = 0; x < this.patternStripeWidth; x++){
+                p.push();
+                p.translate(x*shapeSize, y*shapeSize);
+                if (this.patternFilled) {
+                p.fill(rwLilaDark);
+                p.noStroke();
+              } else {
+                p.noFill();
+                p.stroke(rwLilaDark);
+                p.strokeWeight(shapeSize * 0.1);
+              }
+              p.strokeJoin(p.ROUND);
+
+              let orientation = p.int(p.random(0, 4));
+              let shapeType = 0;
+              if (this.isCircle && !this.isRectangle && !this.isTriangle) {
+                createQuarterCircle(shapeSize, orientation);
+              } else if (!this.isCircle && this.isRectangle && !this.isTriangle) {
+                p.rect(0, 0, shapeSize, shapeSize);
+              } else if (!this.isCircle && !this.isRectangle && this.isTriangle) {
+                createTriangle(shapeSize, orientation);
+              } else if (this.isCircle && this.isRectangle && !this.isTriangle) {
+                shapeType = p.int(p.random(0, 2));
+                if (shapeType === 0)
+                  createQuarterCircle(shapeSize, orientation);
+                else p.rect(0, 0, shapeSize, shapeSize);
+              } else if (this.isCircle && !this.isRectangle && this.isTriangle) {
+                shapeType = p.int(p.random(0, 2));
+                if (shapeType === 0)
+                  createQuarterCircle(shapeSize, orientation);
+                else createTriangle(shapeSize, orientation);
+              } else if (!this.isCircle && this.isRectangle && this.isTriangle) {
+                shapeType = p.int(p.random(0, 2));
+                if (shapeType === 0) createTriangle(shapeSize, orientation);
+                else p.rect(0, 0, shapeSize, shapeSize);
+              } else if (this.isCircle && this.isRectangle && this.isTriangle) {
+                shapeType = p.int(p.random(0, 3));
+                if (shapeType === 0)
+                  createQuarterCircle(shapeSize, orientation);
+                else if (shapeType === 1)
+                  createTriangle(shapeSize, orientation);
+                else p.rect(0, 0, shapeSize, shapeSize);
+              }
+              //
+              //
+              //
+              //
+              //
+              //
+              p.pop();
+              }
+            }
+            p.pop();
+          }
 
           //Typografie
 
@@ -600,7 +691,7 @@ export default {
       const options = {
         imageCompression: "JPEG",
         compress: true,
-        quality: 1, // Adjust the quality value (0.0 - 1.0) to balance between file size and image quality
+        quality: 1,
       };
 
       const currentDate = new Date();

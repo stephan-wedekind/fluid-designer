@@ -29,9 +29,9 @@
     </div>
 
     <div class="edit-line" id="change-stripe" v-if="patternStripe">
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png" :disabled="checkPatternStartLow()" @click="decreasePatternStripeStart()" />
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png" :disabled="checkPatternStartLow()" @click="decreasePatternStripeWidth()" />
       <div class="edit-label"><h2 class="fontLila">Streifen Breite</h2></div>
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" :disabled="checkPatternStartHigh()" @click="increasePatternStripeStart()"/>
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" :disabled="checkPatternStartHigh()" @click="increasePatternStripeWidth()"/>
     </div>
 
     <div class="edit-line" id="change-pattern">
@@ -92,18 +92,18 @@ export default {
   },
 
   computed: {
-    ...mapState(['selectedPattern', 'patternMirror', 'patternStripe', 'patternRandom' , 'patternFilled', 'isRectangle', 'isCircle', 'isTriangle', 'patternStripeStart', 'patternStripeEnd', 'patternSeed', 'shapesFactor']),
+    ...mapState(['selectedPattern', 'patternMirror', 'patternStripe', 'patternRandom' , 'patternFilled', 'isRectangle', 'isCircle', 'isTriangle', 'patternStripeWidth', 'patternSeed', 'shapesFactor']),
 
   },
   methods: {
     ...mapActions(['changePattern', 'patternFill', 'handleCircle', 'handleRectangle', 'handleTriangle']),
-    ...mapMutations(['increasePatternStripeStart', 'decreasePatternStripeStart', 'increasePatternStripeEnd', 'decreasePatternStripeEnd', 'increasePatternSeed', 'decreasePatternSeed' ,'randomPatternSeed', 'increaseShapesFactor', 'decreaseShapesFactor']),
+    ...mapMutations(['increasePatternStripeWidth', 'decreasePatternStripeWidth' ,'randomPatternSeed', 'increaseShapesFactor', 'decreaseShapesFactor']),
 
     checkPatternStartLow() {
-      return this.patternStripeStart<=1;
+      return this.patternStripeWidth<=1
     },
     checkPatternStartHigh() {
-      return this.patternStripeStart>=6;
+      return this.patternStripeWidth>=4;
     }
   },
 }
