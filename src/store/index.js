@@ -43,7 +43,7 @@ const initialState = {
 
   patternSeed: 0,
 
-  shapesFactor: 1, 
+  shapesFactor: 1,
 
   //Canvas Size
   canvasWidth: 0,
@@ -403,7 +403,7 @@ export default createStore({
       } 
       if (state.shapesFactor === 3) {
         state.shapesFactor = 2;
-      }
+      } 
     }
   },
 

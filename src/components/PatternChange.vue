@@ -23,9 +23,9 @@
   <section class="pattern-edit">
 
     <div class="edit-line" id="number-shapes" v-if="!patternStripe">
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png" @click="increaseShapesFactor()"/>
-      <div class="edit-label"><h2 class="fontLila">Anzahl Formen</h2></div>
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" @click="decreaseShapesFactor()"/>
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png" @click="decreaseShapesFactor()" :disabled="false"/>
+      <div class="edit-label"><h2 class="fontLila">Formen Größe</h2></div>
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" @click="increaseShapesFactor()" :disabled="false"/>
     </div>
 
     <div class="edit-line" id="change-stripe" v-if="patternStripe">
@@ -82,6 +82,8 @@ export default {
   data() {
     return {
       limitReached: false,
+     /*  shapeMinus: false,
+      shapePlus: false */
     }
   },
 
@@ -90,7 +92,8 @@ export default {
   },
 
   computed: {
-    ...mapState(['selectedPattern', 'patternMirror', 'patternStripe', 'patternRandom' , 'patternFilled', 'isRectangle', 'isCircle', 'isTriangle', 'patternStripeStart', 'patternStripeEnd', 'patternSeed']),
+    ...mapState(['selectedPattern', 'patternMirror', 'patternStripe', 'patternRandom' , 'patternFilled', 'isRectangle', 'isCircle', 'isTriangle', 'patternStripeStart', 'patternStripeEnd', 'patternSeed', 'shapesFactor']),
+
   },
   methods: {
     ...mapActions(['changePattern', 'patternFill', 'handleCircle', 'handleRectangle', 'handleTriangle']),
@@ -102,7 +105,7 @@ export default {
     checkPatternStartHigh() {
       return this.patternStripeStart>=6;
     }
-  }
+  },
 }
 
 </script>

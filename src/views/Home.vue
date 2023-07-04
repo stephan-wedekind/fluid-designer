@@ -44,11 +44,11 @@
       <img src="Platzhalter/Tutorial/style-tutorial.png" alt="">
       <img src="Platzhalter/Tutorial/download-tutorial.png" alt="">
 
-      <h2 class="fontLila">Wähle zunächst ein geeignetes Format (z.B.&nbsp;DIN&nbsp;A4)</h2>
-      <h2 class="fontLila">Als nächstes kannst du dich für einen der drei Layout&nbsp;Stile entscheiden</h2>
+      <h2 class="fontLila">Wähle zunächst ein geeignetes Format (z.B.&nbsp;DIN&nbsp;A4).</h2>
+      <h2 class="fontLila">Danach entscheidest du dich für einen der drei Layoutstile.</h2>
       <h2 class="fontLila">Wähle dann ein Bild aus oder bearbeite das Pattern nach deinen Wünschen.</h2>
-      <h2 class="fontLila">Dann musst du nur noch deinen Text eingeben.</h2>
-      <h2 class="fontLila">Und danach das Layout herunterladen und es direkt verwenden.</h2>
+      <h2 class="fontLila">Jetzt musst du nur noch deinen Text eingeben...</h2>
+      <h2 class="fontLila">...und kannst das Layout direkt herunterladen und verwenden.</h2>
 
     </section>
     <Btn buttonType="Primary" buttonName="Erstelle ein neues Layout" buttonIcons="Hinzufuegen.png" class="btn-tutorial"
