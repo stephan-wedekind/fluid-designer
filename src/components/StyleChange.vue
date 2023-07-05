@@ -1,6 +1,8 @@
 <template>
   <div class="padding-60">
-
+    <div class="steps">
+      <h4 class="fontGrey"><span class="fontLila">Stil Auswahl</span> Schritt 1 von 3</h4>
+    </div>
   
   <section class="stylePreview" id="style01"  @click="addBild(), changeStyle('style01'), setFocus(0.5)" v-if="this.classicPossible">
     <img src="Platzhalter/Stil/Stil-1.png" :class="{ 'selected': this.styleClassic }" alt="">

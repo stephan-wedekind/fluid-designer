@@ -121,6 +121,12 @@ input:focus, textarea:focus {
   color: #ff00ff;
 }
 
+.steps{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
 
 
 

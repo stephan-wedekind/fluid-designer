@@ -1,6 +1,8 @@
 <template>
   <div class="padding-60">
-
+    <div class="steps">
+      <h4 class="fontGrey"><span class="fontLila">Text einfügen</span> Schritt 3 von 3</h4>
+    </div>
     <section class="user-input">
       <h2 class="fontLila">Headline</h2>
       <textarea :class="{'filled' : newHeadline.length > 0}" maxlength="72" v-model="newHeadline" @input="updateHeadline(newHeadline)" placeholder="z.B. Finde dein Studium"></textarea>

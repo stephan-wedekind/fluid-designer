@@ -1,7 +1,9 @@
 <template>
   <FocusPoint v-if="chooseFocus" class="focus" />
   <div class="fix padding-60">
-
+    <div class="steps">
+      <h4 class="fontGrey"><span class="fontLila">Bild auswählen </span>Schritt 2 von 3</h4>
+    </div>
     <input type="search" name="searchfield" id="searching-images" placeholder="Suche" v-model="searchInput"
       @keyup="searchWithDebounce" :class="{ 'filled': this.searchInput.length > 0 }">
     <div class="buttons">
