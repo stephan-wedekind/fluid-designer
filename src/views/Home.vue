@@ -69,7 +69,7 @@
             <p>{{ formatDate(state.timestamp) }}</p> -->
             <Card :storedState="state" class="recently-grid-item" @delete-clicked="removeState"/>
           </div>
-  
+     
     </div>
    
   </div>
@@ -131,15 +131,17 @@ export default {
       this.$store.commit('setStoredState', storedState);
     },
 
-    checkStore() {
-
+    /* checkStore() {
       if (this.storedStates === null) {
         return true;
       } else {
         return false;
       }
-    },
+    }, */
 
+    checkStore() {
+      return !this.storedStates || this.storedStates.length === 0;
+    },
 
     removeState(id) {
       const storedData = localStorage.getItem('storedStates');
