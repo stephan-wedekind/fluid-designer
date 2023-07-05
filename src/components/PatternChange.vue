@@ -21,21 +21,26 @@
 
   <h2 class="fontLila">Pattern bearbeiten</h2>
   <section class="pattern-edit">
-    <div class="edit-line" id="number-shapes">
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png" />
-      <div class="edit-label"><h2 class="fontLila">Anzahl Formen</h2></div>
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" />
+
+    <div class="edit-line" id="number-shapes" v-if="!patternStripe">
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png" @click="decreaseShapesFactor()" :disabled="shapesFactor===1"/>
+      <div class="edit-label"><h2 class="fontLila">Formen Größe</h2></div>
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" @click="increaseShapesFactor()" :disabled="shapesFactor === maxShapesFactor"/>
     </div>
-    <div class="edit-line" id="change-pattern">
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Pfeil-links.png" />
-      <div class="edit-label"><h2 class="fontLila">Pattern Ändern</h2></div>
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Pfeil-rechts.png" />
-    </div>
+
     <div class="edit-line" id="change-stripe" v-if="patternStripe">
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png"/>
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png" :disabled="checkPatternStartLow()" @click="decreasePatternStripeWidth()" />
       <div class="edit-label"><h2 class="fontLila">Streifen Breite</h2></div>
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" />
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" :disabled="checkPatternStartHigh()" @click="increasePatternStripeWidth()"/>
     </div>
+
+    <div class="edit-line" id="change-pattern">
+      <div class="edit-label randomPattern"><h2 class="fontLila">Formen neu mischen</h2></div>
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Wiederholen.png" @click="randomPatternSeed()"/>
+    </div>
+
+   
+
   </section>
 
   <section class="pattern-fill">
@@ -69,14 +74,15 @@
 
 <script>
 import Btn from '@/components/Button.vue'
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 
 export default {
   name: 'PatternChange',
 
   data() {
     return {
-      limitReached: false,
+      
+      maxShapesFactor: 2
     }
   },
 
@@ -85,11 +91,36 @@ export default {
   },
 
   computed: {
-    ...mapState(['selectedPattern', 'patternMirror', 'patternStripe', 'patternRandom' , 'patternFilled', 'isRectangle', 'isCircle', 'isTriangle']),
+    ...mapState(['selectedPattern', 'patternMirror', 'patternStripe', 'patternRandom' , 'patternFilled', 'isRectangle', 'isCircle', 'isTriangle', 'patternStripeWidth', 'patternSeed', 'shapesFactor']),
+
   },
   methods: {
     ...mapActions(['changePattern', 'patternFill', 'handleCircle', 'handleRectangle', 'handleTriangle']),
+    ...mapMutations(['increasePatternStripeWidth', 'decreasePatternStripeWidth' ,'randomPatternSeed', 'increaseShapesFactor', 'decreaseShapesFactor']),
+
+    checkPatternStartLow() {
+      return this.patternStripeWidth<=1
+    },
+    checkPatternStartHigh() {
+      return this.patternStripeWidth>=4;
+    },
+  },
+  watch: {
+    patternMirror(newValue, oldValue) {
+     if (newValue) {
+      this.maxShapesFactor = 2;
+      if (newValue && this.shapesFactor === 4) {
+        this.decreaseShapesFactor();
+      }
+    }
+    },
+    patternRandom(newValue, oldValue) {
+      if (newValue) {
+        this.maxShapesFactor = 4;
+      }
+    }
   }
+
 }
 
 </script>
@@ -140,6 +171,10 @@ export default {
   border-radius: 10px;
   justify-content: center;
   align-items: center;
+}
+
+.randomPattern {
+  width: 82.5%;
 }
 
 .edit-label h2 {

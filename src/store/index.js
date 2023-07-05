@@ -1,3 +1,4 @@
+import { random } from "lodash";
 import { createStore } from "vuex";
 
 const initialState = {
@@ -9,9 +10,15 @@ const initialState = {
     { id: "text", label: "Text", position: 3 },
   ],
 
+  //TRYOUT AREA
+  downloadTrigger: 0,
+  //TRYOUT AREA
+
   //Format Auswahl
 
   toFormatChoice: false,
+  isPrint: false,
+  activeFormat: null,
 
   //Style Auswahl
   classicPossible: false,
@@ -34,35 +41,66 @@ const initialState = {
   isRectangle: true,
   isTriangle: true,
 
+  //Pattern
+  patternStripeWidth: 1,
+  patternStripeEnd: null,
+
+  patternSeed: 0,
+
+  shapesFactor: 1,
+
   //Canvas Size
   canvasWidth: 0,
   canvasHeight: 0,
 
-  //Ausgewähltes Bild 
-  activeImage: null,
-  imagePath: "Platzhalter/default/default-image.png",
+  //Ausgewähltes Bild
+  activeImage: null, // gewähltes bild
+  imagePath: "Platzhalter/default/default-image.png", //pfad zum gewählten bild
 
   //Text Inputs
 
-  headline: "",
-  subheadline: "",
-  copyText: "",
-  urlQR: "",
-  
+  headline: "", //eingegebene headline
+  subheadline: "", //eingegebene subheadline
+  copyText: "", //eingegebener Text
+  urlQR: "", //eingegeben URL für QR code
+
+  //Umbruch Text
+
+  headlineLines: [], //Zeilenanzahl bei Zeilenumbruch durch User
+  subHeadlineLines: [], //-"-
+  copyTextLines: [], //-"-
   //QR Code
-  qrCodeImage: "",
+  qrCodeImage: "", //QR Code
 
   //refreshing Text
 
-  refreshing : 0,
-  refreshQR: 0,
+  refreshing: 0, //wenn die zahl sich änder wird der canvas erneuert
+  refreshQR: 0, //-"-
+
+  //Fokus Punkt wählen
+
+  chooseFocus: false, //overlay für fokus wahl
+  focus: 0.5,
+
+  //Close Warning
+
+  isCloseWarning: false,
+
+  //
+
+  storageId: null,
 };
 
 export default createStore({
   state: { ...initialState },
 
-
   mutations: {
+    //TRYOUT AREA
+    incrementDownloadTrigger(state) {
+      state.downloadTrigger += 1;
+    },
+    //TRYOUT AREA
+
     setIsImage(state, value) {
       state.isImage = value;
     },
@@ -73,7 +111,9 @@ export default createStore({
       state.navigations.push(navigation);
     },
     removeNavigation(state, navigationId) {
-      const index = state.navigations.findIndex((navigation) => navigation.id === navigationId);
+      const index = state.navigations.findIndex(
+        (navigation) => navigation.id === navigationId
+      );
       if (index !== -1) {
         state.navigations.splice(index, 1);
       }
@@ -81,19 +121,132 @@ export default createStore({
     setActiveNavigation(state, navigationId) {
       state.activeNavigation = navigationId;
     },
+
     resetState(state) {
+      const storedData = localStorage.getItem("storedStates");
+
+      const newData = {
+        id: generateUniqueId(),
+        timestamp: new Date().toISOString(),
+        isPrint: state.isPrint,
+        activeFormat: state.activeFormat,
+        styleClassic: state.styleClassic,
+        styleOverlay: state.styleOverlay,
+        stylePattern: state.stylePattern,
+        patternMirror: state.patternMirror,
+        patternStripe: state.patternStripe,
+        patternRandom: state.patternRandom,
+        patternFilled: state.patternFilled,
+        isCircle: state.isCircle,
+        isRectangle: state.isRectangle,
+        isTriangle: state.isTriangle,
+        patternStripeWidth: state.patternStripeWidth,
+        patternStripeEnd: state.patternStripeEnd,
+        patternSeed: state.patternSeed,
+        canvasWidth: state.canvasWidth,
+        canvasHeight: state.canvasHeight,
+        activeImage: state.activeImage,
+        imagePath: state.imagePath,
+        headline: state.headline,
+        subheadline: state.subheadline,
+        copyText: state.copyText,
+        qrCodeImage: state.qrCodeImage,
+        urlQR: state.urlQR,
+        headlineLines: state.headlineLines,
+        subHeadlineLines: state.subHeadlineLines,
+        copyTextLines: state.copyTextLines,
+        focus: state.focus,
+        isImage: state.isImage,
+        isPattern: state.isPattern,
+        navigations: state.navigations,
+        classicPossible: state.classicPossible,
+        shapesFactor: state.shapesFactor,
+      };
+
+      console.log("storageId: " + state.storageId);
+
+      let storedStates = [];
+
+      if (storedData) {
+        storedStates = JSON.parse(storedData);
+      }
+
+      const existingStateIndex = storedStates.findIndex(
+        (storedState) => storedState.id === state.storageId
+      );
+
+      if (existingStateIndex !== -1) {
+        storedStates[existingStateIndex] = newData;
+      } else {
+        storedStates.push(newData);
+      }
+
+      localStorage.setItem("storedStates", JSON.stringify(storedStates));
+
       Object.assign(state, initialState),
-      
-      state.navigations = [
-        { id: "style", label: "Style", position: 0 },
-        { id: "text", label: "Text", position: 3 },
-      ];
+        (state.navigations = [
+          { id: "style", label: "Style", position: 0 },
+          { id: "text", label: "Text", position: 3 },
+        ]);
+    },
+
+    discardState(state) {
+      Object.assign(state, initialState),
+        (state.navigations = [
+          { id: "style", label: "Style", position: 0 },
+          { id: "text", label: "Text", position: 3 },
+        ]);
+    },
+
+    setStoredState(state, storedState) {
+      state.storageId = storedState.id,
+      state.isPrint = storedState.isPrint,
+      state.activeFormat = storedState.activeFormat,
+      state.styleClassic = storedState.styleClassic,
+      state.styleOverlay = storedState.styleOverlay,
+      state.stylePattern = storedState.stylePattern,
+      state.patternMirror = storedState.patternMirror,
+      state.patternStripe = storedState.patternStripe,
+      state.patternRandom = storedState.patternRandom,
+      state.patternFilled = storedState.patternFilled,
+      state.isCircle = storedState.isCircle,
+      state.isRectangle = storedState.isRectangle,
+      state.isTriangle = storedState.isTriangle,
+      state.patternStripeWidth = storedState.patternStripeWidth,
+      state.patternStripeEnd = storedState.patternStripeEnd,
+      state.patternSeed = storedState.patternSeed,
+      state.canvasWidth = storedState.canvasWidth,
+      state.canvasHeight = storedState.canvasHeight,
+      state.activeImage = storedState.activeImage,
+      state.imagePath = storedState.imagePath,
+      state.headline = storedState.headline,
+      state.subheadline = storedState.subheadline,
+      state.copyText = storedState.copyText,
+      state.qrCodeImage = storedState.qrCodeImage,
+      state.headlineLines = storedState.headlineLines,
+      state.subHeadlineLines = storedState.subHeadlineLines,
+      state.copyTextLines = storedState.copyTextLines,
+      state.focus = storedState.focus;
+      state.isImage = storedState.isImage;
+      state.isPattern = storedState.isPattern;
+      state.navigations = storedState.navigations;
+      state.classicPossible = storedState.classicPossible;
+      state.urlQR = storedState.urlQR;
+      state.shapesFactor = storedState.shapesFactor;
     },
 
     //Format Auswahl
 
-    setFormatChoice(state, value){
+    setFormatChoice(state, value) {
       state.toFormatChoice = value;
+    },
+
+    setIsPrint(state, value) {
+      state.isPrint = value;
+    },
+
+    setActiveFormat(state, number) {
+      state.activeFormat = number;
     },
 
     //Style Auswahl
@@ -165,17 +318,31 @@ export default createStore({
 
     //Text Inputs
 
-    setHeadline(state, text){
+    setHeadline(state, text) {
       state.headline = text;
     },
-    setSubheadline(state, text){
+    setSubheadline(state, text) {
       state.subheadline = text;
     },
-    setCopyText(state, text){
+    setCopyText(state, text) {
       state.copyText = text;
     },
-    setUrlQR(state, text){
+    setUrlQR(state, text) {
       state.urlQR = text;
+    },
+
+    //Textumbruch Offset
+
+    SET_HEADLINE_LINES(state, lines) {
+      state.headlineLines = lines;
+    },
+
+    SET_SUBHEADLINE_LINES(state, lines) {
+      state.subHeadlineLines = lines;
+    },
+
+    SET_COPY_LINE(state, lines){
+      state.copyTextLines = lines;
     },
 
     //QR Code
@@ -185,21 +352,67 @@ export default createStore({
     },
 
     //refreshing
-    incrementRefreshing(state){
+    incrementRefreshing(state) {
       state.refreshing += 1;
     },
 
-    incrementRefreshQR(state){
+    incrementRefreshQR(state) {
       state.refreshQR += 1;
+    },
+
+    //Fokus Punkt
+    setChooseFocus(state, value) {
+      state.chooseFocus = value;
+    },
+
+    setFocus(state, number) {
+      state.focus = number;
+    },
+
+    //Pattern
+
+    increasePatternStripeWidth(state) {
+      state.patternStripeWidth += 1;
+    },
+    decreasePatternStripeWidth(state) {
+      state.patternStripeWidth -= 1;
+    },
+
+    randomPatternSeed(state) {
+      state.patternSeed = parseInt(random(0, 255));
+    },
+
+    //close Warning
+
+    setIsCloseWarning(state, value) {
+      state.isCloseWarning = value;
+    },
+
+    increaseShapesFactor(state) {
+      state.shapesFactor += 1;
+      if(state.shapesFactor >= 3) {
+        state.shapesFactor = 4;
+      }
+    },
+
+    decreaseShapesFactor(state) {
+      state.shapesFactor -= 1;
+      if (state.shapesFactor === 0) {
+        state.shapesFactor = 1;
+      } 
+      if (state.shapesFactor === 3) {
+        state.shapesFactor = 2;
+      } 
     }
   },
 
-
-
   actions: {
+    //Navigation bearbeiten
     addBild({ commit, state }) {
       if (!state.isImage) {
-        if (state.navigations.find((navigation) => navigation.id === "pattern")) {
+        if (
+          state.navigations.find((navigation) => navigation.id === "pattern")
+        ) {
           commit("removeNavigation", "pattern");
         }
         if (!state.navigations.find((navigation) => navigation.id === "bild")) {
@@ -216,8 +429,14 @@ export default createStore({
         if (state.navigations.find((navigation) => navigation.id === "bild")) {
           commit("removeNavigation", "bild");
         }
-        if (!state.navigations.find((navigation) => navigation.id === "pattern")) {
-          commit("addNavigation", { id: "pattern", label: "Pattern", position: 2 });
+        if (
+          !state.navigations.find((navigation) => navigation.id === "pattern")
+        ) {
+          commit("addNavigation", {
+            id: "pattern",
+            label: "Pattern",
+            position: 2,
+          });
           state.navigations.sort((a, b) => a.position - b.position);
         }
 
@@ -225,13 +444,19 @@ export default createStore({
         commit("setIsImage", false);
       }
     },
+
+    //Store wird zurückgesettz, später hier localStorage anbinden
     resetStore({ commit }) {
       commit("resetState");
     },
 
-    handleFormatChoice({ commit }, value){
-      
-      commit("setFormatChoice", value)
+    discardStore({ commit }) {
+      commit("discardState");
+    },
+
+    //Formatauswahl offen oder nicht
+    handleFormatChoice({ commit }, value) {
+      commit("setFormatChoice", value);
     },
 
     //Style Auswahl
@@ -252,7 +477,6 @@ export default createStore({
     },
 
     // Pattern Auswahl
-
     changePattern({ commit }, pattern) {
       if (pattern === "mirror") {
         commit("setPatternMirror", true);
@@ -270,7 +494,6 @@ export default createStore({
     },
 
     // Pattern Filled?
-
     patternFill({ commit }, choice) {
       if (choice === "fill") {
         commit("setPatternFilled", true);
@@ -280,7 +503,6 @@ export default createStore({
     },
 
     // Pattern Shapes
-
     handleCircle({ commit, state }) {
       if (state.isCircle) {
         commit("setIsCircle", false);
@@ -304,11 +526,11 @@ export default createStore({
       }
     },
 
-    updateCanvasSize({ commit }, { w, h }) {
+    //Canvas größe wird je nach format gesetzt
+    updateCanvasSize({ commit }, { w, h, p }) {
       commit("setCanvasWidth", w);
       commit("setCanvasHeight", h);
-
-      
+      commit("setIsPrint", p);
 
       let ratio = w / h;
       if (ratio >= 0.71) {
@@ -318,9 +540,29 @@ export default createStore({
           commit("setStyleOverlay", true);
         }
       } else {
-        
         commit("setClassicPossible", true);
       }
     },
+
+    //Zeilenumbrüche
+    updateHeadlineLines({ commit }, text) {
+      const lines = text.split(/\r?\n/).map((line) => line.length);
+      commit("SET_HEADLINE_LINES", lines);
+    },
+    updateSubHeadlineLines({ commit }, text) {
+      const lines = text.split(/\r?\n/).map((line) => line.length);
+      commit("SET_SUBHEADLINE_LINES", lines);
+    },
+    updateCopyLines({ commit }, text) {
+      const lines = text.split(/\r?\n/).map((line) => line.length);
+      commit("SET_COPY_LINE", lines);
+      console.log(lines);
+    },
   },
 });
+
+function generateUniqueId() {
+  // jedem element aus localStorage storedStates wird einen eindeutige id zugewiesen
+  const { v4: uuidv4 } = require("uuid");
+  return uuidv4();
+}

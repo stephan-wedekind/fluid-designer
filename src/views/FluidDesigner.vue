@@ -1,13 +1,14 @@
 <template>
+  <CloseWarning v-if="isCloseWarning" class="warning"/>
   <div class="gird-container">
 
     <!-- navigation -->
     <nav>
-      <router-link to="/" class="close" @click="resetStore()">
+      <div class="close" @click="setIsCloseWarning(!isCloseWarning)">
       
         <img src="Icons/primary/Menue-schliessen.png" class="iconSidebar" alt="">
       
-    </router-link>
+      </div>
       <ul>
         <li v-for="navigation in navigations" :key="navigation.id" :class="{ 'active': isActive(navigation.id) }" @click="setActive(navigation.id)">
           <img :src="getIconSrc(navigation.id)" :alt="navigation.label" class="iconSidebar" :id="navigation.id">
@@ -21,9 +22,6 @@
     <!-- User Input Feld -->
     <div class="user-input-field">
         <component :is="getActiveComponent()" />
-        <div class="btn-container">
-        <!-- <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" class="btn-download"/> -->
-        </div>
     </div>
 
     <!-- Canvas Feld -->
@@ -55,7 +53,8 @@ import WelcomeToFluid from '@/components/WelcomeToFluid.vue';
 import ClassicCanvas from '@/algorythms/Classic.vue';
 import OverlayCanvas from '@/algorythms/Overlay.vue';
 import PatternCanvas from '@/algorythms/Pattern.vue';
-import DefaultCanvas from '@/algorythms/DefaultCanvas.vue'
+import DefaultCanvas from '@/algorythms/DefaultCanvas.vue';
+import CloseWarning from '@/components/CloseWarning.vue'
 
 
 export default {
@@ -70,15 +69,25 @@ export default {
     ClassicCanvas,
     OverlayCanvas,
     PatternCanvas,
-    DefaultCanvas
+    DefaultCanvas,
+    CloseWarning
   },
   computed: {
-    ...mapState(['activeNavigation', 'navigations', 'styleClassic', 'styleOverlay', 'stylePattern']),
+    ...mapState(['activeNavigation', 'navigations', 'styleClassic', 'styleOverlay', 'stylePattern', 'focus', 'isCloseWarning']),
+  },
+
+  watch: {
+   /*  focus() {
+      const mainElement = document.querySelector('main');
+        if (mainElement) {
+          mainElement.parentNode.removeChild(mainElement);
+        }
+    } */
   },
   methods: {
-    ...mapMutations(['setActiveNavigation']),
+    ...mapMutations(['setActiveNavigation', 'setIsCloseWarning']),
 
-    ...mapActions(['resetStore']),
+    
 
     isActive(navigationId) {
       return this.activeNavigation === navigationId;
@@ -105,7 +114,9 @@ export default {
         case 'pattern':
           return 'PatternChange';
         default:
-          return 'WelcomeToFluid';
+          this.setActive('style');
+          return 'StyleChange';
+
       }
     },
 
@@ -119,12 +130,15 @@ export default {
       } else {
         return 'DefaultCanvas';
       }
-    }
+    },
   },
 };
 </script>
 
 <style scoped>
+.close {
+  cursor: pointer;
+}
 .gird-container {
   display: grid;
   grid-template-columns: 70px 45vw auto;
@@ -222,6 +236,10 @@ li.active img path {
   filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.1));
 }
 
+.warning{
+z-index: 20; 
+}
+
 .loading{
 
   position: absolute;
@@ -231,66 +249,5 @@ li.active img path {
   width: calc(100vw - (70px + 45vw));
   height: calc(100vh - 120px);
   z-index: -1;
-}
-
-/* Loading Animation  from:
-https://uiverse.io/terenceodonoghue/rare-cow-16 */
-.loading-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  border-radius: 50%;
-  height: 96px;
-  width: 96px;
-  animation: rotate_3922 1.2s linear infinite;
-  
-  background: linear-gradient(#6638B6, #05C3DE, #00ffff);
-}
-
-.loading-container span {
-  position: absolute;
-  border-radius: 50%;
-  height: 100%;
-  width: 100%;
-  
-  background: linear-gradient(#6638B6, #05C3DE, #00ffff);
-}
-
-.loading-container span:nth-of-type(1) {
-  filter: blur(5px);
-}
-
-.loading-container span:nth-of-type(2) {
-  filter: blur(10px);
-}
-
-.loading-container span:nth-of-type(3) {
-  filter: blur(25px);
-}
-
-.loading-container span:nth-of-type(4) {
-  filter: blur(50px);
-}
-
-.loading-container::after {
-  content: "";
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
-  background-color: #f2f2f2;
-  border: solid 5px #f2f2f2;
-  border-radius: 50%;
-}
-
-@keyframes rotate_3922 {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
 }
 </style>

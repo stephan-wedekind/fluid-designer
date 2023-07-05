@@ -27,14 +27,14 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   },
   
-  beforeRouteLeave(to, from, next) {
-    console.log('beforeRouteLeave in default')
+  /* beforeRouteLeave(to, from, next) {
+    console.log('beforeRouteLeave in DefaultCanvas');
     this.removeCanvas();
     next();
-  },
+  }, */
 
   computed: {
-    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath'])
+    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'canvasDestroyer'])
   },
 
   watch: {
@@ -45,7 +45,10 @@ export default {
     canvasHeight() {
       this.removeCanvas();
       this.createCanvas();
-    }
+    },
+    canvasDestroyer(){
+      this.removeCanvas();
+    },
   },
 
   methods: {
@@ -84,7 +87,10 @@ export default {
       let moreInfoSize;
 
       //Farben
-      let rwLila
+      let rwLila;
+      let rwLilaDark;
+      let rwCyan;
+      let rwCyanLight;
 
       //Layout Grid
       let horizontalMargin;
@@ -111,10 +117,10 @@ export default {
           ratioW = this.canvasWidth/this.canvasHeight;
           ratioH = this.canvasHeight/this.canvasWidth;
           maxHeight = visualViewport.height - 120;
-          maxWidth = visualViewport.width - ((visualViewport.width * 0.45) + 190);
+          maxWidth = visualViewport.width - (70 + 0.45*visualViewport.width + 120);
           
           viewHeight = maxHeight;
-          viewWidth = viewHeight * ratioW;
+          viewWidth = maxWidth;
 
           if (viewWidth > maxWidth ) {
             viewWidth = maxWidth;
@@ -123,16 +129,22 @@ export default {
 
 
           this.canvas = p.createCanvas(viewWidth, viewHeight).parent(this.$refs.defaultCanvas);
-          p.background(45, 7, 100);
+          rwLila = p.color(102, 56, 182);
+          rwLilaDark = p.color(45,7,100);
+          rwCyan = p.color(0, 169, 206);
+          rwCyanLight = p.color(5, 195, 222);
+          p.background(rwLilaDark);
           
           imageWidth = p.width - 50;
           scaleFactor = imageWidth / chosenImage.width;
           imageHeight = chosenImage.height * scaleFactor;
 
+          let imagePositionY = p.height/2.5 - imageHeight/2;
+
           p.image(
             chosenImage,
             25,
-            p.height/2.5 - imageHeight/2,
+            imagePositionY,
             imageWidth,
             imageHeight,
           );
@@ -142,7 +154,7 @@ export default {
           p.textFont(fontBold);
           p.textSize(imageHeight * 0.1);
           p.textAlign(p.CENTER, p.CENTER);
-          p.text("Wähle einen Style aus", p.width/2, imageHeight * 1.3);
+          p.text("Wähle einen Style aus", p.width/2, imagePositionY + imageHeight + 30);
           p.pop();
         }
       })//END P5 js
@@ -168,6 +180,7 @@ export default {
       }
       if (this.canvas) {
         this.canvas.remove();
+        console.log('default destroyed');
       }
     },
 

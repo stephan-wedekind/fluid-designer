@@ -2,23 +2,23 @@
   <header class="background-top">
     <img src="Logo/Logo-Wort-Bild.png" class="logo-header-home" alt="">
     <section class="CTA-intro">
-    <h1 class="fontWhite introText">
-      Der
-      »<span style="font-style: italic">RWU </span>
-      <span style="font-weight: 700; letter-spacing: 0.03em;">FluidDesigner</span>« hilft dir dabei, <br />
-      Layouts automatisch und <br />
-      Corporate Design konform zu erstellen!
-    </h1>
-    <div class="introButton">
-      <Btn buttonType="Tertiary" buttonName="Erstelle ein neues Layout" buttonIcons="Hinzufuegen.png" class="btn-toFluid"
-        @click="handleFormatChoice(!toFormatChoice)" />
-    </div>
+      <h1 class="fontWhite introText">
+        Der
+        »<span style="font-style: italic">RWU </span>
+        <span style="font-weight: 700; letter-spacing: 0.03em;">FluidDesigner</span>« hilft dir dabei, <br />
+        Layouts automatisch und <br />
+        Corporate Design konform zu erstellen!
+      </h1>
+      <div class="introButton">
+        <Btn buttonType="Tertiary" buttonName="Erstelle ein neues Layout" buttonIcons="Hinzufuegen.png"
+          class="btn-toFluid" @click="handleFormatChoice(!toFormatChoice)" />
+      </div>
     </section>
   </header>
 
 
   <!-- Overlay&Format Auswahl -->
-  <FormatChoice v-if="toFormatChoice"  class="overlay" />
+  <FormatChoice v-if="toFormatChoice" class="overlay" />
 
 
   <!-- Tutorial -->
@@ -36,33 +36,48 @@
       <h1 class="fontLila">2</h1>
       <h1 class="fontLila">3</h1>
       <h1 class="fontLila">4</h1>
+      <h1 class="fontLila">5</h1>
 
       <img src="Platzhalter/Tutorial/format-tutorial.png" alt="">
       <img src="Platzhalter/Tutorial/maple.png" alt="">
+      <img src="Platzhalter/Tutorial/background-tutorial.png" alt="">
       <img src="Platzhalter/Tutorial/style-tutorial.png" alt="">
       <img src="Platzhalter/Tutorial/download-tutorial.png" alt="">
 
-      <h2 class="fontLila">Wähle zunächst ein geeignetes Format (z.B.&nbsp;DIN&nbsp;A4)</h2>
-      <h2 class="fontLila">Als nächstes kannst du dich für einen der drei Layout&nbsp;Stile entscheiden</h2>
-      <h2 class="fontLila">Dann füllst du das Layout mit deinen Inhalten.</h2>
-      <h2 class="fontLila">Wenn du fertig bist, kannst du dir das Layout herunterladen und es direkt verwenden.</h2>
+      <h2 class="fontLila">Wähle zunächst ein geeignetes Format (z.B.&nbsp;DIN&nbsp;A4).</h2>
+      <h2 class="fontLila">Danach entscheidest du dich für einen der drei Layoutstile.</h2>
+      <h2 class="fontLila">Wähle dann ein Bild aus oder bearbeite das Pattern nach deinen Wünschen.</h2>
+      <h2 class="fontLila">Jetzt musst du nur noch deinen Text eingeben...</h2>
+      <h2 class="fontLila">...und kannst das Layout direkt herunterladen und verwenden.</h2>
 
     </section>
     <Btn buttonType="Primary" buttonName="Erstelle ein neues Layout" buttonIcons="Hinzufuegen.png" class="btn-tutorial"
-        @click="handleFormatChoice(!toFormatChoice)" />
+      @click="handleFormatChoice(!toFormatChoice)" />
 
   </div>
 
   <!-- Zuletzt erstellt -->
   <div class="recently-made">
-    <h1 class="fontLila">Zuletzt erstellt</h1>
+    
+    <h1 class="fontLila recently-headline">Zuletzt erstellt</h1>
+    <p v-if="checkStore()">»es wurden noch keine Layouts im FluidDesigner erstellt«</p>
+    <div class="recently-grid">
+      
+         
+          <router-link to="/fluidDesigner" class="recently-grid-item link" v-for="state in storedStates" :key="state.id" @click="updateStoredStates(state)">
+            <h2>{{ state.headline }}</h2>
+            <p>{{ formatDate(state.timestamp) }}</p>
+          </router-link>
+  
+    </div>
+
   </div>
 </template>
 
 <script>
 import Btn from '@/components/Button.vue';
 import FormatChoice from '@/components/FormatChoice.vue';
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 
 export default {
   name: 'Home',
@@ -71,15 +86,72 @@ export default {
     FormatChoice
   },
 
+  data() {
+    return {
+      storedStates: null,
+    }
+  },
+
+
+
   computed: {
     ...mapState(['toFormatChoice'])
   },
 
-  
+
   methods: {
     ...mapActions(['handleFormatChoice']),
+    ...mapMutations(['setStoredState']),
+
+    removeMainElement() {
+      setTimeout(() => {
+        //Wenn man von /fluidDesigner hier her zurück kommt bleibt noch ein p5Canvas übrig der hier zerstört wird
+        //Da mounted vor der erstellung des Main elements das den Canvas enthält passiert wurde ein timeout hinzugefügt
+        const mainElement = document.querySelector('main');
+        if (mainElement) {
+          mainElement.parentNode.removeChild(mainElement);
+        }
+      }, 500);
+    },
+
+    formatDate(timestamp) {
+      const date = new Date(timestamp);
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const year = date.getFullYear();
+
+      return `Erstellt am ${day}.${month}.${year}`;
+    },
+
+    updateStoredStates(storedState) {
+      this.$store.commit('setStoredState', storedState);
+    },
+
+    checkStore() {
+
+      if (this.storedStates === null) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
 
   },
+
+  mounted() {
+
+
+    this.removeMainElement();
+
+
+    const storedData = localStorage.getItem('storedStates');
+
+    if (storedData) {
+      this.storedStates = JSON.parse(storedData);
+      this.storedStates = this.storedStates.slice().reverse();
+    }
+  }
 }
 </script>
 
@@ -139,7 +211,7 @@ export default {
   padding-top: 30px;
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 30px;
   text-align: center;
 }
@@ -174,6 +246,37 @@ export default {
   background-color: white;
   box-sizing: border-box;
 }
+
+.recently-headline {
+  margin: 0 0 45px 0;
+}
+
+.recently-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 30px;
+}
+
+.recently-grid-item {
+  background: linear-gradient(135deg, #05C3DE 5%, #6638B6 35%, #2D0764 85%);
+  width: 100%;
+  aspect-ratio: 1/1;
+  border-radius: 30px;
+  display: flex;
+  justify-content: stretch;
+  align-items: center;
+  flex-wrap: wrap;/* 
+  overflow: hidden; */
+  padding: 30px;
+  color: white;
+  box-sizing: border-box;
+}
+
+.link {
+  text-decoration: none;
+  color: white;
+}
+
 /* -----------------------------------------------------------Overlay Styling*/
 
 .overlay {

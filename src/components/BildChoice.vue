@@ -1,11 +1,14 @@
 <template>
+  <FocusPoint v-if="chooseFocus" class="focus" />
   <div class="fix padding-60">
 
     <input type="search" name="searchfield" id="searching-images" placeholder="Suche" v-model="searchInput"
-      @keyup.enter="setSelectedCategory()" :class="{'filled': this.searchInput.length > 0}">
+      @keyup="searchWithDebounce" :class="{ 'filled': this.searchInput.length > 0 }">
     <div class="buttons">
-      <Btn buttonType="Secondary" buttonName="Fokus wählen" buttonIcons="Vorschau.png" class="btn-fokus" />
-      <Btn buttonType="Primary" buttonName="Alle Bilder" buttonIcons="Bild.png" class="btn-fokus" @click="showAllImages"/>
+      <Btn buttonType="Secondary" buttonName="Bildauschnitt ändern" buttonIcons="Vorschau.png" class="btn-fokus"
+        @click="setChooseFocus(true)" />
+      <Btn buttonType="Primary" buttonName="Alle Bilder" buttonIcons="Bild.png" class="btn-fokus"
+        @click="showAllImages" />
     </div>
   </div>
   <div class="scroll padding-60">
@@ -18,36 +21,41 @@
 </template>
 
 <script>
+import axios from "axios";
 import { mapState, mapMutations } from 'vuex';
+import { debounce } from 'lodash';
 import Btn from "@/components/Button.vue";
+import FocusPoint from "@/components/FocusPoint.vue";
 
 export default {
   name: 'BildChoice',
 
   components: {
     Btn,
+    FocusPoint,
   },
 
   data() {
     return {
-      images: [
-        { id: 1, name: "image1", path: "https://images.pexels.com/photos/16349261/pexels-photo-16349261/free-photo-of-blumen-rosen-flasche-stillleben.jpeg", tag: "flowers", humans: false },
-        { id: 2, name: "image2", path: "https://images.pexels.com/photos/17220398/pexels-photo-17220398/free-photo-of-holz-kunst-dreckig-mauer.jpeg", tag: "interior design", humans: false },
-        { id: 3, name: "image3", path: "https://images.pexels.com/photos/15652573/pexels-photo-15652573/free-photo-of-stadt-liebe-paris-strasse.jpeg", tag: "building", humans: false },
-        { id: 4, name: "image4", path: "https://images.pexels.com/photos/16124527/pexels-photo-16124527/free-photo-of-strasse-gehen-manner-big-ben.jpeg", tag: "street", humans: true },
-        { id: 5, name: "image5", path: "https://images.pexels.com/photos/1653090/pexels-photo-1653090.jpeg", tag: "music", humans: false },
-        { id: 6, name: "image6", path: "_MG_1398.jpg", tag: "music", humans: false },
-      ],
-      
+      images : [],
+
       isSelected: true,
-      selectedCategory: '',
+      searchedTag: '',
       searchInput: '',
     }
   },
 
+  mounted() {
+    axios.get("http://localhost:3030/allData").then((response) => {
+      this.images = response.data;
+    }). catch((error) => {
+      console.error(error);
+    });
+  },
+
   methods: {
 
-    ...mapMutations(['setImagePath', 'setActiveImage']),
+    ...mapMutations(['setImagePath', 'setActiveImage', 'setChooseFocus', 'setFocus']),
 
     setActive(Id) {
       this.setActiveImage(Id);
@@ -57,28 +65,46 @@ export default {
 
       return this.activeImage == Id;
     },
-    setSelectedCategory() {
-      this.selectedCategory = this.searchInput.toLowerCase();
+
+    searchWithDebounce: debounce(function () {
+      this.setSearchedTag();
+    }, 100),
+
+    setSearchedTag() {
+      this.searchedTag = this.searchInput.toLowerCase();
     },
 
     showAllImages() {
-      this.selectedCategory = '';
+      this.searchedTag = '';
       this.searchInput = '';
-    }
+    },
+
+
   },
 
   computed: {
-    ...mapState(['imagePath', 'activeImage']),
+    ...mapState(['imagePath', 'activeImage', 'chooseFocus']),
 
     filteredImages() {
-      if (this.selectedCategory === '') {
-        return this.images;
-      } else {
-
-        return this.images.filter(image => image.tag === this.selectedCategory);
-
+      if (!this.searchedTag) {
+        return this.images; // Wenn nichts gesucht wurde, werden alle Bilder angezeigt
       }
 
+      const searchTerms = this.searchedTag.toLowerCase().split(" ");
+      return this.images.filter(image => {
+        for (const term of searchTerms) {
+          if (image.tag.some(tag => tag.includes(term))) {
+            return true; // Wenn ein Suchbegriff gefunden wurde, bleibt das Bild im Filter
+          }
+        }
+        return false; // Wenn kein Suchbegriff gefunden wurde, wird das Bild aus dem Filter entfernt
+      });
+    }
+  },
+
+  watch: {
+    imagePath() {
+      this.setFocus(0.5);
     }
   }
 
@@ -86,6 +112,13 @@ export default {
 </script>
 
 <style scoped>
+.focus {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+}
+
 .fix {
   width: 100%;
   position: sticky;
@@ -99,7 +132,6 @@ export default {
 .scroll {
   width: 100%;
   z-index: -1;
-  height: 1000px;
   padding-top: 30px;
 }
 
