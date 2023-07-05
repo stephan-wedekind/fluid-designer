@@ -1,5 +1,6 @@
 <template>
   <CloseWarning v-if="isCloseWarning" class="warning"/>
+  <FormatChoice class="overlay" v-if="toFormatChoice"/>
   <div class="gird-container">
 
     <!-- navigation -->
@@ -22,6 +23,13 @@
     <!-- User Input Feld -->
     <div class="user-input-field">
         <component :is="getActiveComponent()" />
+
+        <div class="sticky-bottom">
+          <div class="btn-container">
+            <Btn buttonType="Secondary" buttonName="Format Ändern" buttonIcons="Vergroeßern.png" id="format-btn" @click="handleFormatChoice(true)"/>
+            <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" id="download-btn" @click="incrementDownloadTrigger" :disabled="disableDownload()"/>
+        </div>
+        </div>
     </div>
 
     <!-- Canvas Feld -->
@@ -54,7 +62,8 @@ import ClassicCanvas from '@/algorythms/Classic.vue';
 import OverlayCanvas from '@/algorythms/Overlay.vue';
 import PatternCanvas from '@/algorythms/Pattern.vue';
 import DefaultCanvas from '@/algorythms/DefaultCanvas.vue';
-import CloseWarning from '@/components/CloseWarning.vue'
+import CloseWarning from '@/components/CloseWarning.vue';
+import FormatChoice from '@/components/FormatChoice.vue';
 
 
 export default {
@@ -70,10 +79,11 @@ export default {
     OverlayCanvas,
     PatternCanvas,
     DefaultCanvas,
-    CloseWarning
+    CloseWarning,
+    FormatChoice
   },
   computed: {
-    ...mapState(['activeNavigation', 'navigations', 'styleClassic', 'styleOverlay', 'stylePattern', 'focus', 'isCloseWarning']),
+    ...mapState(['activeNavigation', 'navigations', 'styleClassic', 'styleOverlay', 'stylePattern', 'focus', 'isCloseWarning', 'toFormatChoice']),
   },
 
   watch: {
@@ -85,9 +95,12 @@ export default {
     } */
   },
   methods: {
-    ...mapMutations(['setActiveNavigation', 'setIsCloseWarning']),
+    ...mapMutations(['setActiveNavigation', 'setIsCloseWarning', 'incrementDownloadTrigger']),
+    ...mapActions(['handleFormatChoice']),
 
-    
+    disableDownload() {
+      return (!this.styleClassic && !this.styleOverlay && !this.stylePattern) ?  true :  false;
+    },
 
     isActive(navigationId) {
       return this.activeNavigation === navigationId;
@@ -136,6 +149,13 @@ export default {
 </script>
 
 <style scoped>
+
+.overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3;
+}
 .close {
   cursor: pointer;
 }
@@ -209,12 +229,29 @@ li.active img path {
   width: 65%;
 }
 
-.btn-container {
-  width: calc(100%-60px);
-  padding-left: 60px;
-  padding-bottom: 60px;
+
+.sticky-bottom {
+  position: sticky;
+  width: 100%;
+  bottom: 0;
+  height: 85px;
+  z-index: 1;
+  background-color: white;
+  box-shadow: 10px 0px 20px 20px white;
+  padding: 15px 60px;
+  box-sizing: border-box;
 }
 
+
+.btn-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+#format-btn, #download-btn {
+  width: calc(50% - 7.5px);
+}
 /* UserEingabe -----------------------------*/
 
 /* -----------------------------Canvas */

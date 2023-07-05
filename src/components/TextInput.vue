@@ -26,7 +26,7 @@
 
     <div class="buttons">
       <Btn buttonType="Secondary" buttonName="Aktualisieren" buttonIcons="Wiederholen.png" id="refresh" @click="incrementRefreshing"/>
-      <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" id="download" @click="incrementDownloadTrigger"/>
+     <!--  <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" id="download" @click="incrementDownloadTrigger"/> -->
     </div>
     
   </div>
@@ -142,7 +142,7 @@ textarea:disabled {
   justify-content: space-between;
 }
 
-#refresh, #download {
+#refresh {
   width: calc(50% - 7.5px);
 }
 

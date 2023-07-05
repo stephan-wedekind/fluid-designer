@@ -1,7 +1,7 @@
 <template>
   <div class="padding-60">
 
-    <FormatChoice class="overlay" v-if="toFormatChoice"/>
+  
   <section class="stylePreview" id="style01"  @click="addBild(), changeStyle('style01'), setFocus(0.5)" v-if="this.classicPossible">
     <img src="Platzhalter/Stil/Stil-1.png" :class="{ 'selected': this.styleClassic }" alt="">
     <div class="styleDescription">
@@ -35,8 +35,8 @@
     </div>
   </section>
   <div class="button-group">
-  <Btn buttonType="Secondary" buttonName="Format Ändern" buttonIcons="Vergroeßern.png" class="format-btn" @click="handleFormatChoice(true)"/>
-  <Btn buttonType="Primary" buttonName="Weiter" buttonIcons="Pfeil-rechts.png" class="format-btn" @click="setActive()" :disabled="styleSelected()"/>
+  
+<!--   <Btn buttonType="Primary" buttonName="Weiter" buttonIcons="Pfeil-rechts.png" class="format-btn" @click="setActive()" :disabled="styleSelected()"/> -->
   </div>
 
 </div>
@@ -61,7 +61,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['isImage', 'isPattern', 'styleClassic', 'styleOverlay', 'stylePattern', 'classicPossible', 'toFormatChoice']),
+    ...mapState(['isImage', 'isPattern', 'styleClassic', 'styleOverlay', 'stylePattern', 'classicPossible']),
   },
   methods: {
     ...mapActions(['addBild', 'addPattern', 'changeStyle', 'handleFormatChoice']),
@@ -81,7 +81,7 @@ export default {
       } else {
         return false;
       }
-    }
+    },
   },
 }
 </script>
@@ -114,12 +114,6 @@ export default {
   margin-bottom: 15px;
 }
 
-.overlay{
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1;
-}
 
 .button-group {
   display: flex;
