@@ -48,7 +48,8 @@ export default {
         'headlineLines',
         'subHeadlineLines',
         'copyTextLines',
-        'downloadTrigger'
+        'downloadTriggerPDF',
+        'downloadTriggerImage'
       ])
   },
 
@@ -112,12 +113,13 @@ export default {
       this.removeCanvas();
       this.createCanvas();
     },
-    downloadTrigger() {
-      if (this.isPrint) {
-        this.downloadPDF();
-      } else {
-        this.downloadingImage();
-      }
+
+    downloadTriggerPDF(){
+      this.downloadPDF();
+    },
+    
+    downloadTriggerImage() {
+      this.downloadingImage();
     }
   },
 
@@ -552,6 +554,7 @@ export default {
     },
 
     downloadingImage() {
+      console.log("downloadingImage Overlay.vue");
       const currentDate = new Date();
       const formattedDate = currentDate.toLocaleString().replace(/[/:]/g, "-");
 
@@ -584,6 +587,7 @@ export default {
     },
 
     downloadPDF() {
+      console.log("downloadPDF Overlay.vue");
       const options = {
         imageCompression: "JPEG",
         compress: true,

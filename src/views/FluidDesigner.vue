@@ -26,8 +26,9 @@
 
         <div class="sticky-bottom">
           <div class="btn-container">
-            <Btn buttonType="Secondary" buttonName="Format Ändern" buttonIcons="Vergroeßern.png" id="format-btn" @click="handleFormatChoice(true)"/>
-            <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" id="download-btn" @click="incrementDownloadTrigger" :disabled="disableDownload()"/>
+            <Btn buttonType="Secondary" buttonName="Format Ändern" buttonIcons="Vergroeßern.png" class="format-btn" @click="handleFormatChoice(true)"/>
+            <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" class="download-btn" @click="incrementDownloadTriggerPDF" :disabled="disableDownload()" v-if="isPrint"/>
+            <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" class="download-btn" @click="incrementDownloadTriggerImage" :disabled="disableDownload()" v-if="!isPrint"/>
         </div>
         </div>
     </div>
@@ -83,7 +84,7 @@ export default {
     FormatChoice
   },
   computed: {
-    ...mapState(['activeNavigation', 'navigations', 'styleClassic', 'styleOverlay', 'stylePattern', 'focus', 'isCloseWarning', 'toFormatChoice']),
+    ...mapState(['activeNavigation', 'navigations', 'styleClassic', 'styleOverlay', 'stylePattern', 'focus', 'isCloseWarning', 'toFormatChoice', 'isPrint']),
   },
 
   watch: {
@@ -95,7 +96,7 @@ export default {
     } */
   },
   methods: {
-    ...mapMutations(['setActiveNavigation', 'setIsCloseWarning', 'incrementDownloadTrigger']),
+    ...mapMutations(['setActiveNavigation', 'setIsCloseWarning', 'incrementDownloadTrigger', 'incrementDownloadTriggerPDF', 'incrementDownloadTriggerImage']),
     ...mapActions(['handleFormatChoice']),
 
     disableDownload() {
@@ -249,7 +250,7 @@ li.active img path {
   justify-content: space-between;
 }
 
-#format-btn, #download-btn {
+.format-btn, .download-btn {
   width: calc(50% - 7.5px);
 }
 /* UserEingabe -----------------------------*/

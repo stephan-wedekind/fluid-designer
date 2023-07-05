@@ -10,9 +10,10 @@ const initialState = {
     { id: "text", label: "Text", position: 3 },
   ],
 
-  //TRYOUT AREA
-  downloadTrigger: 0,
-  //TRYOUT AREA
+  //DOWNLOAD
+  downloadTriggerPDF: 0,
+  downloadTriggerImage: 0,
+
 
   //Format Auswahl
 
@@ -95,11 +96,16 @@ export default createStore({
   state: { ...initialState },
 
   mutations: {
-    //TRYOUT AREA
-    incrementDownloadTrigger(state) {
-      state.downloadTrigger += 1;
+    //DOWNLOAD
+    incrementDownloadTriggerPDF(state){
+      console.log("incrementDownloadTriggerPDF");
+      state.downloadTriggerPDF += 1;
     },
-    //TRYOUT AREA
+
+    incrementDownloadTriggerImage(state){
+      console.log("incrementDownloadTriggerImage")
+      state.downloadTriggerImage += 1;
+    },
 
     setIsImage(state, value) {
       state.isImage = value;
