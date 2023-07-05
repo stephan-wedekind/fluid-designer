@@ -148,6 +148,7 @@ export default {
       if (storedData) {
         const localStates = JSON.parse(storedData);
         this.storedStates = localStates.filter((localStates) => localStates.id !== id);
+        this.storedStates = this.storedStates.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
         
         localStorage.setItem('storedStates', JSON.stringify(this.storedStates));
       }

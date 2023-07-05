@@ -1,6 +1,6 @@
 <template>
     <div class="card" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
-    <router-link to="/fluidDesigner" class="link" @click="updateStoredStates(state), setEditExistingLayout(true)">
+    <router-link to="/fluidDesigner" class="link" @click="updateStoredStates(storedState), setEditExistingLayout(true)">
       <h2>{{ storedState.headline }}</h2>
       <p>{{ formatDate(storedState.timestamp) }}</p>
     </router-link>
@@ -9,7 +9,7 @@
   </template>
   
   <script>
-  import { mapMutations } from 'vuex';
+  import { mapMutations, mapActions } from 'vuex';
   import Btn from '@/components/Button.vue'
 
   export default {
@@ -27,6 +27,10 @@
     },
     methods: {
     ...mapMutations(['setStoredState', 'setEditExistingLayout']),
+      
+    updateStoredStates(storedState) {
+      this.$store.commit('setStoredState', storedState);
+    },
 
     removeButtonClicked() {
         console.log("removeButtonClicked was clicked: " + this.storedState.id);
