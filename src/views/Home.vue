@@ -64,11 +64,11 @@
     <div class="recently-grid">
       
          
-          <router-link to="/fluidDesigner" class=" link" v-for="state in storedStates" :key="state.id" @click="updateStoredStates(state), setEditExistingLayout(true)">
+          <div  v-for="state in storedStates" :key="state.id">
             <!-- <h2>{{ state.headline }}</h2>
             <p>{{ formatDate(state.timestamp) }}</p> -->
-            <Card :storedState="state" class="recently-grid-item"/>
-          </router-link>
+            <Card :storedState="state" class="recently-grid-item" @delete-clicked="removeState"/>
+          </div>
   
     </div>
    
@@ -139,6 +139,17 @@ export default {
         return false;
       }
     },
+
+
+    removeState(id) {
+      const storedData = localStorage.getItem('storedStates');
+      if (storedData) {
+        const localStates = JSON.parse(storedData);
+        this.storedStates = localStates.filter((localStates) => localStates.id !== id);
+        
+        localStorage.setItem('storedStates', JSON.stringify(this.storedStates));
+      }
+    }
 
 
   },
@@ -269,17 +280,13 @@ export default {
   display: flex;
   justify-content: stretch;
   align-items: center;
-  flex-wrap: wrap;/* 
-  overflow: hidden; */
+  flex-wrap: wrap;
   padding: 30px;
   color: white;
   box-sizing: border-box;
 }
 
-.link {
-  text-decoration: none;
-  color: white;
-}
+
 
 /* -----------------------------------------------------------Overlay Styling*/
 

@@ -1,12 +1,15 @@
 <template>
     <div class="card" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
+    <router-link to="/fluidDesigner" class="link" @click="updateStoredStates(state), setEditExistingLayout(true)">
       <h2>{{ storedState.headline }}</h2>
       <p>{{ formatDate(storedState.timestamp) }}</p>
-      <Btn buttonType="Tertiary" buttonIcons="Menue-schliessen.png" v-if="isHovered" class="close-button" @click="removeItem" />
+    </router-link>
+      <Btn buttonType="Tertiary" buttonIcons="Menue-schliessen.png" v-if="isHovered" class="close-button" @click="removeButtonClicked()" />
     </div>
   </template>
   
   <script>
+  import { mapMutations } from 'vuex';
   import Btn from '@/components/Button.vue'
 
   export default {
@@ -23,8 +26,11 @@
       };
     },
     methods: {
-      removeItem() {
-        console.log("removeItem was clicked")
+    ...mapMutations(['setStoredState', 'setEditExistingLayout']),
+
+    removeButtonClicked() {
+        console.log("removeButtonClicked was clicked: " + this.storedState.id);
+        this.$emit('delete-clicked', this.storedState.id);
       },
       formatDate(timestamp) {
       const date = new Date(timestamp);

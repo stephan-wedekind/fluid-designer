@@ -128,6 +128,11 @@ input:focus, textarea:focus {
   margin-bottom: 15px;
 }
 
+.link {
+  text-decoration: none;
+  color: white;
+}
+
 
 
 
