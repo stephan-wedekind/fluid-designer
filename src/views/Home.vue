@@ -64,26 +64,30 @@
     <div class="recently-grid">
       
          
-          <router-link to="/fluidDesigner" class="recently-grid-item link" v-for="state in storedStates" :key="state.id" @click="updateStoredStates(state), setEditExistingLayout(true)">
-            <h2>{{ state.headline }}</h2>
-            <p>{{ formatDate(state.timestamp) }}</p>
+          <router-link to="/fluidDesigner" class=" link" v-for="state in storedStates" :key="state.id" @click="updateStoredStates(state), setEditExistingLayout(true)">
+            <!-- <h2>{{ state.headline }}</h2>
+            <p>{{ formatDate(state.timestamp) }}</p> -->
+            <Card :storedState="state" class="recently-grid-item"/>
           </router-link>
   
     </div>
-
+   
   </div>
 </template>
 
 <script>
 import Btn from '@/components/Button.vue';
 import FormatChoice from '@/components/FormatChoice.vue';
+import Card from '@/components/Card.vue';
 import { mapState, mapActions, mapMutations } from 'vuex';
+
 
 export default {
   name: 'Home',
   components: {
     Btn,
-    FormatChoice
+    FormatChoice,
+    Card
   },
 
   data() {
