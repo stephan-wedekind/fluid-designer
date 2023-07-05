@@ -149,7 +149,7 @@ export default {
 
     if (storedData) {
       this.storedStates = JSON.parse(storedData);
-      this.storedStates = this.storedStates.slice().reverse();
+      this.storedStates = this.storedStates.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
     }
   }
 }
