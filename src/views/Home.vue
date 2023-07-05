@@ -64,7 +64,7 @@
     <div class="recently-grid">
       
          
-          <router-link to="/fluidDesigner" class="recently-grid-item link" v-for="state in storedStates" :key="state.id" @click="updateStoredStates(state)">
+          <router-link to="/fluidDesigner" class="recently-grid-item link" v-for="state in storedStates" :key="state.id" @click="updateStoredStates(state), setEditExistingLayout(true)">
             <h2>{{ state.headline }}</h2>
             <p>{{ formatDate(state.timestamp) }}</p>
           </router-link>
@@ -101,7 +101,7 @@ export default {
 
   methods: {
     ...mapActions(['handleFormatChoice']),
-    ...mapMutations(['setStoredState']),
+    ...mapMutations(['setStoredState', 'setEditExistingLayout']),
 
     removeMainElement() {
       setTimeout(() => {

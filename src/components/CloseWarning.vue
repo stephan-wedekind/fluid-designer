@@ -7,18 +7,35 @@
           @click="setIsCloseWarning(!isCloseWarning)" />
       </div>
         
-          <div class="button-group close-msg">
-          <BtnIL buttonType="Tertiary" buttonName="Zurück" buttonIcons="Pfeil-links.png" class="btn-decide" @click="setIsCloseWarning(!isCloseWarning)" />
+          <div class="button-group close-msg" v-if="!editExistingLayout">
 
           <router-link to="/" class="link" @click="discardStore()">
-          <Btn buttonType="Secondary" buttonName="Verlassen und Änderungen verwerfen" buttonIcons="Menue-schliessen.png" class="btn-decide"/>
+          <Btn buttonType="Secondary" buttonName="Änderungen verwerfen" buttonIcons="Menue-schliessen.png" class="btn-decide"/>
           </router-link>
 
           <router-link to="/" class="link" @click="resetStore()">
-          <Btn buttonType="Primary" buttonName="Verlassen und Änderungen speichern" buttonIcons="Upload.png" class="btn-decide"/>
+          <Btn buttonType="Primary" buttonName="Änderungen speichern" buttonIcons="Upload.png" class="btn-decide"/>
           </router-link>
+
+          </div>
+
+          <div class="button-group close-msg" v-if="editExistingLayout">
+
+          <router-link to="/" class="link" @click="discardStore()">
+          <Btn buttonType="Tertiary" buttonName="Änderungen verwerfen" buttonIcons="Menue-schliessen.png" class="btn-decide"/>
+          </router-link>
+
+          <router-link to="/" class="link" @click="resetStore()">
+          <Btn buttonType="Secondary" buttonName="Bisheriges Layout überschreiben" buttonIcons="Upload.png" class="btn-decide"/>
+          </router-link>
+
+          <router-link to="/" class="link" @click="resetStoreNewItem()">
+          <Btn buttonType="Primary" buttonName="Als neues Layout Speichern" buttonIcons="Upload.png" class="btn-decide"/>
+          </router-link>
+
           </div>
           <p>Die gespeicherten Inhalte findest du auf der Startseite unter »Zuletzt erstellt«</p>
+  
     </div>
   </div>
 </template>
@@ -44,7 +61,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['isCloseWarning']),
+    ...mapState(['isCloseWarning', 'editExistingLayout']),
 
     inputIsMade() {
       return this.customWidth && this.customHeight;
@@ -53,7 +70,7 @@ export default {
 
   methods: {
     ...mapMutations(['setIsCloseWarning']),
-    ...mapActions(['resetStore', 'discardStore']),
+    ...mapActions(['resetStore', 'discardStore' ,'resetStoreNewItem']),
 
   },
 }

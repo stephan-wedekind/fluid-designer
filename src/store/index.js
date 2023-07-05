@@ -87,9 +87,11 @@ const initialState = {
 
   isCloseWarning: false,
 
-  //
-
+  //localStorage
   storageId: null,
+  editExistingLayout: false,
+
+
 };
 
 export default createStore({
@@ -126,6 +128,10 @@ export default createStore({
     },
     setActiveNavigation(state, navigationId) {
       state.activeNavigation = navigationId;
+    },
+
+    setEditExistingLayout(state, value) {
+      state.editExistingLayout = value;
     },
 
     resetState(state) {
@@ -169,7 +175,7 @@ export default createStore({
         shapesFactor: state.shapesFactor,
       };
 
-      console.log("storageId: " + state.storageId);
+     
 
       let storedStates = [];
 
@@ -186,6 +192,69 @@ export default createStore({
       } else {
         storedStates.push(newData);
       }
+
+      localStorage.setItem("storedStates", JSON.stringify(storedStates));
+
+      Object.assign(state, initialState),
+        (state.navigations = [
+          { id: "style", label: "Style", position: 0 },
+          { id: "text", label: "Text", position: 3 },
+        ]);
+    },
+
+    resetStateNewItem(state) {
+      const storedData = localStorage.getItem("storedStates");
+
+      const newData = {
+        id: generateUniqueId(),
+        timestamp: new Date().toISOString(),
+        isPrint: state.isPrint,
+        activeFormat: state.activeFormat,
+        styleClassic: state.styleClassic,
+        styleOverlay: state.styleOverlay,
+        stylePattern: state.stylePattern,
+        patternMirror: state.patternMirror,
+        patternStripe: state.patternStripe,
+        patternRandom: state.patternRandom,
+        patternFilled: state.patternFilled,
+        isCircle: state.isCircle,
+        isRectangle: state.isRectangle,
+        isTriangle: state.isTriangle,
+        patternStripeWidth: state.patternStripeWidth,
+        patternStripeEnd: state.patternStripeEnd,
+        patternSeed: state.patternSeed,
+        canvasWidth: state.canvasWidth,
+        canvasHeight: state.canvasHeight,
+        activeImage: state.activeImage,
+        imagePath: state.imagePath,
+        headline: state.headline,
+        subheadline: state.subheadline,
+        copyText: state.copyText,
+        qrCodeImage: state.qrCodeImage,
+        urlQR: state.urlQR,
+        headlineLines: state.headlineLines,
+        subHeadlineLines: state.subHeadlineLines,
+        copyTextLines: state.copyTextLines,
+        focus: state.focus,
+        isImage: state.isImage,
+        isPattern: state.isPattern,
+        navigations: state.navigations,
+        classicPossible: state.classicPossible,
+        shapesFactor: state.shapesFactor,
+      };
+
+   
+
+      let storedStates = [];
+
+      if (storedData) {
+        storedStates = JSON.parse(storedData);
+      }
+
+     
+     
+      storedStates.push(newData);
+      
 
       localStorage.setItem("storedStates", JSON.stringify(storedStates));
 
@@ -454,6 +523,10 @@ export default createStore({
     //Store wird zurückgesettz, später hier localStorage anbinden
     resetStore({ commit }) {
       commit("resetState");
+    },
+
+    resetStoreNewItem({ commit }) {
+      commit("resetStateNewItem");
     },
 
     discardStore({ commit }) {
