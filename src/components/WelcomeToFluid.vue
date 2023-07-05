@@ -22,14 +22,6 @@ export default {
 </script>
 
 <style scoped>
-/*
-.chooseStyle {
-  text-align: center;
-}
-.chooseStyle img{
-  width: 100%;
-  cursor: pointer;
-} */
 
 .chooseStyle {
   cursor: pointer;

@@ -100,12 +100,12 @@ export default createStore({
   mutations: {
     //DOWNLOAD
     incrementDownloadTriggerPDF(state){
-      console.log("incrementDownloadTriggerPDF");
+
       state.downloadTriggerPDF += 1;
     },
 
     incrementDownloadTriggerImage(state){
-      console.log("incrementDownloadTriggerImage")
+
       state.downloadTriggerImage += 1;
     },
 
@@ -635,7 +635,6 @@ export default createStore({
     updateCopyLines({ commit }, text) {
       const lines = text.split(/\r?\n/).map((line) => line.length);
       commit("SET_COPY_LINE", lines);
-      console.log(lines);
     },
   },
 });

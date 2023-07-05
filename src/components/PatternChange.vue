@@ -208,6 +208,5 @@ export default {
   height: auto;
   margin: 10px 0;
   border-radius: 30px;
-  box-sizing: border-box; 
 }
 </style>

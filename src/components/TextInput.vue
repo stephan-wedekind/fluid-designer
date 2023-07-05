@@ -107,7 +107,6 @@ export default {
 .user-input input,
 textarea {
   width: 100%;
-  box-sizing: border-box;
   height: 100px;
   padding-top: 15px;
   padding-bottom: 15px;

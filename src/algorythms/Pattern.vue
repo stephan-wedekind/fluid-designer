@@ -292,21 +292,18 @@ export default {
 
           //Layout Grid Setup
           unitsVertical = parseInt(unitsHorizontal * ratioH);
-          if (
-            this.canvasWidth === 148 && this.canvasHeight === 210) unitsVertical--;
-
-          
-
+          if (this.canvasWidth === 148 && this.canvasHeight === 210) unitsVertical--;
           unit = p.width / 14;
 
           gridWidth = unitsHorizontal * unit;
           gridHeight = unitsVertical * unit;
+
           if (this.canvasWidth === 1080 && this.canvasHeight === 1350) {
             unitsVertical = unitsHorizontal;
             gridHeight = gridWidth;
           }
-          p.randomSeed(this.patternSeed);
 
+          p.randomSeed(this.patternSeed);
           //--------------------------------------------------------------Pattern Random
           p.push();
           let shapeSize = unit * this.shapesFactor;
@@ -315,11 +312,6 @@ export default {
           if (this.isPrint) p.translate(unit, unit);
           else p.translate(unit, (p.height - gridHeight) / 2);
           if (this.patternRandom){
-          
-          
-
-
-         
           
           for (let y = 0; y < shapesColumn; y++) {
             for (let x = 0; x < shapesRow; x++) {
@@ -369,18 +361,16 @@ export default {
               p.pop();
             }
           }
-          //p.pop();
+          
           }
 
           //--------------------------------------------------------------Pattern Mirror
           
           if(this.patternMirror) {
-            //p.push();
             
             marginX = (p.width - gridWidth)/2;
             marginY = (p.height - gridHeight)/2;
-            
-           
+      
             for (let y=0; y < shapesColumn / 2; y++) {
               for(let x=0; x< shapesRow / 2; x++){
 
@@ -1163,7 +1153,6 @@ export default {
     },
 
     downloadingImage() {
-      console.log("downloadingImage Pattern.vue");
       const currentDate = new Date();
       const formattedDate = currentDate.toLocaleString().replace(/[/:]/g, "-");
 
@@ -1196,7 +1185,6 @@ export default {
     },
 
     downloadPDF() {
-      console.log("downloadPDF Pattern.vue");
       const options = {
         imageCompression: "JPEG",
         compress: true,

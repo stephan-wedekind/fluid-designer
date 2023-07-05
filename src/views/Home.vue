@@ -276,7 +276,7 @@ export default {
 }
 
 .recently-grid-item {
-  background: linear-gradient(135deg, #05C3DE 5%, #6638B6 35%, #2D0764 85%);
+  background: linear-gradient(135deg, #05C3DE 21%, #6638B6 55%, #2D0764 89%);
   width: 100%;
   aspect-ratio: 1/1;
   border-radius: 30px;
@@ -296,5 +296,6 @@ export default {
 .overlay {
   top: 0;
   left: 0;
+  z-index: 2;
 }
 </style>

@@ -103,7 +103,6 @@ export default {
   height: auto;
   border-radius: 30px;
   margin-right: 10%;
-  box-sizing: border-box;
 }
 
 .forbidden {

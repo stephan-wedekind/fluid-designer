@@ -26,12 +26,6 @@ export default {
   beforeUnmount() {
     window.removeEventListener("resize", this.handleResize);
   },
-  
-  /* beforeRouteLeave(to, from, next) {
-    console.log('beforeRouteLeave in DefaultCanvas');
-    this.removeCanvas();
-    next();
-  }, */
 
   computed: {
     ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'canvasWidth', 'canvasHeight', 'imagePath', 'canvasDestroyer'])
@@ -180,7 +174,6 @@ export default {
       }
       if (this.canvas) {
         this.canvas.remove();
-        console.log('default destroyed');
       }
     },
 

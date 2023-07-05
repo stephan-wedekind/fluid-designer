@@ -6,14 +6,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,400;0,500;0,700;1,400&display=swap');
 
 /* -----------------------------------------------------------Basic Styling */
+* {
+  box-sizing: border-box;
+}
+
 body {
   background-color: #f2f2f2;
   font-family: 'Barlow Semi Condensed', sans-serif;
   color: #0E0819;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   margin: 0;
   padding: 0;
-  transition: all 0.2s;
+
 }
 
 /* -----------------------------------------------------------Typography */
@@ -77,7 +81,7 @@ label {
 
 .padding-60 {
   padding: 60px;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
 }
 
 /* Input Styling ------------------------------------------ */
@@ -91,7 +95,7 @@ input, textarea {
   font-weight: 400;
   font-size: 18px;
   resize: none;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
 }
 
 input:focus, textarea:focus {

@@ -7,7 +7,7 @@
           @click="setIsCloseWarning(!isCloseWarning)" />
       </div>
         
-          <div class="button-group close-msg" v-if="!editExistingLayout">
+          <div class="button-group-two close-msg" v-if="!editExistingLayout">
 
           <router-link to="/" class="link" @click="discardStore()">
           <Btn buttonType="Secondary" buttonName="Änderungen verwerfen" buttonIcons="Menue-schliessen.png" class="btn-decide"/>
@@ -22,15 +22,15 @@
           <div class="button-group close-msg" v-if="editExistingLayout">
 
           <router-link to="/" class="link" @click="discardStore()">
-          <Btn buttonType="Tertiary" buttonName="Änderungen verwerfen" buttonIcons="Menue-schliessen.png" class="btn-decide"/>
+          <Btn buttonType="Tertiary" buttonName="Änderungen verwerfen" buttonIcons="Menue-schliessen.png" class="btn-discard"/>
           </router-link>
 
           <router-link to="/" class="link" @click="resetStore()">
-          <Btn buttonType="Secondary" buttonName="Bisheriges Layout überschreiben" buttonIcons="Upload.png" class="btn-decide"/>
+          <Btn buttonType="Secondary" buttonName="Bisheriges Layout überschreiben" buttonIcons="Upload.png" class="btn-safe" id="btn-middle"/>
           </router-link>
 
           <router-link to="/" class="link" @click="resetStoreNewItem()">
-          <Btn buttonType="Primary" buttonName="Als neues Layout Speichern" buttonIcons="Upload.png" class="btn-decide"/>
+          <Btn buttonType="Primary" buttonName="Als neues Layout Speichern" buttonIcons="Upload.png" class="btn-safe"/>
           </router-link>
 
           </div>
@@ -88,16 +88,16 @@ export default {
 }
 
 .foreground {
-  width: 80vw;
+  
   background-color: white;
   border-radius: 30px;
   padding: 60px;
-  box-sizing: border-box;
 }
 
 .warning-head {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .close-msg {
@@ -109,8 +109,37 @@ export default {
   justify-content: space-between;
 }
 
-
-.link {
-  text-decoration: none;
+.button-group-two {
+  display: flex;
+  justify-content: space-between;
 }
+
+.btn-decide {
+  width: 25vw;
+  margin: 0 15px 0 0;
+}
+
+.btn-discard {
+  width: 20vw;
+  margin: 0 15px 0 0;
+}
+
+.btn-safe {
+  width: 28vw;
+}
+
+.btn-close {
+  margin-left: 15px;
+}
+
+#btn-middle {
+  margin-right:15px;
+}
+
+
+
+
+/* .link {
+  text-decoration: none;
+} */
 </style>

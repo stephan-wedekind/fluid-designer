@@ -218,7 +218,6 @@ li.active img path {
 /* -----------------------------UserEingabe */
 .user-input-field {
   grid-area: userinput;
-  box-sizing: border-box;
   height: 100vh;
   background-color: white;
   box-shadow: 20px 0px 30px rgba(102, 56, 182, 0.1);
@@ -240,7 +239,6 @@ li.active img path {
   background-color: white;
   box-shadow: 10px 0px 20px 20px white;
   padding: 15px 60px;
-  box-sizing: border-box;
 }
 
 
@@ -259,11 +257,9 @@ li.active img path {
 
 .generated-content {
   grid-area: canvas;
-  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* padding: 60px; */
 }
 
 .canvas {
@@ -279,9 +275,7 @@ z-index: 20;
 }
 
 .loading{
-
   position: absolute;
-  box-sizing: border-box;
   left: calc(70px + 45vw);
   top: 60px;
   width: calc(100vw - (70px + 45vw));

@@ -130,10 +130,6 @@ export default {
   methods: {
     ...mapMutations(['setHeadline', 'setSubheadline', 'setCopyText', 'setUrlQR', 'setQRCodeImage']),
 
-    download() {
-      console.log("Download was triggerd from textinput in classic.vue");
-    },
-
     createCanvas() {
       //Canvas Größe
       let ratioW;
@@ -477,7 +473,6 @@ export default {
     },
 
     downloadingImage() {
-      console.log("downloadingImage Classic.vue");
       const currentDate = new Date();
       const formattedDate = currentDate.toLocaleString().replace(/[/:]/g, "-");
 
@@ -510,7 +505,6 @@ export default {
     },
 
     downloadPDF() {
-      console.log("downloadPDF Classic.vue");
       const options = {
         imageCompression: "JPEG",
         compress: true,

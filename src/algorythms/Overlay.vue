@@ -267,15 +267,11 @@ export default {
           }
 
           if (ratioImg < ratioW) {
-            offsetY = (viewHeight - imageHeight) / 2
-
             offsetX = (viewWidth / 2) - imageWidth * this.focus;
-            console.log("Case 1: ");
-
+            offsetY = (viewHeight - imageHeight) / 2;
           } else {
             offsetX = (viewWidth - imageWidth) / 2;
             offsetY = (viewHeight / 2) - imageHeight * this.focus;
-            console.log("Case 1")
           }
 
           p.image(
@@ -554,7 +550,6 @@ export default {
     },
 
     downloadingImage() {
-      console.log("downloadingImage Overlay.vue");
       const currentDate = new Date();
       const formattedDate = currentDate.toLocaleString().replace(/[/:]/g, "-");
 
@@ -587,7 +582,6 @@ export default {
     },
 
     downloadPDF() {
-      console.log("downloadPDF Overlay.vue");
       const options = {
         imageCompression: "JPEG",
         compress: true,

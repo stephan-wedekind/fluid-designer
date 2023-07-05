@@ -109,7 +109,6 @@ export default {
   width: 100vw;
   height: 100vh;
   background: rgba(102, 56, 182, 0.95);
-  /* backdrop-filter: blur(20px); */
 }
 
 .foreground {
@@ -117,7 +116,6 @@ export default {
   background-color: white;
   border-radius: 30px;
   padding: 60px;
-  box-sizing: border-box;
 }
 
 .format-head {
