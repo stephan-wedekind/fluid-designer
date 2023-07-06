@@ -20,7 +20,7 @@
       <img src="Logo/Logo-white.png" class="logo-nav" alt="">
     </nav>
 
-    <!-- User Input Feld -->
+    <!-- User Input Field -->
     <div class="user-input-field">
         <component :is="getActiveComponent()" />
 
@@ -29,11 +29,11 @@
             <Btn buttonType="Secondary" buttonName="Format Ändern" buttonIcons="Vergroeßern.png" class="format-btn" @click="handleFormatChoice(true)"/>
             <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" class="download-btn" @click="incrementDownloadTriggerPDF" :disabled="disableDownload()" v-if="isPrint"/>
             <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" class="download-btn" @click="incrementDownloadTriggerImage" :disabled="disableDownload()" v-if="!isPrint"/>
-        </div>
+          </div>
         </div>
     </div>
 
-    <!-- Canvas Feld -->
+    <!-- Canvas Field -->
     <div class="generated-content">
       <component :is="getCanvas()" />
       <div class="loading">
@@ -210,9 +210,9 @@ li.active {
   color: #6638B6;
 }
 
-li.active img path {
+/* li.active img path {
   color: #6638B6;
-}
+} */
 
 /* SideBar -----------------------------*/
 /* -----------------------------UserEingabe */

@@ -65,8 +65,6 @@
       
          
           <div  v-for="state in storedStates" :key="state.id">
-            <!-- <h2>{{ state.headline }}</h2>
-            <p>{{ formatDate(state.timestamp) }}</p> -->
             <Card :storedState="state" class="recently-grid-item" @delete-clicked="removeState"/>
           </div>
      
@@ -131,14 +129,6 @@ export default {
       this.$store.commit('setStoredState', storedState);
     },
 
-    /* checkStore() {
-      if (this.storedStates === null) {
-        return true;
-      } else {
-        return false;
-      }
-    }, */
-
     checkStore() {
       return !this.storedStates || this.storedStates.length === 0;
     },
@@ -186,7 +176,6 @@ export default {
   left: 0;
   height: 65vh;
   background: linear-gradient(135deg, #05C3DE 5%, #6638B6 35%, #2D0764 85%);
-  /* background: linear-gradient(135deg, #6638B6 5%, #05C3DE 35%, #00ffff 85%); */
   z-index: -1;
 }
 

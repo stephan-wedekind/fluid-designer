@@ -14,7 +14,6 @@ body {
   background-color: #f2f2f2;
   font-family: 'Barlow Semi Condensed', sans-serif;
   color: #0E0819;
-  /* box-sizing: border-box; */
   margin: 0;
   padding: 0;
 
@@ -81,7 +80,6 @@ label {
 
 .padding-60 {
   padding: 60px;
-  /* box-sizing: border-box; */
 }
 
 /* Input Styling ------------------------------------------ */
@@ -95,7 +93,6 @@ input, textarea {
   font-weight: 400;
   font-size: 18px;
   resize: none;
-  /* box-sizing: border-box; */
 }
 
 input:focus, textarea:focus {

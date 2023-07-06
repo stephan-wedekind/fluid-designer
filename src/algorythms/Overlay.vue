@@ -7,7 +7,7 @@ import p5 from "p5";
 import QrCode from "qrcode";
 import jsPDF from "jspdf";
 
-import { mapState, mapActions, mapMutations } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'Overlay',
@@ -238,7 +238,7 @@ export default {
           rwLilaDark = p.color(45, 7, 100);
           rwCyan = p.color(0, 169, 206);
           rwCyanLight = p.color(5, 195, 222);
-          p.background(rwLila);
+          /* p.background(rwLila); */
 
           //Layout Grid Setup
           gridVertical = parseInt(gridHorizontal * ratioH) + 1;
@@ -268,9 +268,9 @@ export default {
 
           if (ratioImg < ratioW) {
             offsetX = (viewWidth / 2) - imageWidth * this.focus;
-            offsetY = (viewHeight - imageHeight) / 2;
+            offsetY = 0;
           } else {
-            offsetX = (viewWidth - imageWidth) / 2;
+            offsetX = 0;
             offsetY = (viewHeight / 2) - imageHeight * this.focus;
           }
 
@@ -312,7 +312,7 @@ export default {
             for (let i = 0; i < p.pixels.length; i += 4) {
               let c = p.pixels[i];
 
-              c = Math.min(c * (1 + 1 * perDark), 255);
+              c = Math.min(c * (1 + perDark), 255);
 
               p.pixels[i] = c;
               p.pixels[i + 1] = c;

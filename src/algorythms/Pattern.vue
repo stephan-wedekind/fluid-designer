@@ -905,12 +905,6 @@ export default {
                   createTriangle(shapeSize, orientation);
                 else p.rect(0, 0, shapeSize, shapeSize);
               }
-              //
-              //
-              //
-              //
-              //
-              //
               p.pop();
               }
             }
@@ -1157,6 +1151,7 @@ export default {
       const formattedDate = currentDate.toLocaleString().replace(/[/:]/g, "-");
 
       let filename = this.headline + "_" + formattedDate + ".png";
+      
       const imageWidth = (this.canvasWidth / 72) * 300;
       const imageHeight = (this.canvasHeight / 72) * 300;
 

@@ -11,7 +11,7 @@
 
       <div v-if="!customFormatChoice" class="format-grid-container">
 
-        <div to="/fluidDesigner" class="format-grid" v-for="format in formats" :key="format.name">
+        <div v-for="format in formats" :key="format.name">
           <router-link to="/fluidDesigner" class="format-grid"
             @click="handleFormatChoice(!toFormatChoice), updateCanvasSize({ w: format.size.w, h: format.size.h, p: format.print }), setActiveFormat(format.id)">
             <img :src="format.image" alt="" :class="{ 'selected': isActiveFormat(format.id) }">
@@ -54,7 +54,6 @@ import Btn from '@/components/Button.vue'
 import formatsData from "../assets/formats.json";
 
 export default {
-  //updateCanvasSize({ w: 222, h: 333 })
   name: 'FormatChoice',
 
   data() {
