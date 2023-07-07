@@ -294,7 +294,7 @@ export default {
           renderHeadline();
 
           //Subheadline OFFSET
-          p.textFont(fontMedium);
+          p.textFont(fontRegular);
 
           //Offset für Subheadline nach User Zeilen Umbruch gesetzt
           UserOffsetSub = this.headlineLines.length * (headlineSize * 1.1);
