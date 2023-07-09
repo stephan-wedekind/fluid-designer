@@ -175,7 +175,8 @@ export default {
   right: 0;
   left: 0;
   height: 65vh;
-  background: linear-gradient(135deg, #05C3DE 5%, #6638B6 35%, #2D0764 85%);
+  /* background: linear-gradient(135deg, #05C3DE 5%, #6638B6 35%, #2D0764 85%); */
+  background: linear-gradient(162deg, #05C3DE 21%, #6638B6 70%, #2D0764 100%);
   z-index: -1;
 }
 
@@ -265,7 +266,7 @@ export default {
 }
 
 .recently-grid-item {
-  background: linear-gradient(135deg, #05C3DE 21%, #6638B6 55%, #2D0764 89%);
+  background: linear-gradient(135deg, #05C3DE 21%, #6638B6 70%, #2D0764 100%);
   width: 100%;
   aspect-ratio: 1/1;
   border-radius: 30px;

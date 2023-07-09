@@ -1,7 +1,7 @@
 <template>
   <div class="padding-60">
     <div class="steps">
-      <h4 class="fontGrey"><span class="fontLila">Text einfügen</span> Schritt 3 von 3</h4>
+      <h4 class="fontGrey">Schritt 3 von 3 <span class="fontLila">Text einfügen</span></h4>
     </div>
     <section class="user-input">
       <h2 class="fontLila">Headline</h2>

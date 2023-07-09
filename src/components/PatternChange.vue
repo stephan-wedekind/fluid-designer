@@ -1,7 +1,7 @@
 <template>
   <div class="padding-60">
     <div class="steps">
-      <h4 class="fontGrey"><span class="fontLila">Pattern bearbeiten</span> Schritt 2 von 3</h4>
+      <h4 class="fontGrey">Schritt 2 von 3 <span class="fontLila">Pattern bearbeiten</span></h4>
     </div>
   <h2 class="fontLila">Pattern Stil</h2>
   <section class="pattern-styles">

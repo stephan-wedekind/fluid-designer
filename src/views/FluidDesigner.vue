@@ -171,7 +171,7 @@ export default {
 nav {
   grid-area: navigation;
   height: 100vh;
-  background: linear-gradient(144deg, #05C3DE 13%, #6638B6 55%, #2D0764 89%);
+  background: linear-gradient(144deg, #05C3DE 21%, #6638B6 70%, #2D0764 100%);
 }
 
 img.logo-nav {
