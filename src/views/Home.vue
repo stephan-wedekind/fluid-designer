@@ -44,11 +44,11 @@
       <img src="Platzhalter/Tutorial/style-tutorial.png" alt="">
       <img src="Platzhalter/Tutorial/download-tutorial.png" alt="">
 
-      <h2 class="fontLila">Wähle zunächst ein geeignetes Format (z.B.&nbsp;DIN&nbsp;A4).</h2>
-      <h2 class="fontLila">Danach entscheidest du dich für einen der drei Layoutstile.</h2>
-      <h2 class="fontLila">Wähle dann ein Bild aus oder bearbeite das Pattern nach deinen Wünschen.</h2>
-      <h2 class="fontLila">Jetzt musst du nur noch deinen Text eingeben...</h2>
-      <h2 class="fontLila">...und kannst das Layout direkt herunterladen und verwenden.</h2>
+      <h2 class="fontLila fontRegular">Wähle zunächst ein geeignetes <span class="fontBold">Format</span> (z.B.&nbsp;DIN&nbsp;A4).</h2>
+      <h2 class="fontLila fontRegular">Danach entscheidest du dich für einen der drei <span class="fontBold">Layoutstile</span>.</h2>
+      <h2 class="fontLila fontRegular">Wähle dann ein <span class="fontBold">Bild</span> aus oder bearbeite das <span class="fontBold">Pattern</span> nach deinen Wünschen.</h2>
+      <h2 class="fontLila fontRegular">Jetzt musst du nur noch deinen <span class="fontBold">Text</span> eingeben...</h2>
+      <h2 class="fontLila fontRegular">...und kannst das Layout direkt <span class="fontBold">herunterladen</span> und verwenden.</h2>
 
     </section>
     <Btn buttonType="Primary" buttonName="Erstelle ein neues Layout" buttonIcons="Hinzufuegen.png" class="btn-tutorial"
@@ -213,6 +213,11 @@ export default {
 /* -----------------------------------------------------------Tutorial Styling*/
 .tutorial {
   padding: 60px;
+}
+
+.logo {
+  width: 34px;
+  height: 34px;
 }
 
 .tutorial-steps {

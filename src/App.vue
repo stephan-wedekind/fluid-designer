@@ -76,6 +76,14 @@ label {
   color: #8D8D8D;
 }
 
+.fontBold{
+  font-weight: 700;
+}
+
+.fontRegular {
+  font-weight: 400;
+}
+
 /* Allgemeines Padding ------------------------------------------ */
 
 .padding-60 {
