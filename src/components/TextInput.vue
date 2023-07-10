@@ -1,7 +1,8 @@
 <template>
   <div class="padding-60">
     <div class="steps">
-      <h4 class="fontGrey">Schritt 3 von 3 <span class="fontLila">Text einfügen</span></h4>
+      <button class="prev-next" @click="setActiveNav()"><h4>&lang;</h4></button>
+      <h4 class="fontGrey indicator">Schritt 3 von 3 <span class="fontLila">Text einfügen</span></h4>
     </div>
     <section class="user-input">
       <h2 class="fontLila">Headline</h2>
@@ -67,12 +68,20 @@ export default {
   },
 
   computed: {
-    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'refreshing', 'refreshQR', 'isPrint', 'headlineLines', 'isPrint'])
+    ...mapState(['headline', 'subheadline', 'copyText', 'urlQR', 'refreshing', 'refreshQR', 'isPrint', 'headlineLines', 'isPrint', 'styleClassic', 'styleOverlay', 'stylePattern',])
   },
 
   methods: {
-    ...mapMutations(['setHeadline', 'setSubheadline', 'setCopyText', 'setUrlQR', 'incrementRefreshing', 'incrementRefreshQR', 'incrementDownloadTrigger']),
+    ...mapMutations(['setHeadline', 'setSubheadline', 'setCopyText', 'setUrlQR', 'incrementRefreshing', 'incrementRefreshQR', 'incrementDownloadTrigger', 'setActiveNavigation']),
     ...mapActions(['updateHeadlineLines', 'updateSubHeadlineLines', 'updateCopyLines']),
+
+    setActiveNav() {
+      if (this.stylePattern) {
+        this.setActiveNavigation('pattern')
+      } else {
+        this.setActiveNavigation('bild');
+      }
+    },
 
     updateHeadline(newHeadline){
       this.setHeadline(newHeadline);

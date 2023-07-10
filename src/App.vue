@@ -115,6 +115,12 @@ input:focus, textarea:focus {
 
 /* -----------------------------------------------------------Link */
 
+
+.link {
+  text-decoration: none;
+  color: white;
+}
+
 /* HIGHLIGHT SELECTION */
 
 
@@ -130,18 +136,43 @@ input:focus, textarea:focus {
   color: #ff00ff;
 }
 
+
+/* ---------------------------------- global styles*/
 .steps{
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   margin-bottom: 15px;
 }
 
-.link {
-  text-decoration: none;
+.indicator {
+  margin: 0 15px;
+}
+
+button.prev-next {
+  
+  padding: 8px 16px;
+  border: none;
+  background-color: white;
+  color: #6638B6;
+  border-radius: 10px;
+}
+
+button.prev-next:hover {
+  cursor: pointer;
+  background-color: #6638B6;
   color: white;
 }
 
+button.prev-next:active {
+  background-color: #2D0764;
+}
+
+button.prev-next:disabled {
+  color:#8D8D8D;
+  background-color: #f2f2f2;
+}
 
 
 

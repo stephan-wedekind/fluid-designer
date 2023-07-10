@@ -1,7 +1,8 @@
 <template>
   <div class="padding-60">
     <div class="steps">
-      <h4 class="fontGrey">Schritt 1 von 3 <span class="fontLila">Stil Auswahl</span></h4>
+      <h4 class="fontGrey indicator">Schritt 1 von 3 <span class="fontLila">Stil Auswahl</span></h4>
+      <button class="prev-next" @click="setActive()" :disabled="styleSelected()"><h4>&rang;</h4></button>
     </div>
   
   <section class="stylePreview" id="style01"  @click="addBild(), changeStyle('style01'), setFocus(0.5)" v-if="this.classicPossible">
@@ -120,4 +121,5 @@ export default {
   display: flex;
   justify-content: space-between;
 }
+
 </style>
