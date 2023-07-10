@@ -147,23 +147,28 @@ export default {
           p.rectMode(p.CENTER);
 
           
-          const fillColor = p.color(
-            p.red(rwLila),
-            p.green(rwLila),
-            p.blue(rwLila),
-            200
-          );
-          p.fill(fillColor);
-          p.noStroke();
+          // const fillColor = p.color(
+          //   p.red(rwLila),
+          //   p.green(rwLila),
+          //   p.blue(rwLila),
+          //   200
+          // );
+          // p.fill(fillColor);
+          // p.noStroke();
           
-          p.rect(0,0, focusW, focusH);
+          // p.rect(0,0, focusW, focusH);
           p.noFill();
           p.stroke(rwLila);
           p.strokeWeight(6);
           p.rect(0,0, focusW-6, focusH-6);
 
           p.pop()
-
+          p.push();
+          p.fill(84,84,84, 180);
+          p.noStroke();
+          p.rect(0,0, posX-focusW/2, p.height);
+          p.rect(posX+focusW/2, 0, p.width-(posX + focusW/2), p.height);
+          p.pop();
           
 
           p.mouseClicked = () => {
