@@ -1,7 +1,9 @@
 <template>
   <div class="padding-60">
     <div class="steps">
-      <h4 class="fontGrey">Schritt 2 von 3 <span class="fontLila">Pattern bearbeiten</span></h4>
+      <button class="prev-next" @click="setActiveNav('style')"><h4>&lang;</h4></button>
+      <h4 class="fontGrey indicator">Schritt 2 von 3 <span class="fontLila">Pattern bearbeiten</span></h4>
+      <button class="prev-next" @click="setActiveNav('text')"><h4>&rang;</h4></button>
     </div>
   <h2 class="fontLila">Pattern Stil</h2>
   <section class="pattern-styles">
@@ -99,7 +101,11 @@ export default {
   },
   methods: {
     ...mapActions(['changePattern', 'patternFill', 'handleCircle', 'handleRectangle', 'handleTriangle']),
-    ...mapMutations(['increasePatternStripeWidth', 'decreasePatternStripeWidth' ,'randomPatternSeed', 'increaseShapesFactor', 'decreaseShapesFactor']),
+    ...mapMutations(['increasePatternStripeWidth', 'decreasePatternStripeWidth' ,'randomPatternSeed', 'increaseShapesFactor', 'decreaseShapesFactor', 'setActiveNavigation']),
+
+    setActiveNav(Id) {
+      this.setActiveNavigation(Id);
+    },
 
     checkPatternStartLow() {
       return this.patternStripeWidth<=1
