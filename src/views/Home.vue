@@ -10,7 +10,7 @@
         Corporate Design konform zu erstellen!
       </h1>
       <div class="introButton">
-        <Btn buttonType="Tertiary" buttonName="Erstelle ein neues Layout" buttonIcons="Hinzufuegen.png"
+        <Btn buttonType="Tertiary" buttonName="Erstelle ein neues Layout" buttonIcons="Hinzufuegen.png" iconLeft="true"
           class="btn-toFluid" @click="handleFormatChoice(!toFormatChoice)" />
       </div>
     </section>
@@ -51,7 +51,7 @@
       <h2 class="fontLila fontRegular">...und kannst das Layout direkt <span class="fontBold">herunterladen</span> und verwenden.</h2>
 
     </section>
-    <Btn buttonType="Primary" buttonName="Erstelle ein neues Layout" buttonIcons="Hinzufuegen.png" class="btn-tutorial"
+    <Btn buttonType="Primary" buttonName="Erstelle ein neues Layout" buttonIcons="Hinzufuegen.png" class="btn-tutorial" iconLeft="true"
       @click="handleFormatChoice(!toFormatChoice)" />
 
   </div>
@@ -205,7 +205,7 @@ export default {
 }
 
 .btn-toFluid {
-  width: 350px;
+  /* width: 350px; */
 }
 
 
@@ -245,7 +245,7 @@ export default {
 }
 
 .btn-tutorial {
-  width: 30%;
+  /* width: 30%; */
   margin: auto;
   margin-top: 30px;
 }

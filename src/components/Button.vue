@@ -1,7 +1,8 @@
 <template>
  <button :class="['btn'+ buttonType]">
+       <img :src="getButtonIcon(buttonIcons)" class="buttonIcon" alt="" v-if="iconLeft">
         <h4>{{buttonName}}</h4>
-        <img :src="getButtonIcon(buttonIcons)" class="buttonIcon" alt="">
+        <img :src="getButtonIcon(buttonIcons)" class="buttonIcon" alt="" v-if="!iconLeft">
       </button>
 </template>
 
@@ -12,6 +13,7 @@ export default {
     buttonType: String,
     buttonName: String,
     buttonIcons: String,
+    iconLeft: Boolean,
   },
 
 
@@ -38,7 +40,7 @@ button {
   border-radius: 10px;
   align-items: center;
   justify-content: center;
-  padding: 0 15px;
+  padding: 0 32px;
 }
 
 button h4 {
@@ -46,8 +48,8 @@ button h4 {
 }
 
 img.buttonIcon {
-  height: 50px;
-  width: 50px;
+  height: 44px;
+  width: 44px;
 }
 
 /*Primary Button*/

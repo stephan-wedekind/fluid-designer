@@ -3,9 +3,9 @@
     <div class="foreground">
       <div class="format-head">
         <h1 class="fontLila">{{ formatHeader }}</h1>
-        <Btn buttonType="Tertiary" buttonName="" buttonIcons="Menue-schliessen.png" class="btn-close"
+        <Btn buttonType="Tertiary" buttonName="" buttonIcons="Menue-schliessen.png" class="btn-close"  :iconLeft="false"
           @click="handleFormatChoice(!toFormatChoice)" v-if="!customFormatChoice"/>
-        <Btn buttonType="Tertiary" buttonName="" buttonIcons="Menue-schliessen.png" class="btn-close"
+        <Btn buttonType="Tertiary" buttonName="" buttonIcons="Menue-schliessen.png" class="btn-close"  :iconLeft="false"
           @click="handleCustomFormat" v-if="customFormatChoice"/>
       </div>
 
@@ -37,10 +37,10 @@
           <input type="number" v-model="customHeight" placeholder="Höhe">
 
           <a v-if="!inputIsMade" class="format">
-            <Btn buttonType="Primary" buttonName="FluidDesigner" buttonIcons="Weiter.png" class="btn-submit" :disabled="!inputIsMade" />
+            <Btn buttonType="Primary" buttonName="FluidDesigner" buttonIcons="Weiter.png"  :iconLeft="false" class="btn-submit" :disabled="!inputIsMade" />
           </a>
           <router-link v-if="inputIsMade" to="/fluidDesigner" class="format" @click="updateCanvasSize({ w: customWidth, h: customHeight, p: false }), handleFormatChoice(!toFormatChoice), setActiveFormat(5)" :disabled="!inputIsMade">
-            <Btn buttonType="Primary" buttonName="FluidDesigner" buttonIcons="Weiter.png" class="btn-submit" :disabled="!inputIsMade" />
+            <Btn buttonType="Primary" buttonName="FluidDesigner" buttonIcons="Weiter.png"  :iconLeft="false" class="btn-submit" :disabled="!inputIsMade" />
           </router-link>
 
         </div>

@@ -26,9 +26,9 @@
 
         <div class="sticky-bottom">
           <div class="btn-container">
-            <Btn buttonType="Secondary" buttonName="Format Ändern" buttonIcons="Vergroeßern.png" class="format-btn" @click="handleFormatChoice(true)"/>
-            <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" class="download-btn" @click="incrementDownloadTriggerPDF" :disabled="disableDownload()" v-if="isPrint"/>
-            <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" class="download-btn" @click="incrementDownloadTriggerImage" :disabled="disableDownload()" v-if="!isPrint"/>
+            <Btn buttonType="Secondary" buttonName="Format Ändern" buttonIcons="Vergroeßern.png" class="format-btn" :iconLeft="false" @click="handleFormatChoice(true)"/>
+            <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" class="download-btn" :iconLeft="false" @click="incrementDownloadTriggerPDF" :disabled="disableDownload()" v-if="isPrint"/>
+            <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" class="download-btn" :iconLeft="false" @click="incrementDownloadTriggerImage" :disabled="disableDownload()" v-if="!isPrint"/>
           </div>
         </div>
     </div>

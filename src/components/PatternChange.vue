@@ -28,20 +28,20 @@
   <section class="pattern-edit">
 
     <div class="edit-line" id="number-shapes" v-if="!patternStripe">
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png" @click="decreaseShapesFactor()" :disabled="shapesFactor===1"/>
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png"  :iconLeft="false" @click="decreaseShapesFactor()" :disabled="shapesFactor===1"/>
       <div class="edit-label"><h2 class="fontLila">Formen Größe</h2></div>
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" @click="increaseShapesFactor()" :disabled="shapesFactor === maxShapesFactor"/>
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png"  :iconLeft="false" @click="increaseShapesFactor()" :disabled="shapesFactor === maxShapesFactor"/>
     </div>
 
     <div class="edit-line" id="change-stripe" v-if="patternStripe">
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png" :disabled="checkPatternStartLow()" @click="decreasePatternStripeWidth()" />
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Entfernen.png"  :iconLeft="false" :disabled="checkPatternStartLow()" @click="decreasePatternStripeWidth()" />
       <div class="edit-label"><h2 class="fontLila">Streifen Breite</h2></div>
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png" :disabled="checkPatternStartHigh()" @click="increasePatternStripeWidth()"/>
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Hinzufuegen.png"  :iconLeft="false" :disabled="checkPatternStartHigh()" @click="increasePatternStripeWidth()"/>
     </div>
 
     <div class="edit-line" id="change-pattern">
       <div class="edit-label randomPattern"><h2 class="fontLila">Formen neu mischen</h2></div>
-      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Wiederholen.png" @click="randomPatternSeed()"/>
+      <Btn class="edit-btn" buttonType="Primary" buttonName="" buttonIcons="Wiederholen.png"  :iconLeft="false" @click="randomPatternSeed()"/>
     </div>
 
    

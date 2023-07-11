@@ -17,7 +17,7 @@ export default {
 
   methods: {
     getButtonIcon(btnSrc) {
-      if (this.buttonType === 'Primary' || this.buttonType === 'DEV') {
+      if (this.buttonType === 'Primary' || this.buttonType === 'DEV' || this.buttonType === 'CTA') {
         return 'Icons/primary/' + btnSrc;
       } else if (this.buttonType === 'Secondary' || this.buttonType ==='Tertiary') {
         return 'Icons/secondary/' + btnSrc;
@@ -38,16 +38,18 @@ button {
   border-radius: 10px;
   align-items: center;
   justify-content: center;
-  padding: 0 15px;
+  padding: 0 32px;
 }
 
 button h4 {
   font-weight: 500;
+  margin: 0;
 }
 
 img.buttonIcon {
-  height: 50px;
-  width: 50px;
+  height: 44px;
+  width: 44px;
+  margin-right: 8px;
 }
 
 /*Primary Button*/
@@ -99,6 +101,27 @@ button.btnTertiary:active {
   background-color: #f2f2f2;
 } 
 
+/* CTA Button */
+
+button.btnCTA {
+  border-radius: 60px;
+  border: none;
+  color: white;
+  background-color: #6638B6;
+}
+
+button.btnCTA:hover {
+  background-color: #2D0764;
+}
+
+button.btnCTA:active {
+  background-color: #0E0819;
+}
+
+button.btnCTA:disabled {
+  background-color: #B3B3B3;
+}
+
 /* DEV ONLY BUTTON - REMOVE BEVORE BUILT*/
 
 button.btnDEV{
@@ -107,3 +130,4 @@ button.btnDEV{
   background-color: #ff00ff;
 }
 </style>
+

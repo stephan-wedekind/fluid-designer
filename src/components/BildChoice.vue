@@ -9,10 +9,11 @@
     <input type="search" name="searchfield" id="searching-images" placeholder="Suche" v-model="searchInput"
       @keyup="searchWithDebounce" :class="{ 'filled': this.searchInput.length > 0 }">
     <div class="buttons">
-      <Btn buttonType="Secondary" buttonName="Bildauschnitt ändern" buttonIcons="Vorschau.png" class="btn-fokus"
-        @click="setChooseFocus(true)" />
-      <Btn buttonType="Primary" buttonName="Alle Bilder" buttonIcons="Bild.png" class="btn-fokus"
+      <Btn buttonType="Secondary" buttonName="Alle Bilder" buttonIcons="Bild.png"  :iconLeft="false" class="btn-all-images"
         @click="showAllImages" />
+      <Btn buttonType="Primary" buttonName="Bildauschnitt ändern" buttonIcons="Vorschau.png"  :iconLeft="false" class="btn-fokus" 
+        @click="setChooseFocus(true)" />
+      
     </div>
   </div>
   <div class="scroll padding-60">
@@ -162,11 +163,15 @@ export default {
 }
 
 .btn-fokus {
-  margin-top: 30px;
-  width: calc(50% - 7px);
+  width: calc(60% - 15px);
+}
+
+.btn-all-images {
+  width: 40%;
 }
 
 .buttons {
+  margin-top: 30px;
   display: flex;
   justify-content: space-between;
 }

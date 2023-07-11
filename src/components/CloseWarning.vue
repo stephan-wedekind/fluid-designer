@@ -3,18 +3,18 @@
     <div class="foreground">
       <div class="warning-head">
         <h1 class="fontLila">Möchtest du »FluidDesigner« wirklich verlassen?</h1>
-        <Btn buttonType="Tertiary" buttonName="" buttonIcons="Menue-schliessen.png" class="btn-close"
+        <Btn buttonType="Tertiary" buttonName="" buttonIcons="Menue-schliessen.png"  :iconLeft="false" class="btn-close"
           @click="setIsCloseWarning(!isCloseWarning)" />
       </div>
         
           <div class="button-group-two close-msg" v-if="!editExistingLayout">
 
           <router-link to="/" class="link" @click="discardStore()">
-          <Btn buttonType="Secondary" buttonName="Änderungen verwerfen" buttonIcons="Menue-schliessen.png" class="btn-decide"/>
+          <Btn buttonType="Secondary" buttonName="Änderungen verwerfen" buttonIcons="Menue-schliessen.png"  :iconLeft="false" class="btn-decide"/>
           </router-link>
 
           <router-link to="/" class="link" @click="resetStore()">
-          <Btn buttonType="Primary" buttonName="Änderungen speichern" buttonIcons="Upload.png" class="btn-decide"/>
+          <Btn buttonType="Primary" buttonName="Änderungen speichern" buttonIcons="Upload.png"  :iconLeft="false" class="btn-decide"/>
           </router-link>
 
           </div>
@@ -22,15 +22,15 @@
           <div class="button-group close-msg" v-if="editExistingLayout">
 
           <router-link to="/" class="link" @click="discardStore()">
-          <Btn buttonType="Tertiary" buttonName="Änderungen verwerfen" buttonIcons="Menue-schliessen.png" class="btn-discard"/>
+          <Btn buttonType="Tertiary" buttonName="Änderungen verwerfen" buttonIcons="Menue-schliessen.png"  :iconLeft="false" class="btn-discard"/>
           </router-link>
 
           <router-link to="/" class="link" @click="resetStore()">
-          <Btn buttonType="Secondary" buttonName="Bisheriges Layout überschreiben" buttonIcons="Upload.png" class="btn-safe" id="btn-middle"/>
+          <Btn buttonType="Secondary" buttonName="Bisheriges Layout überschreiben" buttonIcons="Upload.png"  :iconLeft="false" class="btn-safe" id="btn-middle"/>
           </router-link>
 
           <router-link to="/" class="link" @click="resetStoreNewItem()">
-          <Btn buttonType="Primary" buttonName="Als neues Layout Speichern" buttonIcons="Upload.png" class="btn-safe"/>
+          <Btn buttonType="Primary" buttonName="Als neues Layout Speichern" buttonIcons="Upload.png"  :iconLeft="false" class="btn-safe"/>
           </router-link>
 
           </div>
@@ -43,7 +43,6 @@
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
 import Btn from '@/components/Button.vue'
-import BtnIL from '@/components/ButtonIconLeft.vue'
 
 
 export default {
@@ -56,8 +55,7 @@ export default {
   },
 
   components: {
-    Btn,
-    BtnIL
+    Btn
   },
 
   computed: {

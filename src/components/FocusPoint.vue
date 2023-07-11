@@ -3,7 +3,7 @@
     <div class="foreground">
       <div class="focus-head">
         <h1 class="fontLila">Wähle den passenden Bildauschnitt</h1>
-        <Btn buttonType="Tertiary" buttonName="Auswahl bestätigen" buttonIcons="OK.png" class="btn-close"
+        <Btn buttonType="Tertiary" buttonName="Auswahl bestätigen" buttonIcons="OK.png"  :iconLeft="false" class="btn-close"
           @click="setChooseFocus(false)" />
       </div>
       <!-- <img :src="imagePath" alt=""> -->

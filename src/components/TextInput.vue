@@ -23,12 +23,12 @@
       <h2 class="fontLila">QR-Code</h2>
       <div class="qr-code-input">
         <input type="text" v-model="newUrlQR" class="qr-url" @input="updateUrlQR(newUrlQR)" :class="{'filled' : newUrlQR.length > 0}" placeholder="URL hier einfügen">
-        <Btn buttonType="Secondary" buttonName="Generieren" buttonIcons="Share.png" class="qr-btn" @click="incrementRefreshQR"/>
+        <Btn buttonType="Secondary" buttonName="Generieren" buttonIcons="Share.png" class="qr-btn" @click="incrementRefreshQR"  :iconLeft="false"/>
       </div>
     </section>
 
     <div class="buttons">
-      <Btn buttonType="Secondary" buttonName="Aktualisieren" buttonIcons="Wiederholen.png" id="refresh" @click="incrementRefreshing"/>
+      <Btn buttonType="Secondary" buttonName="Aktualisieren" buttonIcons="Wiederholen.png" id="refresh" @click="incrementRefreshing"  :iconLeft="false"/>
      <!--  <Btn buttonType="Primary" buttonName="Download" buttonIcons="Download.png" id="download" @click="incrementDownloadTrigger"/> -->
     </div>
     
