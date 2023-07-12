@@ -205,12 +205,6 @@ export default {
 .introButton {
   text-decoration: none;
 }
-
-.btn-toFluid {
-  /* width: 350px; */
-}
-
-
 /* -----------------------------------------------------------Tutorial Styling*/
 .tutorial {
   padding: 60px;
