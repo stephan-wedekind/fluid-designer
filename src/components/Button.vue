@@ -1,8 +1,8 @@
 <template>
  <button :class="['btn'+ buttonType]">
-       <img :src="getButtonIcon(buttonIcons)" class="buttonIcon" alt="" v-if="iconLeft">
+       <img :src="getButtonIcon(buttonIcons)" class="buttonIcon iconL" alt="" v-if="iconLeft">
         <h4>{{buttonName}}</h4>
-        <img :src="getButtonIcon(buttonIcons)" class="buttonIcon" alt="" v-if="!iconLeft">
+        <img :src="getButtonIcon(buttonIcons)" class="buttonIcon iconR" alt="" v-if="!iconLeft">
       </button>
 </template>
 
@@ -50,6 +50,14 @@ button h4 {
 img.buttonIcon {
   height: 44px;
   width: 44px;
+}
+
+img.iconL {
+  margin-left: -12px;
+}
+
+img.iconR {
+  margin-right: -12px;
 }
 
 /*Primary Button*/

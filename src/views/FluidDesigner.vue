@@ -58,7 +58,6 @@ import StyleChange from '@/components/StyleChange.vue';
 import TextInput from '@/components/TextInput.vue';
 import BildChoice from '@/components/BildChoice.vue';
 import PatternChange from '@/components/PatternChange.vue';
-import WelcomeToFluid from '@/components/WelcomeToFluid.vue';
 import ClassicCanvas from '@/algorythms/Classic.vue';
 import OverlayCanvas from '@/algorythms/Overlay.vue';
 import PatternCanvas from '@/algorythms/Pattern.vue';
@@ -75,7 +74,6 @@ export default {
     TextInput,
     BildChoice,
     PatternChange,
-    WelcomeToFluid,
     ClassicCanvas,
     OverlayCanvas,
     PatternCanvas,
@@ -234,11 +232,10 @@ li.active {
   position: sticky;
   width: 100%;
   bottom: 0;
-  height: 85px;
   z-index: 1;
   background-color: white;
   box-shadow: 10px 0px 20px 20px white;
-  padding: 15px 60px;
+  padding: 30px 60px;
 }
 
 
