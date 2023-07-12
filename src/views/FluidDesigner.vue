@@ -54,16 +54,19 @@
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex';
 import Btn from '@/components/Button.vue';
-import StyleChange from '@/components/StyleChange.vue';
-import TextInput from '@/components/TextInput.vue';
-import BildChoice from '@/components/BildChoice.vue';
-import PatternChange from '@/components/PatternChange.vue';
+
+import StyleChange from '@/userinputs/StyleChange.vue';
+import TextInput from '@/userinputs/TextInput.vue';
+import BildChoice from '@/userinputs/BildChoice.vue';
+import PatternChange from '@/userinputs/PatternChange.vue';
+
 import ClassicCanvas from '@/algorythms/Classic.vue';
 import OverlayCanvas from '@/algorythms/Overlay.vue';
 import PatternCanvas from '@/algorythms/Pattern.vue';
 import DefaultCanvas from '@/algorythms/DefaultCanvas.vue';
-import CloseWarning from '@/components/CloseWarning.vue';
-import FormatChoice from '@/components/FormatChoice.vue';
+
+import CloseWarning from '@/overlays/CloseWarning.vue';
+import FormatChoice from '@/overlays/FormatChoice.vue';
 
 
 export default {

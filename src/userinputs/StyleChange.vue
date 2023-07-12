@@ -48,13 +48,11 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import Btn from "@/components/Button.vue";
-import FormatChoice from '@/components/FormatChoice.vue';
 
 export default {
   name: 'StyleChange',
   components: {
-    Btn,
-    FormatChoice
+    Btn
   },
 
   data() {

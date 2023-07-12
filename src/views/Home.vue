@@ -75,7 +75,9 @@
 
 <script>
 import Btn from '@/components/Button.vue';
-import FormatChoice from '@/components/FormatChoice.vue';
+
+import FormatChoice from '@/overlays/FormatChoice.vue';
+
 import Card from '@/components/Card.vue';
 import { mapState, mapActions, mapMutations } from 'vuex';
 

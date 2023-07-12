@@ -10,7 +10,7 @@
       @keyup="searchWithDebounce" :class="{ 'filled': this.searchInput.length > 0 }">
     <div class="buttons">
       <Btn buttonType="Secondary" buttonName="Alle Bilder" buttonIcons="Bild.png"  :iconLeft="false" class="btn-all-images"
-        @click="showAllImages" />
+        @click="showAllImages" :disabled="false"/>
       <Btn buttonType="Primary" buttonName="Bildauschnitt ändern" buttonIcons="Vorschau.png"  :iconLeft="false" class="btn-fokus" 
         @click="setChooseFocus(true)" />
       
@@ -30,7 +30,7 @@ import axios from "axios";
 import { mapState, mapMutations } from 'vuex';
 import { debounce } from 'lodash';
 import Btn from "@/components/Button.vue";
-import FocusPoint from "@/components/FocusPoint.vue";
+import FocusPoint from "@/overlays/FocusPoint.vue";
 
 export default {
   name: 'BildChoice',

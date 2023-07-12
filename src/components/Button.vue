@@ -94,6 +94,15 @@ button.btnSecondary:active {
   background-color: rgba(102, 56, 182, 0.2);
 }
 
+button.btnSecondary:disabled {
+  border-color: #B3B3B3;
+  /* color: #B3B3B3; */
+}
+
+button.btnSecondary:disabled:hover {
+  background-color: transparent;
+}
+
 /*Tertiary Button*/
 
 button.btnTertiary{
