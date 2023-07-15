@@ -1,8 +1,8 @@
 <template>
  <button :class="['btn'+ buttonType]">
-       <img :src="getButtonIcon(buttonIcons)" class="buttonIcon iconL" alt="" v-if="iconLeft">
+       <img :src="getButtonIcon(buttonIcons)" class="buttonIcon" :class="{iconL: hasText}" alt="" v-if="iconLeft">
         <h4>{{buttonName}}</h4>
-        <img :src="getButtonIcon(buttonIcons)" class="buttonIcon iconR" alt="" v-if="!iconLeft">
+        <img :src="getButtonIcon(buttonIcons)" class="buttonIcon" :class="{iconR: hasText}" alt="" v-if="!iconLeft">
       </button>
 </template>
 
@@ -16,6 +16,17 @@ export default {
     iconLeft: Boolean,
   },
 
+  data() {
+    return {
+      hasText: false,
+    }
+  },
+
+  mounted() {
+    if (this.buttonName != "") this.hasText = true;
+    else this.hasText = false;
+  },
+
 
   methods: {
     getButtonIcon(btnSrc) {
@@ -24,7 +35,8 @@ export default {
       } else if (this.buttonType === 'Secondary' || this.buttonType ==='Tertiary') {
         return 'Icons/secondary/' + btnSrc;
       }
-    }
+    },
+
   },
 }
 </script>
