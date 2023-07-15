@@ -856,7 +856,7 @@ export default {
           //--------------------------------------------------------------Pattern Stripe
           if(this.patternStripe) {
             p.push();
-            let shapeSize = p.height*0.1;
+            let shapeSize = p.height/15;
             let shapesColumn = p.height/shapeSize;
 
             p.translate(p.width - (shapeSize*this.patternStripeWidth) - shapeSize,0)
