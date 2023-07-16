@@ -63,7 +63,10 @@
     </section>
 
     <section class="pattern-fill">
+      <div class="shapes-label">
       <h2 class="fontLila">Flächen:</h2>
+      </div>
+      <div class="shapes-buttons">
       <div class="shape-style" @click="patternFill('fill')">
         <img src="Platzhalter/Pattern/Pattern-Format/Fill.png" :class="{ 'selected': this.patternFilled }" alt="">
         <label>Gefüllt</label>
@@ -72,9 +75,13 @@
         <img src="Platzhalter/Pattern/Pattern-Format/Outline.png" :class="{ 'selected': !this.patternFilled }" alt="">
         <label>Linie</label>
       </div>
+    </div>
     </section>
     <section class="pattern-fill">
+      <div class="shapes-label">
       <h2 class="fontLila">Formen:</h2>
+    </div>
+    <div class="shapes-buttons">
       <div class="shape-style" @click="handleRectangle">
         <img src="Platzhalter/Pattern/Pattern-Format/Quad.png" :class="{ 'selected': this.isRectangle }" alt="">
         <label>Viereck</label>
@@ -87,6 +94,7 @@
         <img src="Platzhalter/Pattern/Pattern-Format/Circle.png" :class="{ 'selected': this.isCircle }" alt="">
         <label>Kreis</label>
       </div>
+    </div>
     </section>
   </div>
 </template>
@@ -154,7 +162,7 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin: 0 0 30px 0;
+  margin: 0 0 55px 0;
 }
 
 .pattern-variation {
@@ -172,7 +180,7 @@ export default {
 
 
 .pattern-edit {
-  margin-bottom: 30px;
+  margin-bottom: 55px;
 }
 
 
@@ -214,9 +222,8 @@ export default {
 
 .pattern-fill {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 55px;
 }
 
 .pattern-fill h2 {
@@ -224,10 +231,19 @@ export default {
   margin: 0;
 }
 
+.shapes-label {
+  width: 25%;
+}
+
+.shapes-buttons {
+  width: 75%;
+  display: flex;
+  align-items: center;
+}
 .shape-style {
-  width: 18%;
+  width: 23%;
   text-align: center;
-  margin-right: 30px;
+  margin-right: 40px;
   cursor: pointer;
 }
 
