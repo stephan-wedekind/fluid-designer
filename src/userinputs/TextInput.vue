@@ -11,7 +11,7 @@
 
     <section class="user-input">
       <h2 class="fontLila">Subheadline</h2>
-      <textarea :class="{'filled' : newSubheadline.length > 0}" maxlength="85" v-model="newSubheadline" @input="updateSubheadline(newSubheadline)" placeholder="z.B. Dienstag 27.06.2023..."></textarea>
+      <textarea :class="{'filled' : newSubheadline.length > 0}" maxlength="185" v-model="newSubheadline" @input="updateSubheadline(newSubheadline)" placeholder="z.B. Dienstag 27.06.2023..."></textarea>
     </section>
 
     <section class="user-input">
