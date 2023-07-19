@@ -167,13 +167,16 @@ export default {
       this.removeCanvas();
       this.createCanvas();
     },
-
-    downloadTriggerPDF(){
-      this.downloadPDF();
+    downloadTriggerPDF(newV, oldV){
+      if (newV != 0) {
+        this.downloadPDF();
+      }
     },
     
-    downloadTriggerImage() {
-      this.downloadingImage();
+    downloadTriggerImage(newV, oldV) {
+      if (newV != 0) {
+        this.downloadingImage();
+      }
     }
   },
 

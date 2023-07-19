@@ -110,20 +110,25 @@ export default {
       this.removeCanvas();
       this.createCanvas();
     },
-    downloadTrigger() {
+   /*  downloadTrigger() {
       if (this.isPrint) {
         this.downloadPDF();
       } else {
         this.downloadingImage();
       }
-    },
+    }, */
 
-    downloadTriggerPDF(){
-      this.downloadPDF();
+   
+    downloadTriggerPDF(newV, oldV){
+      if (newV != 0) {
+        this.downloadPDF();
+      }
     },
     
-    downloadTriggerImage() {
-      this.downloadingImage();
+    downloadTriggerImage(newV, oldV) {
+      if (newV != 0) {
+        this.downloadingImage();
+      }
     }
   },
 

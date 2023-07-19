@@ -155,6 +155,4 @@ textarea:disabled {
 #refresh {
   width: calc(50% - 7.5px);
 }
-
-
 </style>
