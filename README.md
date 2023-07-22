@@ -2,7 +2,7 @@
 
 ## Project setup
 ```
-npm install
+npm install axios core-js jspdf lodash p5 qrcode uuid vue vue-router vuex
 ```
 
 ### Compiles and hot-reloads for development

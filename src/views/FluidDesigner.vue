@@ -21,7 +21,7 @@
     </nav>
 
     <!-- User Input Field -->
-    <div class="user-input-field">
+    <div class="user-input-field" ref="userInputField">
         <component :is="getActiveComponent()" />
 
         <div class="sticky-bottom">

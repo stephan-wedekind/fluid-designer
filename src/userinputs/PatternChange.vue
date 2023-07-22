@@ -64,37 +64,37 @@
 
     <section class="pattern-fill">
       <div class="shapes-label">
-      <h2 class="fontLila">Flächen:</h2>
+        <h2 class="fontLila">Flächen:</h2>
       </div>
       <div class="shapes-buttons">
-      <div class="shape-style" @click="patternFill('fill')">
-        <img src="Platzhalter/Pattern/Pattern-Format/Fill.png" :class="{ 'selected': this.patternFilled }" alt="">
-        <label>Gefüllt</label>
+        <div class="shape-style" @click="patternFill('fill')">
+          <img src="Platzhalter/Pattern/Pattern-Format/Fill.png" :class="{ 'selected': this.patternFilled }" alt="">
+          <label>Gefüllt</label>
+        </div>
+        <div class="shape-style" @click="patternFill('outline')">
+          <img src="Platzhalter/Pattern/Pattern-Format/Outline.png" :class="{ 'selected': !this.patternFilled }" alt="">
+          <label>Linie</label>
+        </div>
       </div>
-      <div class="shape-style" @click="patternFill('outline')">
-        <img src="Platzhalter/Pattern/Pattern-Format/Outline.png" :class="{ 'selected': !this.patternFilled }" alt="">
-        <label>Linie</label>
-      </div>
-    </div>
     </section>
     <section class="pattern-fill">
       <div class="shapes-label">
-      <h2 class="fontLila">Formen:</h2>
-    </div>
-    <div class="shapes-buttons">
-      <div class="shape-style" @click="handleRectangle">
-        <img src="Platzhalter/Pattern/Pattern-Format/Quad.png" :class="{ 'selected': this.isRectangle }" alt="">
-        <label>Viereck</label>
+        <h2 class="fontLila">Formen:</h2>
       </div>
-      <div class="shape-style" @click="handleTriangle">
-        <img src="Platzhalter/Pattern/Pattern-Format/Triangle.png" :class="{ 'selected': this.isTriangle }" alt="">
-        <label>Dreieck</label>
+      <div class="shapes-buttons">
+        <div class="shape-style" @click="handleRectangle">
+          <img src="Platzhalter/Pattern/Pattern-Format/Quad.png" :class="{ 'selected': this.isRectangle }" alt="">
+          <label>Viereck</label>
+        </div>
+        <div class="shape-style" @click="handleTriangle">
+          <img src="Platzhalter/Pattern/Pattern-Format/Triangle.png" :class="{ 'selected': this.isTriangle }" alt="">
+          <label>Dreieck</label>
+        </div>
+        <div class="shape-style" @click="handleCircle">
+          <img src="Platzhalter/Pattern/Pattern-Format/Circle.png" :class="{ 'selected': this.isCircle }" alt="">
+          <label>Kreis</label>
+        </div>
       </div>
-      <div class="shape-style" @click="handleCircle">
-        <img src="Platzhalter/Pattern/Pattern-Format/Circle.png" :class="{ 'selected': this.isCircle }" alt="">
-        <label>Kreis</label>
-      </div>
-    </div>
     </section>
   </div>
 </template>
@@ -135,6 +135,7 @@ export default {
     checkPatternStartHigh() {
       return this.patternStripeWidth >= 4;
     },
+
   },
   watch: {
     patternMirror(newValue, oldValue) {
@@ -240,6 +241,7 @@ export default {
   display: flex;
   align-items: center;
 }
+
 .shape-style {
   width: 23%;
   text-align: center;
@@ -252,4 +254,5 @@ export default {
   height: auto;
   margin: 10px 0;
   border-radius: 30px;
-}</style>
+}
+</style>
